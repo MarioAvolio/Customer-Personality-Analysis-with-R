@@ -29,23 +29,23 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/github_username/repo_name">
+  <a href="https://github.com/MarioAvolio/ML-Project">
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
-<h3 align="center">project_title</h3>
+<h3 align="center">Customer Personality Analysis</h3>
 
   <p align="center">
-    project_description
+    Customer Personality Analysis
     <br />
-    <a href="https://github.com/github_username/repo_name"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/MarioAvolio/ML-Project"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/github_username/repo_name">View Demo</a>
+    <a href="https://github.com/MarioAvolio/ML-Project">View Demo</a>
     ·
-    <a href="https://github.com/github_username/repo_name/issues">Report Bug</a>
+    <a href="https://github.com/MarioAvolio/ML-Project/issues">Report Bug</a>
     ·
-    <a href="https://github.com/github_username/repo_name/issues">Request Feature</a>
+    <a href="https://github.com/MarioAvolio/ML-Project/issues">Request Feature</a>
   </p>
 </div>
 
@@ -82,9 +82,54 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+[![Product Name Screen Shot][product-screenshot]](https://www.kaggle.com/imakash3011/customer-personality-analysis)
 
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email`, `email_client`, `project_title`, `project_description`
+### Context
+#### Problem Statement
+Customer Personality Analysis is a detailed analysis of a company’s ideal customers. It helps a business to better understand its customers and makes it easier for them to modify products according to the specific needs, behaviors and concerns of different types of customers.
+
+Customer personality analysis helps a business to modify its product based on its target customers from different types of customer segments. For example, instead of spending money to market a new product to every customer in the company’s database, a company can analyze which customer segment is most likely to buy the product and then market the product only on that particular segment.
+### Content
+#### Attributes
+##### People
+
+- ID: Customer's unique identifier
+- Year_Birth: Customer's birth year
+- Education: Customer's education level
+- Marital_Status: Customer's marital status
+- Income: Customer's yearly household income
+- Kidhome: Number of children in customer's household
+- Teenhome: Number of teenagers in customer's household
+- Dt_Customer: Date of customer's enrollment with the company
+- Recency: Number of days since customer's last purchase
+- Complain: 1 if the customer complained in the last 2 years, 0 otherwise
+
+##### Products
+- MntWines: Amount spent on wine in last 2 years
+- MntFruits: Amount spent on fruits in last 2 years
+- MntMeatProducts: Amount spent on meat in last 2 years
+- MntFishProducts: Amount spent on fish in last 2 years
+- MntSweetProducts: Amount spent on sweets in last 2 years
+- MntGoldProds: Amount spent on gold in last 2 years
+
+##### Promotion
+- NumDealsPurchases: Number of purchases made with a discount
+- AcceptedCmp1: 1 if customer accepted the offer in the 1st campaign, 0 otherwise
+- AcceptedCmp2: 1 if customer accepted the offer in the 2nd campaign, 0 otherwise
+- AcceptedCmp3: 1 if customer accepted the offer in the 3rd campaign, 0 otherwise
+- AcceptedCmp4: 1 if customer accepted the offer in the 4th campaign, 0 otherwise
+- AcceptedCmp5: 1 if customer accepted the offer in the 5th campaign, 0 otherwise
+ - Response: 1 if customer accepted the offer in the last campaign, 0 otherwise
+##### Place
+- NumWebPurchases: Number of purchases made through the company’s website
+- NumCatalogPurchases: Number of purchases made using a catalogue
+- NumStorePurchases: Number of purchases made directly in stores
+- NumWebVisitsMonth: Number of visits to company’s website in the last month
+
+### Target
+Need to perform clustering to summarize customer segments.
+
+
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -124,7 +169,7 @@ This is an example of how to list things you need to use the software and how to
 1. Get a free API Key at [https://example.com](https://example.com)
 2. Clone the repo
    ```sh
-   git clone https://github.com/github_username/repo_name.git
+   git clone https://github.com/MarioAvolio/ML-Project.git
    ```
 3. Install NPM packages
    ```sh
@@ -158,7 +203,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 - [] Feature 3
     - [] Nested Feature
 
-See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/MarioAvolio/ML-Project/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -196,7 +241,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
 
-Project Link: [https://github.com/github_username/repo_name](https://github.com/github_username/repo_name)
+Project Link: [https://github.com/MarioAvolio/ML-Project](https://github.com/MarioAvolio/ML-Project)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -204,10 +249,8 @@ Project Link: [https://github.com/github_username/repo_name](https://github.com/
 
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
-
-* []()
-* []()
-* []()
+The dataset for this project is provided by Dr. Omar Romero-Hernandez. 
+* [Dataset](https://www.kaggle.com/imakash3011/customer-personality-analysis)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -215,16 +258,16 @@ Project Link: [https://github.com/github_username/repo_name](https://github.com/
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/github_username/repo_name.svg?style=for-the-badge
-[contributors-url]: https://github.com/github_username/repo_name/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/github_username/repo_name.svg?style=for-the-badge
-[forks-url]: https://github.com/github_username/repo_name/network/members
-[stars-shield]: https://img.shields.io/github/stars/github_username/repo_name.svg?style=for-the-badge
-[stars-url]: https://github.com/github_username/repo_name/stargazers
-[issues-shield]: https://img.shields.io/github/issues/github_username/repo_name.svg?style=for-the-badge
-[issues-url]: https://github.com/github_username/repo_name/issues
-[license-shield]: https://img.shields.io/github/license/github_username/repo_name.svg?style=for-the-badge
-[license-url]: https://github.com/github_username/repo_name/blob/master/LICENSE.txt
+[contributors-shield]: https://img.shields.io/github/contributors/MarioAvolio/ML-Project.svg?style=for-the-badge
+[contributors-url]: https://github.com/MarioAvolio/ML-Project/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/MarioAvolio/ML-Project.svg?style=for-the-badge
+[forks-url]: https://github.com/MarioAvolio/ML-Project/network/members
+[stars-shield]: https://img.shields.io/github/stars/MarioAvolio/ML-Project.svg?style=for-the-badge
+[stars-url]: https://github.com/MarioAvolio/ML-Project/stargazers
+[issues-shield]: https://img.shields.io/github/issues/MarioAvolio/ML-Project.svg?style=for-the-badge
+[issues-url]: https://github.com/MarioAvolio/ML-Project/issues
+[license-shield]: https://img.shields.io/github/license/MarioAvolio/ML-Project.svg?style=for-the-badge
+[license-url]: https://github.com/MarioAvolio/ML-Project/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/linkedin_username
 [product-screenshot]: images/screenshot.png
