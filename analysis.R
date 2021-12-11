@@ -1,15 +1,26 @@
 # --------------------------------------------------- DATA PROCESSING
 
 # Read DataSet
-dataSet <- read.csv("marketing_campaign.csv", header=TRUE, sep="\t") # use TAB as separator!
-head(dataSet) # first 6 examples
-col(dataSet)
-row(dataSet)
-View(dataSet)
+dataSet <- read.csv("marketing_campaign.csv", header=TRUE, sep="\t",  stringsAsFactors=T) # use TAB as separator!
+
+# Convert categorical to factor
+converterCharacterToFactor <- function(column) {
+  
+  uniqueValue <- levels(column) # take unique value of column
+  length(uniqueValue)
+  column <- factor(column,
+                   levels = uniqueValue,
+                   labels = 1:length(uniqueValue)) # Convert character column to factor 
+  
+}
+
+dataSet$Education <- converterCharacterToFactor(dataSet$Education)
+dataSet$Marital_Status <- converterCharacterToFactor(dataSet$Marital_Status)
+dataSet$Dt_Customer <- converterCharacterToFactor(dataSet$Dt_Customer)
+
 
 # Missing Data
 # use average for missing data
-
 
 for(i in 1:ncol(dataSet)) {       # for-loop over columns
   
@@ -27,6 +38,18 @@ for(i in 1:ncol(dataSet)) {       # for-loop over columns
 # split in Training-Set and Test-Set
 install.packages('caTools')
 library(caTools)
+
+
+
+
+
+
+
+
+
+
+
+
 
 # --------------------------------------------------- PRINCIPAL COMPONENT ANALISYS - PCA
 
