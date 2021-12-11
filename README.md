@@ -22,30 +22,29 @@
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
 
 
 
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/MarioAvolio/ML-Project">
+  <a href="https://github.com/MarioAvolio/Customer-Personality-Analysis-with-R">
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
 <h3 align="center">Customer Personality Analysis</h3>
 
   <p align="center">
-    Customer Personality Analysis
+    with R Program Language
     <br />
-    <a href="https://github.com/MarioAvolio/ML-Project"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/MarioAvolio/Customer-Personality-Analysis-with-R"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/MarioAvolio/ML-Project">View Demo</a>
+    <a href="https://github.com/MarioAvolio/Customer-Personality-Analysis-with-R">View Demo</a>
     ·
-    <a href="https://github.com/MarioAvolio/ML-Project/issues">Report Bug</a>
+    <a href="https://github.com/MarioAvolio/Customer-Personality-Analysis-with-R/issues">Report Bug</a>
     ·
-    <a href="https://github.com/MarioAvolio/ML-Project/issues">Request Feature</a>
+    <a href="https://github.com/MarioAvolio/Customer-Personality-Analysis-with-R/issues">Request Feature</a>
   </p>
 </div>
 
@@ -137,15 +136,7 @@ Need to perform clustering to summarize customer segments.
 
 ### Built With
 
-* [Next.js](https://nextjs.org/)
-* [React.js](https://reactjs.org/)
-* [Vue.js](https://vuejs.org/)
-* [Angular](https://angular.io/)
-* [Svelte](https://svelte.dev/)
-* [Laravel](https://laravel.com)
-* [Bootstrap](https://getbootstrap.com)
-* [JQuery](https://jquery.com)
-
+* [R](https://www.r-project.org/)
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
@@ -157,39 +148,20 @@ This is an example of how you may give instructions on setting up your project l
 To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
-
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
+- R
+- R Studio
 
 ### Installation
-
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/MarioAvolio/ML-Project.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
-
+```sh
+git clone https://github.com/MarioAvolio/Customer-Personality-Analysis-with-R.git
+```
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
 
 <!-- USAGE EXAMPLES -->
 ## Usage
-
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
+TODO
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -198,12 +170,9 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-- [] Feature 1
-- [] Feature 2
-- [] Feature 3
-    - [] Nested Feature
+- [X] TODO
 
-See the [open issues](https://github.com/MarioAvolio/ML-Project/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/MarioAvolio/Customer-Personality-Analysis-with-R/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -230,7 +199,7 @@ Don't forget to give the project a star! Thanks again!
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See `LICENSE.txt` for more information.
+Distributed under the MIT License. See `LICENSE` for more information.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -239,9 +208,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
-
-Project Link: [https://github.com/MarioAvolio/ML-Project](https://github.com/MarioAvolio/ML-Project)
+Project Link: [https://github.com/MarioAvolio/Customer-Personality-Analysis-with-R](https://github.com/MarioAvolio/Customer-Personality-Analysis-with-R)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -258,16 +225,14 @@ The dataset for this project is provided by Dr. Omar Romero-Hernandez.
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/MarioAvolio/ML-Project.svg?style=for-the-badge
-[contributors-url]: https://github.com/MarioAvolio/ML-Project/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/MarioAvolio/ML-Project.svg?style=for-the-badge
-[forks-url]: https://github.com/MarioAvolio/ML-Project/network/members
-[stars-shield]: https://img.shields.io/github/stars/MarioAvolio/ML-Project.svg?style=for-the-badge
-[stars-url]: https://github.com/MarioAvolio/ML-Project/stargazers
-[issues-shield]: https://img.shields.io/github/issues/MarioAvolio/ML-Project.svg?style=for-the-badge
-[issues-url]: https://github.com/MarioAvolio/ML-Project/issues
-[license-shield]: https://img.shields.io/github/license/MarioAvolio/ML-Project.svg?style=for-the-badge
-[license-url]: https://github.com/MarioAvolio/ML-Project/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/linkedin_username
+[contributors-shield]: https://img.shields.io/github/contributors/MarioAvolio/Customer-Personality-Analysis-with-R.svg?style=for-the-badge
+[contributors-url]: https://github.com/MarioAvolio/Customer-Personality-Analysis-with-R/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/MarioAvolio/Customer-Personality-Analysis-with-R.svg?style=for-the-badge
+[forks-url]: https://github.com/MarioAvolio/Customer-Personality-Analysis-with-R/network/members
+[stars-shield]: https://img.shields.io/github/stars/MarioAvolio/Customer-Personality-Analysis-with-R.svg?style=for-the-badge
+[stars-url]: https://github.com/MarioAvolio/Customer-Personality-Analysis-with-R/stargazers
+[issues-shield]: https://img.shields.io/github/issues/MarioAvolio/Customer-Personality-Analysis-with-R.svg?style=for-the-badge
+[issues-url]: https://github.com/MarioAvolio/Customer-Personality-Analysis-with-R/issues
+[license-shield]: https://img.shields.io/github/license/MarioAvolio/Customer-Personality-Analysis-with-R.svg?style=for-the-badge
+[license-url]: https://github.com/MarioAvolio/Customer-Personality-Analysis-with-R/blob/master/LICENSE
 [product-screenshot]: images/screenshot.png
