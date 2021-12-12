@@ -43,7 +43,7 @@ for(i in 1:ncol(dataSet)) {       # for-loop over columns
 
 
 # Split in Training-Set and Test-Set
-install.packages('caTools')
+# install.packages('caTools')
 library(caTools)
 set.seed(17538)
 split <- sample.split(dataSet$ID, SplitRatio = 0.8)
@@ -52,5 +52,6 @@ testSet <- subset(dataSet, split == FALSE)
 
 
 
-# Feature Scaling
-
+# Feature Scaling 
+trainingSet[, c(5,8:15)] <- scale(trainingSet[, c(5,8:15)])
+testSet[, c(5,8:15)] <- scale(testSet[, c(5,8:15)]) # TODO
