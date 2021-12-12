@@ -52,6 +52,6 @@ testSet <- subset(dataSet, split == FALSE)
 
 
 
-# Feature Scaling 
-trainingSet[, c(5,8:15)] <- scale(trainingSet[, c(5,8:15)])
-testSet[, c(5,8:15)] <- scale(testSet[, c(5,8:15)]) # TODO
+# Feature Scaling - To implement? Most library implement this
+# trainingSet[, c(5,8:15)] <- scale(trainingSet[, c(5,8:15)])
+# testSet[, c(5,8:15)] <- scale(testSet[, c(5,8:15)]) # TODO
