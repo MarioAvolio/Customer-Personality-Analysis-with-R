@@ -10,7 +10,7 @@
 
 
 # Read DataSet
-dataSet <- read.csv("marketing_campaign.csv", header=TRUE, sep="\t",  stringsAsFactors=T) # use TAB as separator!
+dataSet <- read.csv(paste(getwd(),"/Model//marketing_campaign.csv",sep = ""), header=TRUE, sep="\t",  stringsAsFactors=T) # use TAB as separator!
 
 
 
