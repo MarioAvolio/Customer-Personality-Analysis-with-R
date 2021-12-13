@@ -10,7 +10,7 @@
 
 
 # Read DataSet
-dataSet <- read.csv(paste(getwd(),"/Model//marketing_campaign.csv",sep = ""), header=TRUE, sep="\t",  stringsAsFactors=T) # use TAB as separator!
+dataSet <- read.csv(paste(getwd(),"/Model/marketing_campaign.csv",sep = ""), header=TRUE, sep="\t",  stringsAsFactors=T) # use TAB as separator!
 
 
 
@@ -23,10 +23,24 @@ converterCharacterToFactor <- function(column) {
                    levels = uniqueValue,
                    labels = 1:length(uniqueValue)) # Convert character column to factor 
   
+  return(column)
+  
 }
-dataSet$Education <- converterCharacterToFactor(dataSet$Education)
-dataSet$Marital_Status <- converterCharacterToFactor(dataSet$Marital_Status)
-dataSet$Dt_Customer <- converterCharacterToFactor(dataSet$Dt_Customer)
+
+for(i in 1:ncol(dataSet)) {       # for-loop over columns
+  
+  # print(paste(i,class(dataSet[, i])))
+  
+  if (is.factor(dataSet[, i])){
+    print(i)
+    dataSet[, i] <- converterCharacterToFactor(dataSet[, i])
+  }
+}
+
+# Alternative
+# dataSet$Education <- converterCharacterToFactor(dataSet$Education)
+# dataSet$Marital_Status <- converterCharacterToFactor(dataSet$Marital_Status)
+# dataSet$Dt_Customer <- converterCharacterToFactor(dataSet$Dt_Customer)
 
 
 
@@ -53,5 +67,5 @@ testSet <- subset(dataSet, split == FALSE)
 
 
 # Feature Scaling - To implement? Most library implement this
-# trainingSet[, c(5,8:15)] <- scale(trainingSet[, c(5,8:15)])
-# testSet[, c(5,8:15)] <- scale(testSet[, c(5,8:15)]) # TODO
+trainingSet[, c(5,8:15)] <- scale(trainingSet[, c(5,8:15)])
+testSet[, c(5,8:15)] <- scale(testSet[, c(5,8:15)]) # TODO
