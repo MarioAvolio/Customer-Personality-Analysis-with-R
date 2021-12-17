@@ -66,6 +66,6 @@ testSet <- subset(dataSet, split == FALSE)
 
 
 
-# Feature Scaling - To implement? Most library implement this
-trainingSet[, c(-3,-4)] <- scale(trainingSet[, c(-3,-4)])
-testSet[, c(-3,-4)] <- scale(testSet[, c(-3,-4)]) # TODO
+# Feature Scaling - Implemented into FactoMineR and factoextra 
+# trainingSet[, c(-3,-4)] <- scale(trainingSet[, c(-3,-4)])
+# testSet[, c(-3,-4)] <- scale(testSet[, c(-3,-4)]) # TODO
