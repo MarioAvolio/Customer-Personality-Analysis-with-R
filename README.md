@@ -138,7 +138,10 @@ To get a local copy up and running follow these simple example steps.
 ```
 install.packages('caTools')
 ```
-
+- niniar
+```
+install.packages("naniar")
+```
 ### Installation
 ```sh
 git clone https://github.com/MarioAvolio/Customer-Personality-Analysis-with-R.git
