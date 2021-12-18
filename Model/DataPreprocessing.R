@@ -1,19 +1,13 @@
 # --------------------------------------------------- DATA PREPROCESSING
-# 1 Read DataSet
+# 1 Read customers
 # 2 Convert categorical data to factor data
 # 3 Fix Missing Data with average data
-# 4 Split DataSet into Training-Set and Test-Set
+# 4 Split customers into Training-Set and Test-Set
 # 5 Feature Scaling
 # ---------------------------------------------------
 
 
-
-
-# Read DataSet
-dataSet <- read.csv(paste(getwd(),"/Model/marketing_campaign.csv",sep = ""), header=TRUE, sep="\t",  stringsAsFactors=T) # use TAB as separator!
-
-
-
+source(paste(getwd(),"/Model/EDA.R",sep = "")) 
 # Convert categorical to factor
 converterCharacterToFactor <- function(column) {
   
@@ -27,29 +21,29 @@ converterCharacterToFactor <- function(column) {
   
 }
 
-for(i in 1:ncol(dataSet)) {       # for-loop over columns
+for(i in 1:ncol(customers)) {       # for-loop over columns
   
-  # print(paste(i,class(dataSet[, i])))
+  # print(paste(i,class(customers[, i])))
   
-  if (is.factor(dataSet[, i])){
+  if (is.factor(customers[, i])){
     print(i)
-    dataSet[, i] <- converterCharacterToFactor(dataSet[, i])
+    customers[, i] <- converterCharacterToFactor(customers[, i])
   }
 }
 
 # Alternative
-# dataSet$Education <- converterCharacterToFactor(dataSet$Education)
-# dataSet$Marital_Status <- converterCharacterToFactor(dataSet$Marital_Status)
-# dataSet$Dt_Customer <- converterCharacterToFactor(dataSet$Dt_Customer)
+# customers$Education <- converterCharacterToFactor(customers$Education)
+# customers$Marital_Status <- converterCharacterToFactor(customers$Marital_Status)
+# customers$Dt_Customer <- converterCharacterToFactor(customers$Dt_Customer)
 
 
 
 # Missing Data
 # use average for missing data
-for(i in 1:ncol(dataSet)) {       # for-loop over columns
-  dataSet[ , i] <- ifelse(is.na(dataSet[ ,i]), # is.na check is a value is not available
-                          ave(dataSet[, i], FUN = function(x) mean(x, na.rm = TRUE)), # if is not available change with average
-                          dataSet[ ,i] # else
+for(i in 1:ncol(customers)) {       # for-loop over columns
+  customers[ , i] <- ifelse(is.na(customers[ ,i]), # is.na check is a value is not available
+                          ave(customers[, i], FUN = function(x) mean(x, na.rm = TRUE)), # if is not available change with average
+                          customers[ ,i] # else
                           ) 
   
 }
@@ -60,9 +54,9 @@ for(i in 1:ncol(dataSet)) {       # for-loop over columns
 # install.packages('caTools')
 library(caTools)
 set.seed(17538)
-split <- sample.split(dataSet$ID, SplitRatio = 0.8)
-trainingSet <- subset(dataSet, split == TRUE)
-testSet <- subset(dataSet, split == FALSE)
+split <- sample.split(customers$ID, SplitRatio = 0.8)
+trainingSet <- subset(customers, split == TRUE)
+testSet <- subset(customers, split == FALSE)
 
 
 
