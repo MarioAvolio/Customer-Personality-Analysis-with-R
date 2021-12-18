@@ -133,7 +133,6 @@ Need to perform clustering to summarize customer segments.
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
-
 ### Built With
 
 * [R](https://www.r-project.org/)
@@ -170,7 +169,11 @@ TODO
 <!-- ROADMAP -->
 ## Roadmap
 
-- [X] TODO
+- [X] Importing Data 
+- [X] EDA 
+- [X] Pre-Processing Data 
+- [X] PCA 
+- [X] Analysis Algorithm (K-Means)
 
 See the [open issues](https://github.com/MarioAvolio/Customer-Personality-Analysis-with-R/issues) for a full list of proposed features (and known issues).
 
