@@ -2,26 +2,39 @@ library(dplyr) # glimpse
 library(ggplot2)
 library(naniar)
 
-# Read customers
+# --------------------------------- UTILITY FUNCTIONS
+multiple.func <- function(x) {
+  c(min = min(x), mean = mean(x), max = max(x), sd=sd(x), var=var(x),
+    median=median(x), range=range(x))
+}
+
+# --------------------------------- READ CUSTOMERS DATASET
 customers <- read.csv(paste(getwd(),"/Model/marketing_campaign.csv",sep = ""), header=TRUE, sep="\t",  stringsAsFactors=F) # use TAB as separator!
 
 # ---------------------------------- SUMMARY
 summary(customers) # most important!
+dim(customers)
 head(customers, n=6)
 glimpse(customers)
-dim(customers)
+sapply(dataSet, class)
 # NOTE:
 # - There are some categorical features, so we will need to encode into numeric form as we proceed.
+
+# --------------------------------- ANALISYS OF EACH VARIABLE
+# Z_CostContact and Z_Revenue
+multiple.func(customers$Z_CostContact)
+multiple.func(customers$Z_Revenue)
+
+# NOTE:
 # - The features Z_CostContact and Z_Revenue show no variation.
 
 
-# --------------------------------- Boxplot of the Year of birth variable
-ggplot(customers, aes(Year_Birth)) + geom_boxplot() 
+# Boxplot of the Year of birth variable
+ggplot(customers, aes(Year_Birth)) + geom_boxplot()  #aes => Aesthetics layer; geom_boxplot => geometry layer
 
 #NOTE:
 # - Dt_Customer that indicates a cutomer joined the database is not parsed as Date object.
 # - We also noted from looking at the summary statistics, the minimum year of birth 1893. This became clear when we plotted a boxplot.
-
 
 
 
@@ -37,15 +50,6 @@ miss_var_summary(customers) # Summarizing missingness in each variable
 
 
 # --------------------- TODO
-#funzione per eseguire media, minimo etc
-multiple.func <- function(x) {
-  c(min = min(x), mean = mean(x), max = max(x), sd=sd(x), var=var(x),
-    median=median(x), range=range(x))
-}
-
-#visualizzazione classi di ogni colonna 
-sapply(dataSet, class)
-
 #multi.func su ogni colonna 
 sapply(dataSet, multiple.func)
 
