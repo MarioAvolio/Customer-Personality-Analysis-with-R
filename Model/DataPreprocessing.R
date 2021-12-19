@@ -46,12 +46,12 @@ for(i in 1:ncol(dataSet)) {       # for-loop over columns
 # install.packages('caTools')
 library(caTools)
 set.seed(17538)
-split <- sample.split(dataSet$ID, SplitRatio = 0.8)
+split <- sample.split(dataSet$Response, SplitRatio = 0.8)
 trainingSet <- subset(dataSet, split == TRUE)
 testSet <- subset(dataSet, split == FALSE)
 
 
 
 # Feature Scaling - To implement? Most library implement this
-# trainingSet[, c(5,8:15)] <- scale(trainingSet[, c(5,8:15)])
-# testSet[, c(5,8:15)] <- scale(testSet[, c(5,8:15)]) # TODO
+#trainingSet[, c(5,8:15)] <- scale(trainingSet[, c(5,8:15)])
+#testSet[, c(5,8:15)] <- scale(testSet[, c(5,8:15)]) # TODO
