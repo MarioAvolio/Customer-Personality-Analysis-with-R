@@ -1,15 +1,4 @@
-# --------------------------------------------------- DATA PREPROCESSING
-# 1 Read customers
-# 2 Convert categorical data to factor data
-# 3 Fix Missing Data with average data
-# 4 Split customers into Training-Set and Test-Set
-# 5 Feature Scaling
-# ---------------------------------------------------
-
 library(caTools)
-
-
-
 source(paste(getwd(),"/Model/EDA.R",sep = "")) 
 
 
@@ -40,6 +29,15 @@ for(i in 1:ncol(customers)) {       # for-loop over columns
 # customers$Education <- converterCharacterToFactor(customers$Education)
 # customers$Marital_Status <- converterCharacterToFactor(customers$Marital_Status)
 # customers$Dt_Customer <- converterCharacterToFactor(customers$Dt_Customer)
+
+
+# ---------------------------------- REFACTOR DATASET
+
+# we can calculate customer age from the birth year. It will be more usefull to our analysis.
+customers['Age']= 2021-customers$Year_Birth
+
+# These variables can be combined and we can get the no of children for the customers.
+customers['Child']=customers$Kidhome+customers$Teenhome
 
 
 
