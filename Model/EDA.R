@@ -19,6 +19,8 @@ ggplot(customers, aes(y = Income)) + geom_boxplot()
 n_miss(customers) # counting the total number of missing values in the data
 miss_var_summary(customers) # Summarizing missingness in each variable 
 
+
+
 # NOTE:
 #   
 # - Dt_Customer that indicates a cutomer joined the database is not parsed as Date object.

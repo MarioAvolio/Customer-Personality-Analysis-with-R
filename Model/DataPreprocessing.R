@@ -8,7 +8,9 @@
 
 
 source(paste(getwd(),"/Model/EDA.R",sep = "")) 
-# Convert categorical to factor
+
+
+# ----------------------------------  Convert categorical to factor
 converterCharacterToFactor <- function(column) {
   
   uniqueValue <- levels(column) # take unique value of column
@@ -38,40 +40,23 @@ for(i in 1:ncol(customers)) {       # for-loop over columns
 
 
 
-# Missing Data
-# use average for missing data
-for(i in 1:ncol(customers)) {       # for-loop over columns
-  customers[ , i] <- ifelse(is.na(customers[ ,i]), # is.na check is a value is not available
-                          ave(customers[, i], FUN = function(x) mean(x, na.rm = TRUE)), # if is not available change with average
-                          customers[ ,i] # else
-                          ) 
-  
-}
+# ---------------------------------- SOLVING MISSING DATA INTO INCOME
+customers$Income <- ifelse(is.na(customers$Income), # is.na check is a value is not available
+                          ave(customers$Income, FUN = function(x) mean(x, na.rm = TRUE)), # if is not available change with average
+                          customers$Income # else
+) 
 
 
-
-# Split in Training-Set and Test-Set
+# ---------------------------------- Split in Training-Set and Test-Set
 # install.packages('caTools')
 library(caTools)
 set.seed(17538)
-<<<<<<< HEAD
 split <- sample.split(dataSet$Response, SplitRatio = 0.8)
 trainingSet <- subset(dataSet, split == TRUE)
 testSet <- subset(dataSet, split == FALSE)
 
 
 
-# Feature Scaling - To implement? Most library implement this
+# ----------------------------------  Feature Scaling - To implement? Most library implement this
 #trainingSet[, c(5,8:15)] <- scale(trainingSet[, c(5,8:15)])
 #testSet[, c(5,8:15)] <- scale(testSet[, c(5,8:15)]) # TODO
-=======
-split <- sample.split(customers$ID, SplitRatio = 0.8)
-trainingSet <- subset(customers, split == TRUE)
-testSet <- subset(customers, split == FALSE)
-
-
-
-# Feature Scaling - Implemented into FactoMineR and factoextra 
-# trainingSet[, c(-3,-4)] <- scale(trainingSet[, c(-3,-4)])
-# testSet[, c(-3,-4)] <- scale(testSet[, c(-3,-4)]) # TODO
->>>>>>> 6195552fd28cd9557aefc516efe4bb6bedbbee01
