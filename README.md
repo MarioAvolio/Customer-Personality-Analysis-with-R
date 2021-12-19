@@ -161,6 +161,20 @@ install.packages('caTools')
 ```
 install.packages("naniar")
 ```
+- lubridate
+```
+install.packages("lubridate")
+```
+- ggplot2
+```
+install.packages("ggplot2")
+```
+- ggcorrplot
+```
+install.packages("ggcorrplot")
+```
+
+
 ### Installation
 ```sh
 git clone https://github.com/MarioAvolio/Customer-Personality-Analysis-with-R.git

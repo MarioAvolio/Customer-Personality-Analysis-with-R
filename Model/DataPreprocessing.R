@@ -1,5 +1,8 @@
 library(caTools)
-source(paste(getwd(),"/Model/EDA.R",sep = "")) 
+
+# --------------------------------- READ CUSTOMERS DATASET
+customers <- read.csv(paste(getwd(),"/Model/marketing_campaign.csv",sep = ""), header=TRUE, sep="\t",  stringsAsFactors=F) # use TAB as separator!
+
 
 
 # ----------------------------------  Convert categorical to factor
@@ -32,6 +35,30 @@ for(i in 1:ncol(customers)) {       # for-loop over columns
 
 
 # ---------------------------------- REFACTOR DATASET
+
+#categorize education 
+customers$Education[customers$Education == "2n Cycle"] = "UG"
+customers$Education[customers$Education == "Basic"] = "UG"
+customers$Education[customers$Education == "Graduation"] = "PG"
+customers$Education[customers$Education == "Master"] = "PG"
+customers$Education[customers$Education == "PhD"] = "PG"
+
+#categorize marital status 
+customers$Marital_Status[customers$Marital_Status == "Divorced"] = "Single"
+customers$Marital_Status[customers$Marital_Status == "Absurd"] = "Single"
+customers$Marital_Status[customers$Marital_Status == "YOLO"] = "Single"
+customers$Marital_Status[customers$Marital_Status == "Widow"] = "Single"
+customers$Marital_Status[customers$Marital_Status == "Together"] = "Couple"
+customers$Marital_Status[customers$Marital_Status == "Married"] = "Couple"
+customers$Marital_Status[customers$Marital_Status == "Alone"] = "Single"
+
+#total spent 
+customers$Amount_Spent <- customers$MntWines + customers$MntFishProducts + customers$MntFruits +
+  customers$MntGoldProds + customers$MntMeatProducts + customers$MntSweetProducts
+
+#total purchaes
+data$Num_Purchases_made <- data$NumWebPurchases + data$NumCatalogPurchases +
+  data$NumStorePurchases
 
 # we can calculate customer age from the birth year. It will be more usefull to our analysis.
 customers['Age']= 2021-customers$Year_Birth
