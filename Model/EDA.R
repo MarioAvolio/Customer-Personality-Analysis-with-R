@@ -11,8 +11,23 @@ multiple.func <- function(x) {
 # --------------------------------- READ CUSTOMERS DATASET
 customers <- read.csv(paste(getwd(),"/Model/marketing_campaign.csv",sep = ""), header=TRUE, sep="\t",  stringsAsFactors=F) # use TAB as separator!
 
+#---------------------------------- FACTORIZE
+
+customers$Year_Birth<-factor(customers$Year_Birth)
+customers$Education<-factor(customers$Education)
+customers$Marital_Status<-factor(customers$Marital_Status)
+customers$Kidhome<-factor(customers$Kidhome)
+customers$Teenhome<-factor(customers$Teenhome)
+customers$Dt_Customer<-factor(customers$Dt_Customer)
+customers$AcceptedCmp1<-factor(customers$AcceptedCmp1)
+customers$AcceptedCmp2<-factor(customers$AcceptedCmp2)
+customers$AcceptedCmp3<-factor(customers$AcceptedCmp3)
+customers$AcceptedCmp4<-factor(customers$AcceptedCmp4)
+customers$AcceptedCmp5<-factor(customers$AcceptedCmp5)
+customers$Complain<-factor(customers$Complain)
+customers$Response<-factor(customers$Response)
 # ---------------------------------- SUMMARY
-summary(customers) # most important!
+summary(customers[2:29]) # most important!
 dim(customers)
 head(customers, n=6)
 glimpse(customers)
