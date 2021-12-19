@@ -6,6 +6,9 @@
 # 5 Feature Scaling
 # ---------------------------------------------------
 
+library(caTools)
+
+
 
 source(paste(getwd(),"/Model/EDA.R",sep = "")) 
 
@@ -49,7 +52,6 @@ customers$Income <- ifelse(is.na(customers$Income), # is.na check is a value is 
 
 # ---------------------------------- Split in Training-Set and Test-Set
 # install.packages('caTools')
-library(caTools)
 set.seed(17538)
 split <- sample.split(dataSet$Response, SplitRatio = 0.8)
 trainingSet <- subset(dataSet, split == TRUE)
