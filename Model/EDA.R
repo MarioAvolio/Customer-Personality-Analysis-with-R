@@ -1,7 +1,7 @@
 library(dplyr) # glimpse
 library(ggplot2)
 library(naniar)
-
+library(tidyr)
 # --------------------------------- UTILITY FUNCTIONS
 multiple.func <- function(x) {
   c(min = min(x), mean = mean(x), max = max(x), sd=sd(x), var=var(x),
@@ -22,7 +22,9 @@ sapply(dataSet, class)
 
 # --------------------------------- ANALISYS OF EACH VARIABLE
 # Z_CostContact and Z_Revenue
+ggplot(customers, aes(Z_CostContact)) + geom_boxplot() 
 multiple.func(customers$Z_CostContact)
+ggplot(customers, aes(Z_Revenue)) + geom_boxplot() 
 multiple.func(customers$Z_Revenue)
 
 # NOTE:
@@ -39,6 +41,7 @@ ggplot(customers, aes(Year_Birth)) + geom_boxplot()  #aes => Aesthetics layer; g
 
 
 # ---------------------------------- MISSING VALUE
+hist(customers$Income,40,col="#adcae6")
 ggplot(customers, aes(y = Income)) + geom_boxplot()
 n_miss(customers) # counting the total number of missing values in the data
 miss_var_summary(customers) # Summarizing missingness in each variable 
