@@ -1,10 +1,23 @@
-
-# --------------------------------- READ CUSTOMERS DATASET
+########################################################################
+#                                                                      #
+#                           Read Dataset                               #
+#                                                                      #
+######################################################################## 
 customers <- read.csv(paste(getwd(),"/Data/marketing_campaign.csv",sep = ""), header=TRUE, sep="\t",  stringsAsFactors=F) # use TAB as separator!
+########################################################################
 
 
-#-----------------------------FACTORIZE
 
+
+
+
+
+
+########################################################################
+#                                                                      #
+#                              FACTORIZE                               #
+#                                                                      #
+########################################################################
 customers$Year_Birth<-factor(customers$Year_Birth)
 customers$Education<-factor(customers$Education)
 customers$Marital_Status<-factor(customers$Marital_Status)
@@ -36,10 +49,23 @@ customers$AcceptedCmp4<-factor(customers$AcceptedCmp4)
 customers$AcceptedCmp5<-factor(customers$AcceptedCmp5)
 customers$Complain<-factor(customers$Complain)
 customers$Response<-factor(customers$Response)
+########################################################################
 
 
-# ---------------------------------- REFACTOR DATASET
 
+
+
+
+
+
+
+
+
+########################################################################
+#                                                                      #
+#                           REFACTOR DATASET                           #
+#                                                                      #
+########################################################################
 #categorize education 
 customers$Education[customers$Education == "2n Cycle"] = "UG"
 customers$Education[customers$Education == "Basic"] = "UG"
@@ -69,22 +95,54 @@ customers['Age']= 2021-customers$Year_Birth
 
 # These variables can be combined and we can get the no of children for the customers.
 customers['Child']=customers$Kidhome+customers$Teenhome
+########################################################################
 
 
 
-# ---------------------------------- SOLVING MISSING DATA INTO INCOME
+
+
+
+
+
+
+########################################################################
+#                                                                      #
+#                   SOLVING MISSING DATA INTO INCOME                   #
+#                                                                      #
+########################################################################
 customers$Income <- ifelse(is.na(customers$Income), # is.na check is a value is not available
                           ave(customers$Income, FUN = function(x) mean(x, na.rm = TRUE)), # if is not available change with average
                           customers$Income # else
 ) 
+########################################################################
 
 
-# ---------------------------------- Split in Training-Set and Test-Set
-# install.packages('caTools')
+
+
+
+
+
+
+
+
+
+########################################################################
+#                                                                      #
+#                              SPLITTING                               #
+#                                                                      #
+########################################################################
 set.seed(17538)
 split <- sample.split(dataSet$Response, SplitRatio = 0.8)
 trainingSet <- subset(dataSet, split == TRUE)
 testSet <- subset(dataSet, split == FALSE)
+########################################################################
+
+
+
+
+
+
+
 
 
 

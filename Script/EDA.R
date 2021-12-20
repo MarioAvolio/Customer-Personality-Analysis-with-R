@@ -6,24 +6,24 @@ library(lubridate)
 library(ggcorrplot)
 library(caTools)
 
-
-# --------------------------------- READ CUSTOMERS DATASET
+########################################################################
+#                                                                      #
+#                           Read Dataset                               #
+#                                                                      #
+######################################################################## 
 customers <- read.csv(paste(getwd(),"/Data/marketing_campaign.csv",sep = ""), header=TRUE, sep="\t",  stringsAsFactors=F) # use TAB as separator!
+########################################################################
 
 
 
 
 
 
-
-
-
-
-
-
-
-
-# ---------------------------------- SUMMARY
+########################################################################
+#                                                                      #
+#                               SUMMARY                                #
+#                                                                      #
+########################################################################
 summary(customers) # most important!
 dim(customers)
 head(customers, n=6)
@@ -31,6 +31,7 @@ glimpse(customers)
 sapply(dataSet, class)
 # NOTE:
 # - There are some categorical features, so we will need to encode into numeric form as we proceed.
+########################################################################
 
 
 
@@ -42,7 +43,15 @@ sapply(dataSet, class)
 
 
 
-# --------------------------------- ANALISYS OF EACH VARIABLE
+
+
+
+########################################################################
+#                                                                      #
+#                      ANALISYS OF EACH VARIABLE                       #
+#                                                                      #
+########################################################################
+
 # Z_CostContact and Z_Revenue
 ggplot(customers, aes(Z_CostContact)) + geom_boxplot() 
 multiple.func(customers$Z_CostContact)
@@ -135,6 +144,7 @@ ggplot(customers, aes(Year_Birth)) + geom_boxplot()  #aes => Aesthetics layer; g
 #NOTE:
 # - Dt_Customer that indicates a cutomer joined the database is not parsed as Date object.
 # - We also noted from looking at the summary statistics, the minimum year of birth 1893. This became clear when we plotted a boxplot.
+########################################################################
 
 
 
@@ -148,8 +158,11 @@ ggplot(customers, aes(Year_Birth)) + geom_boxplot()  #aes => Aesthetics layer; g
 
 
 
-
-# ---------------------------------- MISSING VALUE
+########################################################################
+#                                                                      #
+#                             MISSING VALUE                            #
+#                                                                      #
+########################################################################
 hist(customers$Income,40,col="#adcae6")
 ggplot(customers, aes(y = Income)) + geom_boxplot()
 n_miss(customers) # counting the total number of missing values in the data
@@ -160,7 +173,7 @@ miss_var_summary(customers) # Summarizing missingness in each variable
 #   
 # - There are 24 missing values in the income variable.
 # - Also, we can see that the maximum value of the income variable is larger than the 3rd quantile.
-
+########################################################################
 
 
 

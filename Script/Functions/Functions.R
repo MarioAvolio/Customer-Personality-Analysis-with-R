@@ -1,3 +1,5 @@
+
+
 converterCharacterToFactor <- function(column) {
   
   uniqueValue <- levels(column) # take unique value of column
