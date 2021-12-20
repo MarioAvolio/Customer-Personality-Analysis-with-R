@@ -5,6 +5,8 @@ library(tidyr)
 library(lubridate)
 library(ggcorrplot)
 library(caTools)
+library(DataExplorer)
+
 
 ########################################################################
 #                                                                      #
@@ -70,11 +72,8 @@ miss_var_summary(customers) # Summarizing missingness in each variable
 #                                                                      #
 ########################################################################
 
+DataExplorer::create_report(customers, output_dir = paste(getwd(),"/Output/Data/",sep = ""), output_format = "pdf_document")
 ########################################################################
-install.packages("DataExplorer")
-library(DataExplorer)
-DataExplorer::create_report(customers)
-
 
 
 
