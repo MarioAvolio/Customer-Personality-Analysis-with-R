@@ -99,7 +99,7 @@ corrAPM
 #                                                                      #
 ########################################################################
 
-DataExplorer::create_report(customers, output_dir = paste(getwd(),"/Output/Data/",sep = ""), output_file = "reportAfterDataPreprocessing.pdf", output_format = "pdf_document")
+DataExplorer::create_report(customers, output_dir = paste(getwd(),"/Output/Data/",sep = ""), output_file = "reportAfterDataPreprocessing.html")
 ########################################################################
 
 

@@ -72,7 +72,7 @@ miss_var_summary(customers) # Summarizing missingness in each variable
 #                                                                      #
 ########################################################################
 
-DataExplorer::create_report(customers, output_dir = paste(getwd(),"/Output/Data/",sep = ""), output_format = "pdf_document")
+DataExplorer::create_report(customers, output_dir = paste(getwd(),"/Output/Data/",sep = ""))
 ########################################################################
 
 
