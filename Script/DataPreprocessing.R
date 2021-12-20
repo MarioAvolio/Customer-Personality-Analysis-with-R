@@ -53,6 +53,9 @@ summary(customers)
 #                           REFACTOR DATASET                           #
 #                                                                      #
 ########################################################################
+
+
+# ------------------------------------- COLLAPSING
 #Collapsing marital Status into two categories: Single & Couple
 unique(customers$Marital_Status)
 customers <- mutate(customers, Marital_Status = replace(Marital_Status, Marital_Status == "Divorced" | Marital_Status == "Widow" | Marital_Status == "Alone" | Marital_Status == "Absurd" | Marital_Status == "YOLO", "Single"))
@@ -65,29 +68,32 @@ customers <- mutate(customers, Education = replace(Education, Education == "Basi
 
 #Converting them to factors
 customers <- mutate(customers, Marital_Status = as.factor(Marital_Status), Education = as.factor(Education))
+# ------------------------------------- 
 
 
-#total spent 
-customers$Amount_Spent <- customers$MntWines + customers$MntFishProducts + customers$MntFruits +
-  customers$MntGoldProds + customers$MntMeatProducts + customers$MntSweetProducts
 
-#total purchaes
-data$Num_Purchases_made <- data$NumWebPurchases + data$NumCatalogPurchases +
-  data$NumStorePurchases
 
-# Details about previous campains also combined.
-customers$TotalAccepted=customers$AcceptedCmp1+customers$AcceptedCmp2+customers$AcceptedCmp3+customers$AcceptedCmp4+customers$AcceptedCmp5
+
+# ------------------------------------- TOTAL
+#Creating a new variable:Total_spent
+customers <- mutate(customers, Total_spent = MntWines + MntFruits + MntMeatProducts + MntFishProducts + MntSweetProducts + MntGoldProds)
+
+# Details about previous campains also combined. Creating a new variable:Total_Campains
+customers <- mutate(customers, Total_Campains = AcceptedCmp1 + AcceptedCmp2 + AcceptedCmp3 + AcceptedCmp4 + AcceptedCmp5)
+
+# These variables can be combined and we can get the no of children for the customers. Creating a new variable:Total_Childs
+customers <- mutate(customers, Total_Childs = Kidhome + Teenhome)
+# ------------------------------------- 
+
+
 
 # we can calculate customer age from the birth year. It will be more usefull to our analysis.
-customers$Age = 2021-customers$Year_Birth
-
-# These variables can be combined and we can get the no of children for the customers.
-customers$TotalChild=customers$Kidhome+customers$Teenhome
-
-# Removing old data
-customers=customers[c(-1,-2,-6,-7,-8,-10,-11,-12,-13,-14,-15,-21,-22,-23,-24,-25,-27,-28)]
+# creating a new variable Age from Year of Birth 
+customers <- mutate(customers, Age = 2021 - Year_Birth)
 
 
+#Dropping some redundant features
+customers <- customers[c(-1,-2,-6,-7,-8,-10,-11,-12,-13,-14,-15,-21,-22,-23,-24,-25,-27,-28)]
 ########################################################################
 
 
