@@ -1,37 +1,41 @@
-library(caTools)
 
 # --------------------------------- READ CUSTOMERS DATASET
-getwd()
 customers <- read.csv(paste(getwd(),"/Data/marketing_campaign.csv",sep = ""), header=TRUE, sep="\t",  stringsAsFactors=F) # use TAB as separator!
 
 
-# ----------------------------------  Convert categorical to factor
-converterCharacterToFactor <- function(column) {
-  
-  uniqueValue <- levels(column) # take unique value of column
-  length(uniqueValue)
-  column <- factor(column,
-                   levels = uniqueValue,
-                   labels = 1:length(uniqueValue)) # Convert character column to factor 
-  
-  return(column)
-  
-}
+#-----------------------------FACTORIZE
 
-for(i in 1:ncol(customers)) {       # for-loop over columns
-  
-  # print(paste(i,class(customers[, i])))
-  
-  if (is.factor(customers[, i])){
-    print(i)
-    customers[, i] <- converterCharacterToFactor(customers[, i])
-  }
-}
+customers$Year_Birth<-factor(customers$Year_Birth)
+customers$Education<-factor(customers$Education)
+customers$Marital_Status<-factor(customers$Marital_Status)
+customers$Kidhome<-factor(customers$Kidhome)
+customers$Teenhome<-factor(customers$Teenhome)
 
-# Alternative
-# customers$Education <- converterCharacterToFactor(customers$Education)
-# customers$Marital_Status <- converterCharacterToFactor(customers$Marital_Status)
-# customers$Dt_Customer <- converterCharacterToFactor(customers$Dt_Customer)
+
+#get the column
+df <- data.frame(date=customers$Dt_Customer)
+
+
+#creating a new column in df table extraxcting the year from the df$date column
+df$year <- format(as.Date(df$date, format="%d-%m-%Y"),"%Y")
+
+#assign df$year column to Dt_Customer colum
+customers$Dt_Customer<-df$year
+
+#factoring the Dt_column
+customers$Dt_Customer<-factor(customers$Dt_Customer)
+
+summary(customers[2:29]) # most important!
+
+
+
+customers$AcceptedCmp1<-factor(customers$AcceptedCmp1)
+customers$AcceptedCmp2<-factor(customers$AcceptedCmp2)
+customers$AcceptedCmp3<-factor(customers$AcceptedCmp3)
+customers$AcceptedCmp4<-factor(customers$AcceptedCmp4)
+customers$AcceptedCmp5<-factor(customers$AcceptedCmp5)
+customers$Complain<-factor(customers$Complain)
+customers$Response<-factor(customers$Response)
 
 
 # ---------------------------------- REFACTOR DATASET
