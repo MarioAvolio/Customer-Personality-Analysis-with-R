@@ -64,6 +64,16 @@ miss_var_summary(customers) # Summarizing missingness in each variable
 
 
 
+########################################################################
+#                                                                      #
+#                                 MREPORT                              #
+#                                                                      #
+########################################################################
+
+########################################################################
+install.packages("DataExplorer")
+library(DataExplorer)
+DataExplorer::create_report(customers)
 
 
 
