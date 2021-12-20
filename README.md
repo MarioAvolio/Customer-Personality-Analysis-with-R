@@ -30,7 +30,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/MarioAvolio/Customer-Personality-Analysis-with-R">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="Other/images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
 <h3 align="center">Customer Personality Analysis</h3>
@@ -246,6 +246,7 @@ Project Link: [https://github.com/MarioAvolio/Customer-Personality-Analysis-with
 ## Acknowledgments
 The dataset for this project is provided by Dr. Omar Romero-Hernandez. 
 * [Dataset](https://www.kaggle.com/imakash3011/customer-personality-analysis)
+* [Structure Project](https://martinctc.github.io/blog/rstudio-projects-and-working-directories-a-beginner%27s-guide/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -263,4 +264,4 @@ The dataset for this project is provided by Dr. Omar Romero-Hernandez.
 [issues-url]: https://github.com/MarioAvolio/Customer-Personality-Analysis-with-R/issues
 [license-shield]: https://img.shields.io/github/license/MarioAvolio/Customer-Personality-Analysis-with-R.svg?style=for-the-badge
 [license-url]: https://github.com/MarioAvolio/Customer-Personality-Analysis-with-R/blob/master/LICENSE
-[product-screenshot]: images/screenshot.png
+[product-screenshot]: Other/images/screenshot.png

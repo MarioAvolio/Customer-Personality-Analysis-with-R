@@ -4,11 +4,6 @@ library(naniar)
 library(tidyr)
 library(lubridate)
 library(ggcorrplot)
-# --------------------------------- UTILITY FUNCTIONS
-multiple.func <- function(x) {
-  c(min = min(x), mean = mean(x), max = max(x), sd=sd(x), var=var(x),
-    median=median(x), range=range(x))
-}
 
 # --------------------------------- READ CUSTOMERS DATASET
 customers <- read.csv(paste(getwd(),"/Model/marketing_campaign.csv",sep = ""), header=TRUE, sep="\t",  stringsAsFactors=F) # use TAB as separator!

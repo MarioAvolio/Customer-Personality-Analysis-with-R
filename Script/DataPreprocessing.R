@@ -1,8 +1,8 @@
 library(caTools)
 
 # --------------------------------- READ CUSTOMERS DATASET
-customers <- read.csv(paste(getwd(),"/Model/marketing_campaign.csv",sep = ""), header=TRUE, sep="\t",  stringsAsFactors=F) # use TAB as separator!
-
+getwd()
+customers <- read.csv(paste(getwd(),"/Data/marketing_campaign.csv",sep = ""), header=TRUE, sep="\t",  stringsAsFactors=F) # use TAB as separator!
 
 
 # ----------------------------------  Convert categorical to factor
