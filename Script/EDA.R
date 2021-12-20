@@ -93,14 +93,6 @@ corrAPM
 
 
 
-# Boxplot of the Year of birth variable
-ggplot(customers, aes(Year_Birth)) + geom_boxplot()  #aes => Aesthetics layer; geom_boxplot => geometry layer
-
-#NOTE:
-# - Dt_Customer that indicates a cutomer joined the database is not parsed as Date object.
-# - We also noted from looking at the summary statistics, the minimum year of birth 1893. This became clear when we plotted a boxplot.
-########################################################################
-
 
 
 
