@@ -3,7 +3,8 @@
 #                           Read Dataset                               #
 #                                                                      #
 ######################################################################## 
-customers <- read.csv(paste(getwd(),"/Data/marketing_campaign.csv",sep = ""), header=TRUE, sep="\t",  stringsAsFactors=F) # use TAB as separator!
+
+source(paste(getwd(),"/Script/DescriptionOfData.R",sep = "")) 
 ########################################################################
 
 
@@ -18,16 +19,11 @@ customers <- read.csv(paste(getwd(),"/Data/marketing_campaign.csv",sep = ""), he
 #                              FACTORIZE                               #
 #                                                                      #
 ########################################################################
-customers$Year_Birth<-factor(customers$Year_Birth)
-customers$Education<-factor(customers$Education)
-customers$Marital_Status<-factor(customers$Marital_Status)
-customers$Kidhome<-factor(customers$Kidhome)
-customers$Teenhome<-factor(customers$Teenhome)
-
+customers$Complain<-factor(customers$Complain)
+customers$Response<-factor(customers$Response)
 
 #get the column
 df <- data.frame(date=customers$Dt_Customer)
-
 
 #creating a new column in df table extraxcting the year from the df$date column
 df$year <- format(as.Date(df$date, format="%d-%m-%Y"),"%Y")
@@ -38,17 +34,8 @@ customers$Dt_Customer<-df$year
 #factoring the Dt_column
 customers$Dt_Customer<-factor(customers$Dt_Customer)
 
-summary(customers[2:29]) # most important!
+summary(customers)
 
-
-
-customers$AcceptedCmp1<-factor(customers$AcceptedCmp1)
-customers$AcceptedCmp2<-factor(customers$AcceptedCmp2)
-customers$AcceptedCmp3<-factor(customers$AcceptedCmp3)
-customers$AcceptedCmp4<-factor(customers$AcceptedCmp4)
-customers$AcceptedCmp5<-factor(customers$AcceptedCmp5)
-customers$Complain<-factor(customers$Complain)
-customers$Response<-factor(customers$Response)
 ########################################################################
 
 
@@ -66,21 +53,19 @@ customers$Response<-factor(customers$Response)
 #                           REFACTOR DATASET                           #
 #                                                                      #
 ########################################################################
-#categorize education 
-customers$Education[customers$Education == "2n Cycle"] = "UG"
-customers$Education[customers$Education == "Basic"] = "UG"
-customers$Education[customers$Education == "Graduation"] = "PG"
-customers$Education[customers$Education == "Master"] = "PG"
-customers$Education[customers$Education == "PhD"] = "PG"
+#Collapsing marital Status into two categories: Single & Couple
+unique(customers$Marital_Status)
+customers <- mutate(customers, Marital_Status = replace(Marital_Status, Marital_Status == "Divorced" | Marital_Status == "Widow" | Marital_Status == "Alone" | Marital_Status == "Absurd" | Marital_Status == "YOLO", "Single"))
+customers <- mutate(customers, Marital_Status = replace(Marital_Status, Marital_Status == "Together" | Marital_Status == "Married", "Couple"))
 
-#categorize marital status 
-customers$Marital_Status[customers$Marital_Status == "Divorced"] = "Single"
-customers$Marital_Status[customers$Marital_Status == "Absurd"] = "Single"
-customers$Marital_Status[customers$Marital_Status == "YOLO"] = "Single"
-customers$Marital_Status[customers$Marital_Status == "Widow"] = "Single"
-customers$Marital_Status[customers$Marital_Status == "Together"] = "Couple"
-customers$Marital_Status[customers$Marital_Status == "Married"] = "Couple"
-customers$Marital_Status[customers$Marital_Status == "Alone"] = "Single"
+#Collapsing the Education into two Categories: graduate and non-graduate
+unique(customers$Education)
+customers <- mutate(customers, Education = replace(Education, Education == "Graduation"| Education == "PhD" | Education == "Master", "graduate"))
+customers <- mutate(customers, Education = replace(Education, Education == "Basic"| Education == "2n Cycle", "non-graduate"))
+
+#Converting them to factors
+customers <- mutate(customers, Marital_Status = as.factor(Marital_Status), Education = as.factor(Education))
+
 
 #total spent 
 customers$Amount_Spent <- customers$MntWines + customers$MntFishProducts + customers$MntFruits +
@@ -90,11 +75,19 @@ customers$Amount_Spent <- customers$MntWines + customers$MntFishProducts + custo
 data$Num_Purchases_made <- data$NumWebPurchases + data$NumCatalogPurchases +
   data$NumStorePurchases
 
+# Details about previous campains also combined.
+customers$TotalAccepted=customers$AcceptedCmp1+customers$AcceptedCmp2+customers$AcceptedCmp3+customers$AcceptedCmp4+customers$AcceptedCmp5
+
 # we can calculate customer age from the birth year. It will be more usefull to our analysis.
-customers['Age']= 2021-customers$Year_Birth
+customers$Age = 2021-customers$Year_Birth
 
 # These variables can be combined and we can get the no of children for the customers.
-customers['Child']=customers$Kidhome+customers$Teenhome
+customers$TotalChild=customers$Kidhome+customers$Teenhome
+
+# Removing old data
+customers=customers[c(-1,-2,-6,-7,-8,-10,-11,-12,-13,-14,-15,-21,-22,-23,-24,-25,-27,-28)]
+
+
 ########################################################################
 
 
