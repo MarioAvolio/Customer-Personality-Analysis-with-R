@@ -1,6 +1,9 @@
+# Function
+source(paste(getwd(),"/Script/Functions/Functions.R",sep = "")) 
+
 ########################################################################
 #                                                                      #
-#                           Read customers                               #
+#                           Read customers                             #
 #                                                                      #
 ######################################################################## 
 
@@ -54,7 +57,7 @@ remove(df)
 
 ########################################################################
 #                                                                      #
-#                           REFACTOR customers                           #
+#                           REFACTOR customers                         #
 #                                                                      #
 ########################################################################
 
@@ -99,7 +102,6 @@ customers <- mutate(customers, Age = thisYear - Year_Birth)
 
 
 #Dropping some redundant features
-# customers <- customers[c(-1,-2,-6,-7,-8,-10,-11,-12,-13,-14,-15,-21,-22,-23,-24,-25,-27,-28)]
 customers <- select(customers, - ID, - Year_Birth, - Z_CostContact, - Z_Revenue)
 ########################################################################
 

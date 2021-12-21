@@ -1,40 +1,60 @@
 
+source(paste(getwd(),"/Script/DataPreprocessing.R",sep = "")) 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ########################################################################
 #                                                                      #
-#                      ANALISYS OF EACH VARIABLE                       #
+#               RELATION BEETWEEN AGE AND MNT OF THINGS                #
 #                                                                      #
 ########################################################################
 
-# Z_CostContact and Z_Revenue
-ggplot(customers, aes(Z_CostContact)) + geom_boxplot() 
-multiple.func(customers$Z_CostContact)
-ggplot(customers, aes(Z_Revenue)) + geom_boxplot() 
-multiple.func(customers$Z_Revenue)
-
-# NOTE:
-# - The features Z_CostContact and Z_Revenue show no variation.
 
 
-# RELATION BEETWEEN AGE AND MNT OF THINGS:
 
-# MntWines
-ggplot(data=customers, aes(x=MntWines)) + geom_density(aes(fill=Marital_Status), position = "stack")
 
-ggplot(data = customers, customers$Age, customers$MntWines, main="Correlation between Age and Amount spent in Wine", xlab="Age", ylab="Amnt Wine")
+# -------------------------------- TODO: ? QUESTA ROBA ANDREBBE TOLTA - USARE GGPLOT E TRAININGSET
 
-ggplot(density(customers$MntFruits))
-ggplot(customers$Age, customers$MntFruits, main="Correlation between Age and Amount spent in fruit", xlab="Age", ylab="Amnt fruit")
 
-ggplot(density(customers$MntMeatProducts))
-ggplot(customers$Age, customers$MntMeatProducts, main="Correlation between Age and Amount spent in meat", xlab="Age", ylab="Amnt meat")
 
-ggplot(density(customers$MntFishProducts))
-ggplot(customers$Age, customers$MntFishProducts, main="Correlation between Age and Amount spent in fish", xlab="Age", ylab="Amnt fish")
+plot(data=customers, aes(x=MntWines)) + geom_density(aes(fill=Marital_Status), position = "stack")
 
-ggplot(density(customers$MntSweetProducts))
-ggplot(customers$Age, customers$MntSweetProducts, main="Correlation between Age and Amount spent in sweet", xlab="Age", ylab="Amnt sweet")
+plot(data = customers, customers$Age, customers$MntWines, main="Correlation between Age and Amount spent in Wine", xlab="Age", ylab="Amnt Wine")
+
+plot(density(customers$MntFruits))
+plot(customers$Age, customers$MntFruits, main="Correlation between Age and Amount spent in fruit", xlab="Age", ylab="Amnt fruit")
+
+plot(density(customers$MntMeatProducts))
+plot(customers$Age, customers$MntMeatProducts, main="Correlation between Age and Amount spent in meat", xlab="Age", ylab="Amnt meat")
+
+plot(density(customers$MntFishProducts))
+plot(customers$Age, customers$MntFishProducts, main="Correlation between Age and Amount spent in fish", xlab="Age", ylab="Amnt fish")
+
+plot(density(customers$MntSweetProducts))
+plot(customers$Age, customers$MntSweetProducts, main="Correlation between Age and Amount spent in sweet", xlab="Age", ylab="Amnt sweet")
 
 
 

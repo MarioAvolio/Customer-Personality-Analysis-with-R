@@ -204,6 +204,7 @@ ggplot(customers, aes(MntGoldProds)) + geom_boxplot()
 
 
 
+
 # -------------------------------------------------------------- PURCHASES VARIABLES BOXPLOT
 
 # NumDealsPurchases
@@ -238,11 +239,22 @@ ggplot(customers, aes(NumStorePurchases)) + geom_boxplot()
 
 
 
+
 # NumWebVisitsMonth
 ggplot(customers, aes(NumDealsPurchases)) + geom_boxplot() 
 
 #NOTE:
 # - Some outliers
+
+
+# Z_CostContact and Z_Revenue
+ggplot(customers, aes(Z_CostContact)) + geom_boxplot() 
+multiple.func(customers$Z_CostContact)
+ggplot(customers, aes(Z_Revenue)) + geom_boxplot() 
+multiple.func(customers$Z_Revenue)
+
+# NOTE:
+# - The features Z_CostContact and Z_Revenue show no variation.
 
 ########################################################################
 
