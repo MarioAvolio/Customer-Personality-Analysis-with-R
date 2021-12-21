@@ -74,6 +74,7 @@ summary(customers) # most important!
 
 #NOTE:
 # - There are some categorical features, so we will need to encode into numeric form as we proceed.
+# - Dt_Customer that indicates a cutomer joined the database is not parsed as Date object.
 
 #########################################################################
 

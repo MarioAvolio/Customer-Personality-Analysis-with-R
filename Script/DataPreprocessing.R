@@ -1,10 +1,13 @@
 ########################################################################
 #                                                                      #
-#                           Read Dataset                               #
+#                           Read customers                               #
 #                                                                      #
 ######################################################################## 
 
-source(paste(getwd(),"/Script/DescriptionOfData.R",sep = "")) 
+# source(paste(getwd(),"/Script/DescriptionOfData.R",sep = "")) 
+
+customers <- read.csv(paste(getwd(),"/Data/marketing_campaign.csv",sep = ""), header=TRUE, sep="\t",  stringsAsFactors=F) # use TAB as separator!
+
 ########################################################################
 
 
@@ -32,9 +35,10 @@ df$year <- format(as.Date(df$date, format="%d-%m-%Y"),"%Y")
 customers$Dt_Customer<-df$year
 
 #factoring the Dt_column
-customers$Dt_Customer<-factor(customers$Dt_Customer)
+customers$Dt_Customer <- factor(customers$Dt_Customer)
 
-summary(customers)
+# remove df from memory
+remove(df)
 
 ########################################################################
 
@@ -50,7 +54,7 @@ summary(customers)
 
 ########################################################################
 #                                                                      #
-#                           REFACTOR DATASET                           #
+#                           REFACTOR customers                           #
 #                                                                      #
 ########################################################################
 
@@ -89,11 +93,14 @@ customers <- mutate(customers, Total_Childs = Kidhome + Teenhome)
 
 # we can calculate customer age from the birth year. It will be more usefull to our analysis.
 # creating a new variable Age from Year of Birth 
-customers <- mutate(customers, Age = 2021 - Year_Birth)
+thisYear <- as.numeric(format(as.Date(Sys.Date(), format="%d-%m-%Y"),"%Y"))
+thisYear
+customers <- mutate(customers, Age = thisYear - Year_Birth)
 
 
 #Dropping some redundant features
-customers <- customers[c(-1,-2,-6,-7,-8,-10,-11,-12,-13,-14,-15,-21,-22,-23,-24,-25,-27,-28)]
+# customers <- customers[c(-1,-2,-6,-7,-8,-10,-11,-12,-13,-14,-15,-21,-22,-23,-24,-25,-27,-28)]
+customers <- select(customers, - ID, - Year_Birth, - Z_CostContact, - Z_Revenue)
 ########################################################################
 
 
@@ -131,9 +138,9 @@ customers$Income <- ifelse(is.na(customers$Income), # is.na check is a value is 
 #                                                                      #
 ########################################################################
 set.seed(17538)
-split <- sample.split(dataSet$Response, SplitRatio = 0.8)
-trainingSet <- subset(dataSet, split == TRUE)
-testSet <- subset(dataSet, split == FALSE)
+split <- sample.split(customers$Response, SplitRatio = 0.8)
+trainingSet <- subset(customers, split == TRUE)
+testSet <- subset(customers, split == FALSE)
 ########################################################################
 
 
