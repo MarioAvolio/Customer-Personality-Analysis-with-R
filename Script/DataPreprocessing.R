@@ -7,9 +7,9 @@ source(paste(getwd(),"/Script/Functions/Functions.R",sep = ""))
 #                                                                      #
 ######################################################################## 
 
-# source(paste(getwd(),"/Script/DescriptionOfData.R",sep = "")) 
+source(paste(getwd(),"/Script/DescriptionOfData.R",sep = "")) 
 
-customers <- read.csv(paste(getwd(),"/Data/marketing_campaign.csv",sep = ""), header=TRUE, sep="\t",  stringsAsFactors=F) # use TAB as separator!
+# customers <- read.csv(paste(getwd(),"/Data/marketing_campaign.csv",sep = ""), header=TRUE, sep="\t",  stringsAsFactors=F) # use TAB as separator!
 
 ########################################################################
 

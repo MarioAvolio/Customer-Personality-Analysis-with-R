@@ -1,12 +1,35 @@
 
 source(paste(getwd(),"/Script/DataPreprocessing.R",sep = "")) 
 
+########################################################################
+#                                                                      #
+#                          CHILDREN ANALISYS                           #
+#                                                                      #
+########################################################################
+
+#Age
+ggplot(trainingSet, aes(y=Age, x=Total_Childs)) + geom_jitter() 
+
+#Marital_Status
+ggplot(trainingSet, aes(y=Marital_Status, x=Total_Childs)) + geom_jitter() 
+
+#Education
+ggplot(trainingSet, aes(y=Education, x=Total_Childs)) + geom_jitter() 
+#NOTA:
+# - Graduate people has more children
+
+#Income
+ggplot(trainingSet, aes(y=Income, x=Total_Childs)) + geom_jitter() 
+#NOTA:
+# - loss income more childs
 
 
+ggplot(trainingSet, aes(x=Age, y=Total_Childs, colour=Marital_Status, size=Income)) + 
+  facet_grid(Marital_Status~Education) + 
+  geom_jitter() 
 
 
-
-
+########################################################################
 
 
 
@@ -28,7 +51,7 @@ source(paste(getwd(),"/Script/DataPreprocessing.R",sep = ""))
 
 ########################################################################
 #                                                                      #
-#               RELATION BEETWEEN AGE AND MNT OF THINGS                #
+#               RELATION BETWEEN AGE AND MNT OF THINGS                 #
 #                                                                      #
 ########################################################################
 
@@ -119,7 +142,7 @@ corrAPM
 #                                                                      #
 ########################################################################
 
-DataExplorer::create_report(customers, output_dir = paste(getwd(),"/Output/Data/",sep = ""), output_file = "reportAfterDataPreprocessing.html")
+# DataExplorer::create_report(customers, output_dir = paste(getwd(),"/Output/Data/",sep = ""), output_file = "reportAfterDataPreprocessing.html")
 ########################################################################
 
 
