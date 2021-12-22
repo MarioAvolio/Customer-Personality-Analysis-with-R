@@ -15,8 +15,11 @@ ggplot(trainingSet, aes(x=Total_Childs)) + geom_histogram(binwidth = 0.5, colour
 
 #--------------------------- Age
 ageRange <- cut(trainingSet$Age, breaks = c(24, 64, Inf), include.lowest = T, ordered_result = T, labels = c("Adult", "Senior"))
-age_childs_histogram <- ggplot(trainingSet, aes(x=Total_Childs)) + geom_histogram(aes(fill=ageRange), binwidth = 0.5, colour = "Black")
-age_childs_histogram
+trainingSet <- mutate(trainingSet, Age_range = ageRange)
+
+age_childs_histogram <- ggplot(trainingSet, aes(x=Total_Childs)) + geom_histogram(aes(fill=Age_range), binwidth = 0.5, colour = "Black")
+age_childs_histogram + facet_grid(Age_range~.)
+trainingSet <- select(trainingSet, -Age_range)
 #--------------------------- 
 
 
@@ -47,10 +50,13 @@ education_childs_histogram + facet_grid(Education~.)
 income_childs_plot <- ggplot(trainingSet, aes(y=Income, x=Total_Childs)) + geom_jitter() 
 income_childs_plot + ylim(0, 100000)
 
-incomeRange <- cut(trainingSet$Income, breaks = c(0, 20000, 40000, 60000, 100000), include.lowest = T, ordered_result = T, labels = c("Lower", "Medium", "Hight", "Very Hight"))
-incomeRange
-income_childs_histogram <- ggplot(trainingSet, aes(x=Total_Childs)) + geom_histogram(aes(fill=incomeRange), binwidth = 0.5, colour = "Black") 
-income_childs_histogram
+incomeRange <- cut(trainingSet$Income, breaks = c(0, 20000, 40000, 60000, 100000, Inf), labels = c("low", "low medium", "medium", "high-medium", "high"))
+trainingSet <- mutate(trainingSet, Income_range = incomeRange)
+
+income_childs_histogram <- ggplot(trainingSet, aes(x=Total_Childs)) + geom_histogram(aes(fill=Income_range), binwidth = 0.5, colour = "Black") 
+income_childs_histogram + facet_grid(Income_range~.)
+
+trainingSet <- select(trainingSet, -Income_range)
 #NOTA:
 # - loss income more childs
 #--------------------------- 
@@ -58,8 +64,21 @@ income_childs_histogram
 
 ggplot(trainingSet, aes(x=Age, y=Total_Childs, colour=Marital_Status, size=Income)) + 
   facet_grid(Marital_Status~Education) + 
-  geom_jitter() 
+  geom_jitter() + geom_boxplot(size=0.7, alpha=0.5)
 ########################################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ########################################################################
