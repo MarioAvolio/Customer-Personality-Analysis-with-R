@@ -1,5 +1,17 @@
-
+########################################################################
+#                                                                      #
+#                           PRE REQUIREMENT                            #
+#                                                                      #
+########################################################################
 source(paste(getwd(),"/Script/DataPreprocessing.R",sep = "")) 
+
+ageRange <- cut(trainingSet$Age, breaks = c(24, 64, Inf), include.lowest = T, ordered_result = T, labels = c("Adult", "Senior"))
+trainingSet <- mutate(trainingSet, Age_range = ageRange)
+
+incomeRange <- cut(trainingSet$Income, breaks = c(0, 20000, 40000, 60000, 100000, Inf), labels = c("low", "low medium", "medium", "high-medium", "high"))
+trainingSet <- mutate(trainingSet, Income_range = incomeRange)
+
+
 
 ########################################################################
 #                                                                      #
@@ -14,12 +26,8 @@ ggplot(trainingSet, aes(x=Total_Childs)) + geom_histogram(binwidth = 0.5, colour
 
 
 #--------------------------- Age
-ageRange <- cut(trainingSet$Age, breaks = c(24, 64, Inf), include.lowest = T, ordered_result = T, labels = c("Adult", "Senior"))
-trainingSet <- mutate(trainingSet, Age_range = ageRange)
-
 age_childs_histogram <- ggplot(trainingSet, aes(x=Total_Childs)) + geom_histogram(aes(fill=Age_range), binwidth = 0.5, colour = "Black")
 age_childs_histogram + facet_grid(Age_range~.)
-trainingSet <- select(trainingSet, -Age_range)
 #--------------------------- 
 
 
@@ -50,13 +58,8 @@ education_childs_histogram + facet_grid(Education~.)
 income_childs_plot <- ggplot(trainingSet, aes(y=Income, x=Total_Childs)) + geom_jitter() 
 income_childs_plot + ylim(0, 100000)
 
-incomeRange <- cut(trainingSet$Income, breaks = c(0, 20000, 40000, 60000, 100000, Inf), labels = c("low", "low medium", "medium", "high-medium", "high"))
-trainingSet <- mutate(trainingSet, Income_range = incomeRange)
-
 income_childs_histogram <- ggplot(trainingSet, aes(x=Total_Childs)) + geom_histogram(aes(fill=Income_range), binwidth = 0.5, colour = "Black") 
 income_childs_histogram + facet_grid(Income_range~.)
-
-trainingSet <- select(trainingSet, -Income_range)
 #NOTA:
 # - loss income more childs
 #--------------------------- 
@@ -155,10 +158,24 @@ ggplot(trainingSet, aes(x=Total_spent, y=Income, colour=Marital_Status, size=Inc
 ggplot(trainingSet, aes(x=Total_Campains)) + geom_histogram(binwidth = 0.5, colour = "Black")
 
 
-#Age
-ggplot(trainingSet, aes(x=Total_Campains)) + geom_histogram(aes(fill = ))
+# Create dataAcceptedCmp
+dataAcceptedCmp <- data.frame(
+  name = c("cmp1", "cmp2", "cmp3", "cmp4", "cmp5") ,  
+  value= c(numberOfAcceptedCmp1, numberOfAcceptedCmp2, numberOfAcceptedCmp3, numberOfAcceptedCmp4, numberOfAcceptedCmp5)
+)
+
+# Barplot
+ggplot(dataAcceptedCmp, aes(x=name, y=value)) + 
+  geom_bar(stat = "identity", color = "Black")  
 
 
+
+#--------------------------- Age
+age_childs_histogram <- ggplot(trainingSet, aes(x=Total_Campains)) + geom_histogram(aes(fill=Age_range), binwidth = 0.5, colour = "Black")
+age_childs_histogram + facet_grid(Age_range~.)
+
+
+#--------------------------- 
 
 
 
@@ -278,6 +295,15 @@ corrAPM
 ########################################################################
 
 
+
+
+########################################################################
+#                                                                      #
+#                           REMOVE TMP DATA                            #
+#                                                                      #
+########################################################################
+trainingSet <- select(trainingSet, -Age_range)
+trainingSet <- select(trainingSet, -Income_range)
 
 
 
