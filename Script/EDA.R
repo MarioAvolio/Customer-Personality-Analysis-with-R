@@ -32,6 +32,43 @@ ggplot(trainingSet, aes(x=Age, y=Total_Childs, colour=Marital_Status, size=Incom
 ########################################################################
 
 
+########################################################################
+#                                                                      #
+#                        TOTAL AMOUNT ANALISYS                         #
+#                                                                      #
+########################################################################
+
+#Age
+ggplot(trainingSet, aes(y=Total_spent, x=Age)) + geom_jitter() 
+
+#NOTE: most people spend less than 500 especially from 30 years to 75 years.
+#- individuals under 25, on the other hand, generally spend a total that is greater than 500.
+
+#Marital_Status
+ggplot(trainingSet, aes(y=Marital_Status, x=Total_spent)) + geom_jitter() 
+
+#NOTE: In this case they look similar. the majority of couples spend a total that is less than 500. 
+#- The situation in single is a little more relaxed it will be that most of the individuals 
+#- in the dataset are couple
+
+#Education
+ggplot(trainingSet, aes(y=Education, x=Total_spent)) + geom_jitter() 
+#NOTE:
+# - Graduate generally spend more than non-graduate. the majority of non-graduate
+#- spend from 0 to 1500. from 1500 there are more cases of graduates than non-graduate
+
+#Income
+ggplot(trainingSet, aes(y=Income, x=Total_spent)) + geom_jitter() 
+
+
+ggplot(trainingSet, aes(x=Total_spent, y=Income, colour=Marital_Status, size=Income)) + 
+  facet_grid(Marital_Status~Education) + 
+  geom_jitter() 
+
+
+########################################################################
+
+
 
 
 
