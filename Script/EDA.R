@@ -32,6 +32,7 @@ marital_status_childs_histogram + facet_grid(Marital_Status~.)
 
 
 #--------------------------- Education
+
 education_childs_histogram <- ggplot(trainingSet, aes(x=Total_Childs)) + geom_histogram(aes(fill=Education), binwidth = 0.5, colour = "Black") 
 education_childs_histogram + facet_grid(Education~.)
 
@@ -63,30 +64,54 @@ ggplot(trainingSet, aes(x=Age, y=Total_Childs, colour=Marital_Status, size=Incom
 
 ########################################################################
 #                                                                      #
-#                        TOTAL AMOUNT ANALISYS                         #
+#                        TOTAL SPENT ANALISYS                          #
 #                                                                      #
 ########################################################################
 
-#Age
-ggplot(trainingSet, aes(y=Total_spent, x=Age)) + geom_jitter() 
+ggplot(trainingSet, aes(x=Total_spent)) + geom_histogram(binwidth = 0.5, colour = "Black")
+
+#NOTE: most people spend less than 500
+
+#--------------------------- Age
+#--------Hist:
+age_total_spent_histogram <- ggplot(trainingSet, aes(x=Total_spent)) + geom_histogram(aes(fill=Age), binwidth = 0.5, colour = "Black")
+age_total_spent_histogram + facet_grid(Age~.)
+
+#--------Jitter:
+ggplot(trainingSet, aes(y=Age, x=Total_spent)) + geom_jitter() 
 
 #NOTE: most people spend less than 500 especially from 30 years to 75 years.
 #- individuals under 25, on the other hand, generally spend a total that is greater than 500.
 
-#Marital_Status
+#--------------------------- Marital_Status
+#--------Hist:
+marital_status_total_spent_histogram <- ggplot(trainingSet, aes(x=Total_spent)) + geom_histogram(aes(fill=Marital_Status), binwidth = 0.5, colour = "Black")
+marital_status_total_spent_histogram + facet_grid(Marital_Status~.)
+
+#--------Jitter:
 ggplot(trainingSet, aes(y=Marital_Status, x=Total_spent)) + geom_jitter() 
 
 #NOTE: In this case they look similar. the majority of couples spend a total that is less than 500. 
 #- The situation in single is a little more relaxed it will be that most of the individuals 
 #- in the dataset are couple
 
-#Education
+#--------------------------- Education
+#--------Hist:
+education_total_spent_histogram <- ggplot(trainingSet, aes(x=Total_spent)) + geom_histogram(aes(fill=Education), binwidth = 0.5, colour = "Black")
+education_total_spent_histogram + facet_grid(Education~.)
+
+#--------Jitter:
 ggplot(trainingSet, aes(y=Education, x=Total_spent)) + geom_jitter() 
+
 #NOTE:
 # - Graduate generally spend more than non-graduate. the majority of non-graduate
 #- spend from 0 to 1500. from 1500 there are more cases of graduates than non-graduate
 
 #Income
+#--------Hist:
+income_total_spent_histogram <- ggplot(trainingSet, aes(x=Total_spent)) + geom_histogram(aes(fill=Income), binwidth = 0.5, colour = "Black")
+income_total_spent_histogram + facet_grid(Income~.)
+#--------Jitter:
 ggplot(trainingSet, aes(y=Income, x=Total_spent)) + geom_jitter() 
 
 
@@ -96,6 +121,8 @@ ggplot(trainingSet, aes(x=Total_spent, y=Income, colour=Marital_Status, size=Inc
 
 
 ########################################################################
+
+
 
 
 
