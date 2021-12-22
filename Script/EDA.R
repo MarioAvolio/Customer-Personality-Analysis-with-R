@@ -7,34 +7,83 @@ source(paste(getwd(),"/Script/DataPreprocessing.R",sep = ""))
 #                                                                      #
 ########################################################################
 
-#Age
-ggplot(trainingSet, aes(y=Age, x=Total_Childs)) + geom_jitter() 
+ggplot(trainingSet, aes(x=Total_Childs)) + geom_histogram(binwidth = 0.5, colour = "Black")
+#NOTE:
+# - Most people has only a single child
 
-#Marital_Status
-ggplot(trainingSet, aes(y=Marital_Status, x=Total_Childs)) + geom_jitter() 
 
-#Education
-ggplot(trainingSet, aes(y=Education, x=Total_Childs)) + geom_jitter() 
+
+#--------------------------- Age
+ageRange <- cut(trainingSet$Age, breaks = c(24, 64, Inf), include.lowest = T, ordered_result = T, labels = c("Adult", "Senior"))
+age_childs_histogram <- ggplot(trainingSet, aes(x=Total_Childs)) + geom_histogram(aes(fill=ageRange), binwidth = 0.5, colour = "Black")
+age_childs_histogram
+#--------------------------- 
+
+
+
+
+
+#--------------------------- Marital_Status
+marital_status_childs_histogram <- ggplot(trainingSet, aes(x=Total_Childs)) + geom_histogram(aes(fill=Marital_Status), binwidth = 0.5, colour = "Black")
+marital_status_childs_histogram + facet_grid(Marital_Status~.)
+#--------------------------- 
+
+
+
+
+#--------------------------- Education
+education_childs_histogram <- ggplot(trainingSet, aes(x=Total_Childs)) + geom_histogram(aes(fill=Education), binwidth = 0.5, colour = "Black") 
+education_childs_histogram + facet_grid(Education~.)
+
 #NOTA:
 # - Graduate people has more children
+#--------------------------- 
 
-#Income
-ggplot(trainingSet, aes(y=Income, x=Total_Childs)) + geom_jitter() 
+
+
+
+#--------------------------- Income
+income_childs_plot <- ggplot(trainingSet, aes(y=Income, x=Total_Childs)) + geom_jitter() 
+income_childs_plot + ylim(0, 100000)
+
+incomeRange <- cut(trainingSet$Income, breaks = c(0, 20000, 40000, 60000, 100000), include.lowest = T, ordered_result = T, labels = c("Lower", "Medium", "Hight", "Very Hight"))
+incomeRange
+income_childs_histogram <- ggplot(trainingSet, aes(x=Total_Childs)) + geom_histogram(aes(fill=incomeRange), binwidth = 0.5, colour = "Black") 
+income_childs_histogram
 #NOTA:
 # - loss income more childs
+#--------------------------- 
 
 
 ggplot(trainingSet, aes(x=Age, y=Total_Childs, colour=Marital_Status, size=Income)) + 
   facet_grid(Marital_Status~Education) + 
   geom_jitter() 
-
-
 ########################################################################
 
 
 
 
 
+########################################################################
+#                                                                      #
+#                          CAMPAIGN ANALYSIS                           #
+#                                                                      #
+########################################################################
+ggplot(trainingSet, aes(x=Total_Campains)) + geom_histogram(binwidth = 0.5, colour = "Black")
+
+
+#Age
+ggplot(trainingSet, aes(x=Total_Campains)) + geom_histogram(aes(fill = ))
+
+
+
+
+
+
+
+
+
+########################################################################
 
 
 
