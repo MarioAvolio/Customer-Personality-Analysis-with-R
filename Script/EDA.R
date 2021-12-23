@@ -155,13 +155,14 @@ ggplot(trainingSet, aes(x=Total_spent, y=Income, colour=Marital_Status, size=Inc
 #                          CAMPAIGN ANALYSIS                           #
 #                                                                      #
 ########################################################################
-ggplot(trainingSet, aes(x=Total_Campains)) + geom_histogram(binwidth = 0.5, colour = "Black")
+ggplot(trainingSet, aes(x=Total_Campains)) + geom_histogram(binwidth = 0.5, colour = "Black") + xlab("Number of different Campain")
 
 
 # Create dataAcceptedCmp
 dataAcceptedCmp <- data.frame(
   name = c("cmp1", "cmp2", "cmp3", "cmp4", "cmp5") ,  
-  value= c(numberOfAcceptedCmp1, numberOfAcceptedCmp2, numberOfAcceptedCmp3, numberOfAcceptedCmp4, numberOfAcceptedCmp5)
+  value = c(sum(trainingSet$c), sum(trainingSet$AcceptedCmp2), sum(trainingSet$AcceptedCmp3),
+           sum(trainingSet$AcceptedCmp4), sum(trainingSet$AcceptedCmp5))
 )
 
 # Barplot
@@ -171,15 +172,32 @@ ggplot(dataAcceptedCmp, aes(x=name, y=value)) +
 
 
 #--------------------------- Age
-age_childs_histogram <- ggplot(trainingSet, aes(x=Total_Campains)) + geom_histogram(aes(fill=Age_range), binwidth = 0.5, colour = "Black")
-age_childs_histogram + facet_grid(Age_range~.)
-
-
+ggplot(trainingSet, aes(x=Total_Campains)) + geom_histogram(aes(fill=Age_range), binwidth = 0.5, colour = "Black") + facet_grid(Age_range~.) + xlab("Number of different Campain")
 #--------------------------- 
 
 
 
+#--------------------------- Marital_Status
+ggplot(trainingSet, aes(x=Total_Campains)) + geom_histogram(aes(fill=Marital_Status), binwidth = 0.5, colour = "Black") + facet_grid(Marital_Status~.) + xlab("Number of different Campain")
+#--------------------------- 
 
+
+
+#--------------------------- Total_Childs
+ggplot(trainingSet, aes(x=Total_Campains)) + geom_histogram(aes(fill=Total_Childs), binwidth = 0.5, colour = "Black") + facet_grid(Total_Childs~.) + xlab("Number of different Campain")
+#--------------------------- 
+
+
+#--------------------------- Education
+ggplot(trainingSet, aes(x=Total_Campains)) + geom_histogram(aes(fill=Education), binwidth = 0.5, colour = "Black") + facet_grid(Education~.) + xlab("Number of different Campain")
+#--------------------------- 
+
+
+#--------------------------- Income
+income_childs_plot <- ggplot(trainingSet, aes(y=Income, x=Total_Campains)) + geom_jitter() 
+income_childs_plot + ylim(0, 100000)
+ggplot(trainingSet, aes(x=Total_Campains)) + geom_histogram(aes(fill=Income_range), binwidth = 0.5, colour = "Black") + facet_grid(Income_range~.) + xlab("Number of different Campain")
+#--------------------------- 
 
 
 
