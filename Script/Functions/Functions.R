@@ -18,3 +18,14 @@ multiple.func <- function(x) {
     median=median(x), range=range(x))
 }
 
+
+
+calculateBreaksFromSummary <- function(col){
+  breaks = c(summary(col)["Min."],
+             summary(col)["1st Qu."], 
+             summary(col)["Mean"],
+             summary(col)["3rd Qu."],
+             summary(col)["Max."])
+  
+  return(breaks)
+}

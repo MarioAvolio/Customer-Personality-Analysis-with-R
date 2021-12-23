@@ -5,11 +5,39 @@
 ########################################################################
 source(paste(getwd(),"/Script/DataPreprocessing.R",sep = "")) 
 
+# Age Range
 ageRange <- cut(trainingSet$Age, breaks = c(24, 64, Inf), include.lowest = T, ordered_result = T, labels = c("Adult", "Senior"))
 trainingSet <- mutate(trainingSet, Age_range = ageRange)
 
-incomeRange <- cut(trainingSet$Income, breaks = c(0, 20000, 40000, 60000, 100000, Inf), labels = c("low", "low medium", "medium", "high-medium", "high"))
+
+
+# Income Range
+incomeRange <- cut(trainingSet$Income, 
+                  calculateBreaksFromSummary(trainingSet$Income),
+                  labels = c("low", "low medium", "medium high", "high"))
 trainingSet <- mutate(trainingSet, Income_range = incomeRange)
+
+
+# SpentRange
+spentRange <- cut(trainingSet$Total_spent, 
+                  calculateBreaksFromSummary(trainingSet$Total_spent),
+                   labels = c("low", "low medium", "medium high", "high"))
+trainingSet <- mutate(trainingSet, Spent_range = spentRange)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -71,345 +99,122 @@ ggplot(trainingSet, aes(x=Age, y=Total_Childs, colour=Marital_Status, size=Incom
 ########################################################################
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ########################################################################
 #                                                                      #
 #                        TOTAL SPENT ANALYSIS                          #
 #                                                                      #
 ########################################################################
 
-ggplot(trainingSet, aes(x=Total_spent)) + geom_histogram(binwidth = 1, colour = "Black")
-
+ggplot(trainingSet, aes(x=Total_spent)) + geom_histogram(binwidth = 15, colour = "Black")
 #NOTE: most people spend less than 500
 
-#--------------------------- Age
-#--------Hist:
-age_total_spent_histogram <- ggplot(trainingSet, aes(x=Total_spent)) + geom_histogram(aes(fill=Age_range), binwidth = 1, colour = "Black")
-age_total_spent_histogram + facet_grid(Age_range~.)
 
-#--------Jitter:
-ggplot(trainingSet, aes(y=Age, x=Total_spent)) + geom_jitter() 
+# Create dataAcceptedCmp
+dataTotalSpent <- data.frame(
+  name = c("MntWines", "MntFruits", "MntMeatProducts", "MntFishProducts", "MntSweetProducts", "MntGoldProds"),  
+  value = c(sum(trainingSet$MntWines), sum(trainingSet$MntFruits), sum(trainingSet$MntMeatProducts),
+            sum(trainingSet$MntFishProducts), sum(trainingSet$MntSweetProducts), sum(trainingSet$MntGoldProds))
+)
+
+# Barplot
+ggplot(dataTotalSpent, aes(x=name, y=value)) + 
+  geom_bar(stat = "identity", color = "Black") + xlab("Total Spent for each type")  
+
+
+
+#--------------------------- Age
+age_total_spent_histogram <- ggplot(trainingSet, aes(x=Total_spent)) + facet_grid(Age_range~.) 
+age_total_spent_histogram + geom_histogram(aes(fill=Age_range), binwidth = 15, color="Black")
+age_total_spent_histogram + geom_density(aes(fill=Age_range), position = "Stack")
 
 #NOTE: most people spend less than 500 especially from 30 years to 75 years.
 #- individuals under 25, on the other hand, generally spend a total that is greater than 500.
+#--------------------------- 
+
+
+
+
 
 #--------------------------- Marital_Status
-#--------Hist:
-marital_status_total_spent_histogram <- ggplot(trainingSet, aes(x=Total_spent)) + geom_histogram(aes(fill=Marital_Status), binwidth = 1, colour = "Black")
-marital_status_total_spent_histogram + facet_grid(Marital_Status~.)
-
-#--------Jitter:
-ggplot(trainingSet, aes(y=Marital_Status, x=Total_spent)) + geom_jitter() 
+marital_status_total_spent_histogram <- ggplot(trainingSet, aes(x=Total_spent)) + facet_grid(Marital_Status~.) 
+marital_status_total_spent_histogram + geom_histogram(aes(fill=Marital_Status), binwidth = 15, colour = "Black")
+marital_status_total_spent_histogram + geom_density(aes(fill=Marital_Status), position = "Stack")
 
 #NOTE: In this case they look similar. the majority of couples spend a total that is less than 500. 
 #- The situation in single is a little more relaxed it will be that most of the individuals 
 #- in the dataset are couple
+#--------------------------- 
+
+
+
+
+
+
 
 #--------------------------- Education
-#--------Hist:
-education_total_spent_histogram <- ggplot(trainingSet, aes(x=Total_spent)) + geom_histogram(aes(fill=Education), binwidth = 1, colour = "Black")
-education_total_spent_histogram + facet_grid(Education~.)
-
-#--------Jitter:
-ggplot(trainingSet, aes(y=Education, x=Total_spent)) + geom_jitter() 
+education_total_spent_histogram <- ggplot(trainingSet, aes(x=Total_spent)) + facet_grid(Education~.)
+education_total_spent_histogram + geom_histogram(aes(fill=Education), binwidth = 15, colour = "Black")
+education_total_spent_histogram + geom_density(aes(fill=Education), position = "Stack")
 
 #NOTE:
 # - Graduate generally spend more than non-graduate. the majority of non-graduate
 #- spend from 0 to 1500. from 1500 there are more cases of graduates than non-graduate
+#--------------------------- 
+
+
+
+#--------------------------- Children
+education_total_spent_histogram <- ggplot(trainingSet, aes(x=Total_spent)) + facet_grid(Total_Childs~.)
+education_total_spent_histogram + geom_histogram(aes(fill=Total_Childs), binwidth = 15, colour = "Black")
+education_total_spent_histogram + geom_density(aes(fill=Total_Childs), position = "Stack")
+#--------------------------- 
+
+
 
 #--------------------------- Income
-#--------Hist:
-income_total_spent_histogram <- ggplot(trainingSet, aes(x=Total_spent)) + geom_histogram(aes(fill=Income_range), binwidth = 1, colour = "Black")
+income_total_spent_histogram <- ggplot(trainingSet, aes(x=Total_spent)) + geom_histogram(aes(fill=Income_range), binwidth = 15, colour = "Black")
 income_total_spent_histogram + facet_grid(Income_range~.)
-#--------Jitter:
-ggplot(trainingSet, aes(y=Income, x=Total_spent)) + geom_jitter() 
-
+ggplot(trainingSet, aes(y=Income, x=Total_spent)) + geom_jitter() + geom_smooth()
+#--------------------------- 
 
 ggplot(trainingSet, aes(x=Total_spent, y=Income, colour=Marital_Status, size=Income)) + 
   facet_grid(Marital_Status~Education) + 
-  geom_jitter() 
+  geom_jitter() + ylim(0,100000) + geom_smooth()
 
 
-########################################################################
 
-####################################/MntWines\##########################
 
-ggplot(trainingSet, aes(x=MntWines)) + geom_histogram(binwidth = 0.5, colour = "Black")
 
-#NOTE: most people spend less than 500
 
-#--------------------------- Age
-#--------Hist:
 
-age_wine_amnt_histogram <- ggplot(trainingSet, aes(x=MntWines)) + geom_histogram(aes(fill=Age_range), binwidth = 1, colour = "Black")
-age_wine_amnt_histogram + facet_grid(Age_range~.)
 
-#--------Jitter:
-ggplot(trainingSet, aes(y=Age, x=MntWines)) + geom_jitter() 
 
-#NOTE: Adults spend less than senior for wines.
 
-#--------------------------- Marital_Status
-#--------Hist:
-marital_status_wine_amnt_histogram <- ggplot(trainingSet, aes(x=MntWines)) + geom_histogram(aes(fill=Marital_Status), binwidth = 1, colour = "Black")
-marital_status_wine_amnt_histogram + facet_grid(Marital_Status~.)
 
-#--------Jitter:
-ggplot(trainingSet, aes(y=Marital_Status, x=MntWines)) + geom_jitter() 
 
-#NOTE: Couples spend less than single for wines.
-
-#--------------------------- Education
-#--------Hist:
-education_wine_amnt_histogram <- ggplot(trainingSet, aes(x=MntWines)) + geom_histogram(aes(fill=Education), binwidth = 1, colour = "Black")
-education_wine_amnt_histogram + facet_grid(Education~.)
-
-#--------Jitter:
-ggplot(trainingSet, aes(y=Education, x=MntWines)) + geom_jitter() 
-
-#NOTE:
-# - Graduate generally spend more than non-graduate. the majority of non-graduate
-#- spend from 0 to 1500. from 1500 there are more cases of graduates than non-graduate
-
-#Income
-#--------Hist:
-income_wine_amnt_histogram <- ggplot(trainingSet, aes(x=MntWines)) + geom_histogram(aes(fill=Income_range), binwidth = 1, colour = "Black")
-income_wine_amnt_histogram + facet_grid(Income_range~.)
-#--------Jitter:
-ggplot(trainingSet, aes(y=Income, x=MntWines)) + geom_jitter() 
-
-
-ggplot(trainingSet, aes(x=MntWines, y=Income, colour=Marital_Status, size=Income)) + 
-  facet_grid(Marital_Status~Education) + 
-  geom_jitter() 
-
-
-########################################################################
-
-
-
-####################################/MntFruits\##########################
-
-ggplot(trainingSet, aes(x=MntFruits)) + geom_histogram(binwidth = 0.5, colour = "Black")
-
-#NOTE: most people spend less than 25 for fruits.
-
-#--------------------------- Age
-
-#--------Hist:
-
-age_fruits_amnt_histogram <- ggplot(trainingSet, aes(x=MntFruits)) + geom_histogram(aes(fill=Age_range), binwidth = 1, colour = "Black")
-age_fruits_amnt_histogram + facet_grid(Age_range~.)
-
-#--------Jitter:
-ggplot(trainingSet, aes(y=Age, x=MntFruits)) + geom_jitter() 
-
-#NOTE: the majority of adults spend less than 50 for fruits but there are more adults than senior that buy  
-# higher mnt of fruits.
-
-#--------------------------- Marital_Status
-#--------Hist:
-marital_status_fruits_amnt_histogram <- ggplot(trainingSet, aes(x=MntFruits)) + geom_histogram(aes(fill=Marital_Status), binwidth = 1, colour = "Black")
-marital_status_fruits_amnt_histogram + facet_grid(Marital_Status~.)
-
-#--------Jitter:
-ggplot(trainingSet, aes(y=Marital_Status, x=MntFruits)) + geom_jitter() 
-
-#NOTE: there are more couples than singles that spend less than 50 for fruit but in majority
-# couples spend more than singles for fruit. 
-
-#--------------------------- Education
-#--------Hist:
-education_fruits_amnt_histogram <- ggplot(trainingSet, aes(x=MntFruits)) + geom_histogram(aes(fill=Education), binwidth = 1, colour = "Black")
-education_fruits_amnt_histogram + facet_grid(Education~.)
-
-#--------Jitter:
-ggplot(trainingSet, aes(y=Education, x=MntFruits)) + geom_jitter() 
-
-#NOTE:
-# - Graduate generally spend more than non-graduate. the majority of non-graduate
-
-#--------------------------- Income
-#--------Hist:
-income_fruits_amnt_histogram <- ggplot(trainingSet, aes(x=MntFruits)) + geom_histogram(aes(fill=Income_range), binwidth = 1, colour = "Black")
-income_fruits_amnt_histogram + facet_grid(Income_range~.)
-#--------Jitter:
-ggplot(trainingSet, aes(y=Income, x=MntFruits)) + geom_jitter() 
-
-
-ggplot(trainingSet, aes(x=MntFruits, y=Income, colour=Marital_Status, size=Income)) + 
-  facet_grid(Marital_Status~Education) + 
-  geom_jitter() 
-
-
-########################################################################
-
-
-
-####################################/MntMeat\##########################
-
-ggplot(trainingSet, aes(x=MntMeatProducts)) + geom_histogram(binwidth = 0.5, colour = "Black")
-
-#NOTE: 
-
-#--------------------------- Age
-#--------Hist:
-
-age_meat_amnt_histogram <- ggplot(trainingSet, aes(x=MntMeatProducts)) + geom_histogram(aes(fill=Age_range), binwidth = 1, colour = "Black")
-age_meat_amnt_histogram + facet_grid(Age_range~.)
-
-#--------Jitter:
-ggplot(trainingSet, aes(y=Age, x=MntMeatProducts)) + geom_jitter() 
-
-#NOTE: 
-
-#--------------------------- Marital_Status
-#--------Hist:
-marital_status_meat_amnt_histogram <- ggplot(trainingSet, aes(x=MntMeatProducts)) + geom_histogram(aes(fill=Marital_Status), binwidth = 1, colour = "Black")
-marital_status_meat_amnt_histogram + facet_grid(Marital_Status~.)
-
-#--------Jitter:
-ggplot(trainingSet, aes(y=Marital_Status, x=MntMeatProducts)) + geom_jitter() 
-
-#NOTE:
-
-#--------------------------- Education
-#--------Hist:
-education_meat_amnt_histogram <- ggplot(trainingSet, aes(x=MntMeatProducts)) + geom_histogram(aes(fill=Education), binwidth = 1, colour = "Black")
-education_meat_amnt_histogram + facet_grid(Education~.)
-
-#--------Jitter:
-ggplot(trainingSet, aes(y=Education, x=MntMeatProducts)) + geom_jitter() 
-
-#NOTE:
-
-#--------------------------- Income
-#--------Hist:
-income_meat_amnt_histogram <- ggplot(trainingSet, aes(x=MntMeatProducts)) + geom_histogram(aes(fill=Income_range), binwidth = 1, colour = "Black")
-income_meat_amnt_histogram + facet_grid(Income_range~.)
-#--------Jitter:
-ggplot(trainingSet, aes(y=Income, x=MntMeatProducts)) + geom_jitter() 
-
-
-ggplot(trainingSet, aes(x=MntMeatProducts, y=Income, colour=Marital_Status, size=Income)) + 
-  facet_grid(Marital_Status~Education) + 
-  geom_jitter() 
-
-
-########################################################################
-
-
-####################################/MntFish##########################
-
-ggplot(trainingSet, aes(x=MntFishProducts)) + geom_histogram(binwidth = 0.5, colour = "Black")
-
-#NOTE: 
-
-#--------------------------- Age
-#--------Hist:
-
-age_fish_amnt_histogram <- ggplot(trainingSet, aes(x=MntFishProducts)) + geom_histogram(aes(fill=Age_range), binwidth = 1, colour = "Black")
-age_fish_amnt_histogram + facet_grid(Age_range~.)
-
-#--------Jitter:
-ggplot(trainingSet, aes(y=Age, x=MntFishProducts)) + geom_jitter() 
-
-#NOTE: 
-
-#--------------------------- Marital_Status
-#--------Hist:
-marital_status_fish_amnt_histogram <- ggplot(trainingSet, aes(x=MntFishProducts)) + geom_histogram(aes(fill=Marital_Status), binwidth = 1, colour = "Black")
-marital_status_fish_amnt_histogram + facet_grid(Marital_Status~.)
-
-#--------Jitter:
-ggplot(trainingSet, aes(y=Marital_Status, x=MntFishProducts)) + geom_jitter() 
-
-#NOTE:
-
-#--------------------------- Education
-#--------Hist:
-education_fish_amnt_histogram <- ggplot(trainingSet, aes(x=MntFishProducts)) + geom_histogram(aes(fill=Education), binwidth = 1, colour = "Black")
-education_fish_amnt_histogram + facet_grid(Education~.)
-
-#--------Jitter:
-ggplot(trainingSet, aes(y=Education, x=MntFishProducts)) + geom_jitter() 
-
-#NOTE:
-
-#--------------------------- Income
-
-#--------Hist:
-income_fish_amnt_histogram <- ggplot(trainingSet, aes(x=MntFishProducts)) + geom_histogram(aes(fill=Income_range), binwidth = 1, colour = "Black")
-income_fish_amnt_histogram + facet_grid(Income_range~.)
-#--------Jitter:
-ggplot(trainingSet, aes(y=Income, x=MntFishProducts)) + geom_jitter() 
-
-
-ggplot(trainingSet, aes(x=MntFishProducts, y=Income, colour=Marital_Status, size=Income)) + 
-  facet_grid(Marital_Status~Education) + 
-  geom_jitter() 
-
-
-########################################################################
-
-
-
-####################################/MntSweet\##########################
-
-ggplot(trainingSet, aes(x=MntSweetProducts)) + geom_histogram(binwidth = 0.5, colour = "Black")
-
-#NOTE: 
-
-#--------------------------- Age
-#--------Hist:
-
-age_sweet_amnt_histogram <- ggplot(trainingSet, aes(x=MntSweetProducts)) + geom_histogram(aes(fill=Age_range), binwidth = 1, colour = "Black")
-age_sweet_amnt_histogram + facet_grid(Age_range~.)
-
-#--------Jitter:
-ggplot(trainingSet, aes(y=Age, x=MntSweetProducts)) + geom_jitter() 
-
-#NOTE: 
-
-#--------------------------- Marital_Status
-#--------Hist:
-marital_status_sweet_amnt_histogram <- ggplot(trainingSet, aes(x=MntSweetProducts)) + geom_histogram(aes(fill=Marital_Status), binwidth = 1, colour = "Black")
-marital_status_sweet_amnt_histogram + facet_grid(Marital_Status~.)
-
-#--------Jitter:
-ggplot(trainingSet, aes(y=Marital_Status, x=MntSweetProducts)) + geom_jitter() 
-
-#NOTE:
-
-#--------------------------- Education
-#--------Hist:
-education_sweet_amnt_histogram <- ggplot(trainingSet, aes(x=MntSweetProducts)) + geom_histogram(aes(fill=Education), binwidth = 1, colour = "Black")
-education_sweet_amnt_histogram + facet_grid(Education~.)
-
-#--------Jitter:
-ggplot(trainingSet, aes(y=Education, x=MntSweetProducts)) + geom_jitter() 
-
-#NOTE:
-
-#--------------------------- Income
-#--------Hist:
-income_sweet_amnt_histogram <- ggplot(trainingSet, aes(x=MntSweetProducts)) + geom_histogram(aes(fill=Income_range), binwidth = 1, colour = "Black")
-income_sweet_amnt_histogram + facet_grid(Income_range~.)
-#--------Jitter:
-ggplot(trainingSet, aes(y=Income, x=MntSweetProducts)) + geom_jitter() 
-
-
-ggplot(trainingSet, aes(x=MntSweetProducts, y=Income, colour=Marital_Status, size=Income)) + 
-  facet_grid(Marital_Status~Education) + 
-  geom_jitter() 
-
-
-########################################################################
-
-
-####################################/MntGold\##########################
-
-
-########################################################################
 
 
 
@@ -424,7 +229,7 @@ ggplot(trainingSet, aes(x=Total_Campains)) + geom_histogram(binwidth = 0.5, colo
 # Create dataAcceptedCmp
 dataAcceptedCmp <- data.frame(
   name = c("cmp1", "cmp2", "cmp3", "cmp4", "cmp5") ,  
-  value = c(sum(trainingSet$c), sum(trainingSet$AcceptedCmp2), sum(trainingSet$AcceptedCmp3),
+  value = c(sum(trainingSet$AcceptedCmp1), sum(trainingSet$AcceptedCmp2), sum(trainingSet$AcceptedCmp3),
            sum(trainingSet$AcceptedCmp4), sum(trainingSet$AcceptedCmp5))
 )
 
@@ -451,14 +256,17 @@ ggplot(trainingSet, aes(x=Total_Campains)) + geom_histogram(aes(fill=Total_Child
 #--------------------------- 
 
 
+#--------------------------- Total_Childs
+ggplot(trainingSet, aes(x=Total_Campains)) + geom_histogram(aes(fill=Total_Childs), binwidth = 0.5, colour = "Black") + facet_grid(Total_Childs~.) + xlab("Number of different Campain")
+#--------------------------- 
+
+
 #--------------------------- Education
 ggplot(trainingSet, aes(x=Total_Campains)) + geom_histogram(aes(fill=Education), binwidth = 0.5, colour = "Black") + facet_grid(Education~.) + xlab("Number of different Campain")
 #--------------------------- 
 
 
 #--------------------------- Income
-income_childs_plot <- ggplot(trainingSet, aes(y=Income, x=Total_Campains)) + geom_jitter() 
-income_childs_plot + ylim(0, 100000)
 ggplot(trainingSet, aes(x=Total_Campains)) + geom_histogram(aes(fill=Income_range), binwidth = 0.5, colour = "Black") + facet_grid(Income_range~.) + xlab("Number of different Campain")
 #--------------------------- 
 
