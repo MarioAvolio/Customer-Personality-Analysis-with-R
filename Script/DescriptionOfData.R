@@ -1,3 +1,8 @@
+########################################################################
+#                                                                      #
+#                               LIBRARY                                #
+#                                                                      #
+########################################################################
 library(dplyr) # glimpse
 library(ggplot2)
 library(naniar)
@@ -6,6 +11,12 @@ library(lubridate)
 library(ggcorrplot)
 library(caTools)
 library(DataExplorer)
+########################################################################
+
+
+
+
+
 
 
 ########################################################################
@@ -15,6 +26,10 @@ library(DataExplorer)
 ######################################################################## 
 customers <- read.csv(paste(getwd(),"/Data/marketing_campaign.csv",sep = ""), header=TRUE, sep="\t",  stringsAsFactors=F) # use TAB as separator!
 ########################################################################
+
+
+
+
 
 
 

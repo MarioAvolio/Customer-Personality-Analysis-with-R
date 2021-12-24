@@ -1,63 +1,135 @@
-# PCA feature extraction
 
 # execute DataPreprocessing
-source(paste(getwd(),"/Model/DataPreprocessing.R",sep = "")) 
+source(paste(getwd(),"/Script/DataPreprocessing.R",sep = "")) 
 
-# Packages required
-# install.packages(c("FactoMineR", "factoextra"))
+########################################################################
+#                                                                      #
+#                               LIBRARY                                #
+#                                                                      #
+########################################################################
 library("FactoMineR")
 library("factoextra")
-
-# ---------------------------------- PCA START
-executePCA <- function(set, numberOfDimensions){
-  set.PCA = PCA(set, scale.unit = TRUE, ncp = numberOfDimensions, graph = FALSE)
-  eig.val <- get_eigenvalue(set.PCA)
-  print(eig.val)   
-  return(set.PCA)
-}
-
-trainingSet.PCA <- executePCA(trainingSet, 9) # 9 or 12 dimensions? TODO
-fviz_eig(trainingSet.PCA, addlabels = TRUE, ylim = c(0, 50))
+library("caret")
+########################################################################
 
 
-# ---------------------------------- VARIABLES ANALYSIS
-analyzeVariables <- function(set.PCA){
-  # • var$coord: coordinates of variables to create a scatter plot
-  # • var$cos2: represents the quality of representation for variables on the factor map.
-  # • var$contrib: contains the contributions (in percentage) of the variables to the principal
-  # components.
-  var <- get_pca_var(set.PCA)
-  cat("\n ---------------------- Coord ---------------------- \n")
-  print(var$coord)
-  cat("\n ---------------------- Cos2 ---------------------- \n")
-  print(var$cos2)
-  cat("\n ---------------------- Contrib ---------------------- \n")
-  print(var$contrib)
-}
- 
+
+
+
+
+
+
+
+
+
+
+########################################################################
+#                                                                      #
+#                           FEATURE SCALING                            #
+#                                                                      #
+########################################################################
+
+trainingSet_copy_pre <- preProcess(trainingSet[,getIndipendentNumbersOfCol()], method = c("center", "scale"))
+trainingSet_copy <- predict(trainingSet_copy_pre, trainingSet[,getIndipendentNumbersOfCol()])
+summary(trainingSet_copy)
+
+
+# trainingSet[, getIndipendentNumbersOfCol()] <- scale(trainingSet[, getIndipendentNumbersOfCol()])
+# testSet[, getIndipendentNumbersOfCol()] <- scale(testSet[, getIndipendentNumbersOfCol()])
+########################################################################
+
+
+
+
+
+
+
+
+
+
+
+########################################################################
+#                                                                      #
+#                                 PCA                                  #
+#                                                                      #
+########################################################################
+#Running a PCA.
+trainingSet_pca <- PCA(trainingSet_copy, graph = FALSE)
+
+
+#----------------------------------------------------- Exploring PCA
+# Getting the summary of the pca
+summary(trainingSet_pca)
+
+#Getting the variance of the first 9 new dimensions
+trainingSet_pca$eig[,2][1:9]
+
+#Getting the cummulative variance
+trainingSet_pca$eig[,3][1:5]
+
+#Getting the most correlated variables
+dimdesc(trainingSet_pca, axes = 1:2)
+
+# get eigenvalue
+get_eigenvalue(trainingSet_pca)
+
+# get variables and indivisuals information
+# • var$coord: coordinates of variables to create a scatter plot
+# • var$cos2: represents the quality of representation for variables on the factor map.
+# • var$contrib: contains the contributions (in percentage) of the variables to the principal
+# components.
+analyzeVariablesPCA(trainingSet_pca)
+analyzeIndividuals(trainingSet_pca)
+
+
+#Tracing variable contributions in customers_pca
+trainingSet_pca$var$contrib
+########################################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+########################################################################
+#                                                                      #
+#                            VISUALIZE PCA                             #
+#                                                                      #
+########################################################################
+fviz_eig(trainingSet_pca, addlabels = TRUE, ylim = c(0, 50))
+fviz_contrib(trainingSet_pca, choice = "var", axes = 1, top = 5)
+fviz_pca_biplot(trainingSet_pca)
+
+
+#Creating a factor map for the variable contributions
+fviz_pca_var(trainingSet_pca, col.var = "contrib", gradient.cols = c("#002bbb", "#bb2e00"), repel = TRUE)
+
+fviz_pca_var(trainingSet_pca, select.var = list(contrib = 5), col.var = "contrib", gradient.cols = c("#002bbb", "#bb2e00"), repel = TRUE)
+
+# NOTE:
 # - Positively correlated variables are grouped
-# together.
+  # together.
 # - Negatively correlated variables are
-# positioned on opposite sides of the plot
-# origin (opposed quadrants).
+  # positioned on opposite sides of the plot
+  # origin (opposed quadrants).
 # - The distance between variables and the
-# origin measures the quality of the variables.
-# Variables that are away from the origin are
-# well represented.
-fviz_pca_var(trainingSet.PCA, col.var = "black") 
-analyzeVariables(trainingSet.PCA)
+  # origin measures the quality of the variables.
+  # Variables that are away from the origin are
+  # well represented.
+
+
+
 
 
 # ---------------------------------- INDIVIDUALS ANALYSIS
-analyzeIndividuals <- function(set.PCA){
-  ind <- get_pca_ind(set.PCA)
-  cat("\n ---------------------- Coord ---------------------- \n")
-  print(ind$coord)
-  cat("\n ---------------------- Cos2 ---------------------- \n")
-  print(ind$cos2)
-  cat("\n ---------------------- Contrib ---------------------- \n")
-  print(ind$contrib)
-}
+
 
 
 # - A high cos2 indicates a good
@@ -66,26 +138,12 @@ analyzeIndividuals <- function(set.PCA){
 # - A low cos2 indicates that the individual is
 # not perfectly represented by the PCs.
 
-fviz_pca_ind(trainingSet.PCA, col.ind = "cos2",
+fviz_pca_ind(trainingSet_pca, col.ind = "cos2",
              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
-                                repel = TRUE # Avoid text overlapping (slow if many points)
-             )
+             repel = TRUE # Avoid text overlapping (slow if many points)
+)
+
+########################################################################
 
 
 
-
-trainingSet[-29 ] = scale(trainingSet[-29])
-testSet[-29] = scale(testSet[-29])
-
-#applying pca
-install.packages('caret')
-install.packages('e1071')
-library(caret)
-library(e1071)
-
-pca = prePrcess(x = trainingSet[-29], method = 'pca', pcaComp=15)
-trainingSet = predict(pca, testSet)
-trainingSet = trainingSet[c(15:1)]
-testSet = predict(pca, testSet)
-test
- 

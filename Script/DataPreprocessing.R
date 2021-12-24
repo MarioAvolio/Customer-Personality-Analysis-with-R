@@ -20,37 +20,6 @@ source(paste(getwd(),"/Script/DescriptionOfData.R",sep = ""))
 
 
 
-########################################################################
-#                                                                      #
-#                              FACTORIZE                               #
-#                                                                      #
-########################################################################
-customers$Complain<-factor(customers$Complain)
-customers$Response<-factor(customers$Response)
-
-#get the column
-df <- data.frame(date=customers$Dt_Customer)
-
-#creating a new column in df table extraxcting the year from the df$date column
-df$year <- format(as.Date(df$date, format="%d-%m-%Y"),"%Y")
-
-#assign df$year column to Dt_Customer colum
-customers$Dt_Customer<-df$year
-
-#factoring the Dt_column
-customers$Dt_Customer <- factor(customers$Dt_Customer)
-
-# remove df from memory
-remove(df)
-
-########################################################################
-
-
-
-
-
-
-
 
 
 
@@ -75,6 +44,12 @@ customers <- mutate(customers, Education = replace(Education, Education == "Basi
 
 #Converting them to factors
 customers <- mutate(customers, Marital_Status = as.factor(Marital_Status), Education = as.factor(Education))
+
+# Encoding the categorical features to numeric
+customers <- mutate(customers, Education = case_when(Education == "graduate" ~ 1,
+                                                                  Education == "non-graduate" ~ 0))
+customers <- mutate(customers, Marital_Status = case_when(Marital_Status == "Couple" ~ 1,
+                                                                       Marital_Status == "Single" ~ 0))
 # ------------------------------------- 
 
 
@@ -87,7 +62,7 @@ customers <- mutate(customers, Total_spent = MntWines + MntFruits + MntMeatProdu
 
 # Details about previous campains also combined. Creating a new variable:Total_Campains
 customers <- mutate(customers, Total_Campains = AcceptedCmp1 + AcceptedCmp2 + AcceptedCmp3 + AcceptedCmp4 + AcceptedCmp5)
-customers <- mutate(customers, Type_Of_Campains = paste(AcceptedCmp1*1, AcceptedCmp2*2, AcceptedCmp3*3, AcceptedCmp4*4, AcceptedCmp5*5, sep=", "))
+# customers <- mutate(customers, Type_Of_Campains = paste(AcceptedCmp1*1, AcceptedCmp2*2, AcceptedCmp3*3, AcceptedCmp4*4, AcceptedCmp5*5, sep=", "))
 
 
 # These variables can be combined and we can get the no of children for the customers. Creating a new variable:Total_Childs
@@ -104,7 +79,7 @@ customers <- mutate(customers, Age = thisYear - Year_Birth)
 
 
 #Dropping some redundant features
-customers <- select(customers, - ID, - Year_Birth, - Z_CostContact, - Z_Revenue)
+customers <- select(customers, - ID, - Year_Birth, - Z_CostContact, - Z_Revenue, -Dt_Customer)
 ########################################################################
 
 
@@ -149,13 +124,3 @@ testSet <- subset(customers, split == FALSE)
 
 
 
-
-
-
-
-
-
-
-# ----------------------------------  Feature Scaling - To implement? Most library implement this
-#trainingSet[, c(5,8:15)] <- scale(trainingSet[, c(5,8:15)])
-#testSet[, c(5,8:15)] <- scale(testSet[, c(5,8:15)]) # TODO
