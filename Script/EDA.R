@@ -9,6 +9,11 @@ source(paste(getwd(),"/Script/DataPreprocessing.R",sep = ""))
 ageRange <- cut(trainingSet$Age, breaks = c(24, 64, Inf), include.lowest = T, ordered_result = T, labels = c("Adult", "Senior"))
 trainingSet <- mutate(trainingSet, Age_range = ageRange)
 
+ggplot(trainingSet, aes(x="", fill=ageRange))+
+  geom_bar(width = 1)+
+  coord_polar("y")+theme_void()
+
+#looking the pie chart is clear that the majory are adult. 
 
 
 # Income Range
@@ -17,6 +22,11 @@ incomeRange <- cut(trainingSet$Income,
                   labels = c("low", "low medium", "medium high", "high"))
 trainingSet <- mutate(trainingSet, Income_range = incomeRange)
 
+ggplot(trainingSet, aes(x="", fill=incomeRange))+
+  geom_bar(width = 1)+
+  coord_polar("y")+theme_void()
+
+# looking the pie chart the quantity are very similiar.
 
 # SpentRange
 spentRange <- cut(trainingSet$Total_spent, 
@@ -24,16 +34,11 @@ spentRange <- cut(trainingSet$Total_spent,
                    labels = c("low", "low medium", "medium high", "high"))
 trainingSet <- mutate(trainingSet, Spent_range = spentRange)
 
+ggplot(trainingSet, aes(x="", fill=spentRange))+
+  geom_bar(width = 1)+
+  coord_polar("y")+theme_void()
 
-
-
-
-
-
-
-
-
-
+# looking the pie chart the quantity of people who spend low is equal to high
 
 
 
@@ -264,8 +269,8 @@ ggplot(trainingSet, aes(x=Total_Campains)) + geom_histogram(aes(fill=Total_Child
 #--------------------------- 
 
 
-#--------------------------- Total_Childs
-ggplot(trainingSet, aes(x=Total_Campains)) + geom_histogram(aes(fill=Total_Childs), binwidth = 0.5, colour = "Black") + facet_grid(Total_Childs~.) + xlab("Number of different Campain")
+#--------------------------- Total_spent
+ggplot(trainingSet, aes(x=Total_Campains)) + geom_histogram(aes(fill=Total_spent), binwidth = 0.5, colour = "Black") + facet_grid(Total_Childs~.) + xlab("Number of different Campain")
 #--------------------------- 
 
 
