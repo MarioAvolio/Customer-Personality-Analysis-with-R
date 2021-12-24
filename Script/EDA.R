@@ -198,16 +198,24 @@ education_total_spent_histogram + geom_density(aes(fill=Total_Childs), position 
 income_total_spent_histogram <- ggplot(trainingSet, aes(x=Total_spent)) + geom_histogram(aes(fill=Income_range), binwidth = 15, colour = "Black")
 income_total_spent_histogram + facet_grid(Income_range~.)
 ggplot(trainingSet, aes(y=Income, x=Total_spent)) + geom_jitter() + geom_smooth()
+
 #--------------------------- 
 
 ggplot(trainingSet, aes(x=Total_spent, y=Income, colour=Marital_Status, size=Income)) + 
   facet_grid(Marital_Status~Education) + 
-  geom_jitter() + ylim(0,100000) + geom_smooth()
+  geom_jitter() + ylim(0,100000) + geom_smooth() + geom_boxplot(size=0.7, alpha=0.5)
 
 
+ggplot(trainingSet, aes(x=Total_spent, y=Income, colour=Total_Childs, size=Income)) + 
+  facet_grid(Total_Childs~Education) + 
+  geom_jitter() + ylim(0,100000) + geom_smooth() + geom_boxplot(size=0.7, alpha=0.5)
 
 
+ggplot(trainingSet, aes(x=Total_spent, y=Income, colour=Age_range, size=Income)) + 
+  facet_grid(Age_range~Education) + 
+  geom_jitter() + ylim(0,100000) + geom_smooth() + geom_boxplot(size=0.7, alpha=0.5)
 
+########################################################################
 
 
 
@@ -280,100 +288,6 @@ ggplot(trainingSet, aes(x=Total_Campains)) + geom_histogram(aes(fill=Income_rang
 
 
 
-
-
-
-
-
-
-
-########################################################################
-#                                                                      #
-#               RELATION BETWEEN AGE AND MNT OF THINGS                 #
-#                                                                      #
-########################################################################
-
-
-
-
-
-# -------------------------------- TODO: ? QUESTA ROBA ANDREBBE TOLTA - USARE GGPLOT E TRAININGSET
-
-
-
-plot(data=customers, aes(x=MntWines)) + geom_density(aes(fill=Marital_Status), position = "stack")
-
-plot(data = customers, customers$Age, customers$MntWines, main="Correlation between Age and Amount spent in Wine", xlab="Age", ylab="Amnt Wine")
-
-plot(density(customers$MntFruits))
-plot(customers$Age, customers$MntFruits, main="Correlation between Age and Amount spent in fruit", xlab="Age", ylab="Amnt fruit")
-
-plot(density(customers$MntMeatProducts))
-plot(customers$Age, customers$MntMeatProducts, main="Correlation between Age and Amount spent in meat", xlab="Age", ylab="Amnt meat")
-
-plot(density(customers$MntFishProducts))
-plot(customers$Age, customers$MntFishProducts, main="Correlation between Age and Amount spent in fish", xlab="Age", ylab="Amnt fish")
-
-plot(density(customers$MntSweetProducts))
-plot(customers$Age, customers$MntSweetProducts, main="Correlation between Age and Amount spent in sweet", xlab="Age", ylab="Amnt sweet")
-
-
-
-#altre prove di plot, plot lineare (prove)
-plot(customers$Age, customers$MntWines, type = "l")                                
-lines(customers$Age, customers$MntFruits, type = "l", col = "red")                 
-lines(customers$Age, customers$MntMeatProducts, type = "l", col = "green")                 
-lines(customers$Age, customers$MntFishProducts, type = "l", col = "blue") 
-lines(customers$Age, customers$MntSweetProducts, type = "l", col = "purple") 
-
-cordata = customers[,c('MntWines', 'MntFruits', 'MntMeatProducts','MntFishProducts', 'MntSweetProducts')]
-
-corr <- round(cor(cordata), 1)
-
-corr
-#the density plots and normal plots of Mnt are very similar so we can consider an unique variable
-
-customers$Amount_Spent <- customers$MntWines + customers$MntFishProducts + customers$MntFruits +
-  customers$MntGoldProds + customers$MntMeatProducts + customers$MntSweetProducts
-
-#RELATION BEETWEEN AGE AND NUM OF THINGS:
-
-plot(density(customers$Age))
-
-plot(customers$Age, customers$NumDealsPurchases, main="Correlation between Age and Num DealsPurchases", xlab="Age", ylab="Num DealsPurchases")
-plot(density(customers$NumDealsPurchases))
-
-plot(customers$Age, customers$NumWebPurchases, main="Correlation between Age and Num WebPurchases", xlab="Age", ylab="Num WebPurchases")
-plot(density(customers$NumWebPurchases))
-
-plot(customers$Age, customers$NumCatalogPurchases, main="Correlation between Age and Num CatalogPurchases", xlab="Age", ylab="Num CatalogPurchases")
-plot(density(customers$NumCatalogPurchases))
-
-plot(customers$Age, customers$NumStorePurchases, main="Correlation between Age and Num StorePurchases", xlab="Age", ylab="Num StorePurchases")
-plot(density(customers$NumStorePurchases))
-
-#(prove)
-plot(customers$Age, customers$NumDealsPurchases, type = "l")                                 
-lines(customers$Age, customers$NumWebPurchases, type = "l", col = "red")                   
-lines(customers$Age, customers$NumCatalogPurchases, type = "l", col = "green")            
-lines(customers$Age, customers$NumStorePurchases, type = "l", col = "blue") 
-
-legend("topleft",                                       # Add legend to plot
-       legend = c("NumDealsPurchases", "NumWebPurchases", "NumCatalogPurchases", "NumStorePurchases"),
-       col = c("black", "red", "green", "blue"),
-       lty = 1)
-
-#correlation
-cordata = customers[,c("NumDealsPurchases", "NumWebPurchases", "NumCatalogPurchases", "NumStorePurchases")]
-
-#APM= A stands for Age, PM for payment method
-corrAPM <- round(cor(cordata), 1)
-
-corrAPM
-
-
-
-
 ########################################################################
 #                                                                      #
 #                                 MREPORT                              #
@@ -386,6 +300,12 @@ corrAPM
 
 
 
+
+
+
+
+
+
 ########################################################################
 #                                                                      #
 #                           REMOVE TMP DATA                            #
@@ -393,6 +313,7 @@ corrAPM
 ########################################################################
 trainingSet <- select(trainingSet, -Age_range)
 trainingSet <- select(trainingSet, -Income_range)
+########################################################################
 
 
 
