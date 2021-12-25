@@ -25,38 +25,13 @@ library("caret")
 
 ########################################################################
 #                                                                      #
-#                           FEATURE SCALING                            #
-#                                                                      #
-########################################################################
-
-trainingSet_copy_pre <- preProcess(trainingSet[,getIndipendentNumbersOfCol()], method = c("center", "scale"))
-trainingSet_copy <- predict(trainingSet_copy_pre, trainingSet[,getIndipendentNumbersOfCol()])
-summary(trainingSet_copy)
-
-
-# trainingSet[, getIndipendentNumbersOfCol()] <- scale(trainingSet[, getIndipendentNumbersOfCol()])
-# testSet[, getIndipendentNumbersOfCol()] <- scale(testSet[, getIndipendentNumbersOfCol()])
-########################################################################
-
-
-
-
-
-
-
-
-
-
-
-########################################################################
-#                                                                      #
 #                                 PCA                                  #
 #                                                                      #
 ########################################################################
 #Running a PCA.
 trainingSet_pca <- PCA(trainingSet_copy, graph = FALSE)
 
-
+?PCA
 #----------------------------------------------------- Exploring PCA
 # Getting the summary of the pca
 summary(trainingSet_pca)
