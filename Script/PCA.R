@@ -84,9 +84,9 @@ fviz_pca_biplot(trainingSet_pca)
 
 
 #Creating a factor map for the variable contributions
-fviz_pca_var(trainingSet_pca, col.var = "contrib", gradient.cols = c("#002bbb", "#bb2e00"), repel = TRUE)
+fviz_pca_var(trainingSet_pca, col.var = "contrib", repel = TRUE)
 
-fviz_pca_var(trainingSet_pca, select.var = list(contrib = 5), col.var = "contrib", gradient.cols = c("#002bbb", "#bb2e00"), repel = TRUE)
+fviz_pca_var(trainingSet_pca, select.var = list(contrib = 5), col.var = "contrib", repel = TRUE)
 
 # NOTE:
 # - Positively correlated variables are grouped
