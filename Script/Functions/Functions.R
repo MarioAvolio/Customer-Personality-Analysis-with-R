@@ -53,9 +53,9 @@ calculateBreaksFromSummary <- function(col){
 
 
 
-getNumberOfColFromName <- function(name)
+getNumberOfColFromName <- function(name, dataset=customers)
 {
-  return(match(name,names(customers)))
+  return(match(name,names(dataset)))
 }
 
 
@@ -65,12 +65,12 @@ getNumberOfColFromName <- function(name)
 
 
 
-getIndipendentNumbersOfCol <- function()
+getIndipendentNumbersOfCol <- function(data=customers)
 {
-   return(c(- getNumberOfColFromName("Education"), - getNumberOfColFromName("Marital_Status"), 
-           - getNumberOfColFromName("AcceptedCmp3"), - getNumberOfColFromName("AcceptedCmp4"), - getNumberOfColFromName("AcceptedCmp5"),
-           - getNumberOfColFromName("AcceptedCmp1"), - getNumberOfColFromName("AcceptedCmp2"), - getNumberOfColFromName("Complain"),
-           - getNumberOfColFromName("Response"), - getNumberOfColFromName("Kidhome"), - getNumberOfColFromName("Teenhome") )) 
+  return(c(- getNumberOfColFromName("Education", data), - getNumberOfColFromName("Marital_Status", data), 
+           - getNumberOfColFromName("AcceptedCmp3", data), - getNumberOfColFromName("AcceptedCmp4", data), - getNumberOfColFromName("AcceptedCmp5", data),
+           - getNumberOfColFromName("AcceptedCmp1", data), - getNumberOfColFromName("AcceptedCmp2", data), - getNumberOfColFromName("Complain", data),
+           - getNumberOfColFromName("Response", data), - getNumberOfColFromName("Kidhome", data), - getNumberOfColFromName("Teenhome", data) )) 
 }
 
 

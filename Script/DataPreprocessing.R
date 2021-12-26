@@ -24,6 +24,14 @@ source(paste(getwd(),"/Script/DescriptionOfData.R",sep = ""))
 
 
 
+
+
+
+
+
+
+
+
 ########################################################################
 #                                                                      #
 #                           REFACTOR customers                         #
@@ -90,6 +98,16 @@ customers <- select(customers, - ID, - Year_Birth, - Z_CostContact, - Z_Revenue,
 
 
 
+
+
+
+
+
+
+
+
+
+
 ########################################################################
 #                                                                      #
 #                   SOLVING MISSING DATA INTO INCOME                   #
@@ -100,6 +118,14 @@ customers$Income <- ifelse(is.na(customers$Income), # is.na check is a value is 
                           customers$Income # else
 ) 
 ########################################################################
+
+
+
+
+
+
+
+
 
 
 
@@ -127,6 +153,14 @@ testSet <- subset(customers, split == FALSE)
 
 
 
+
+
+
+
+
+
+
+
 ########################################################################
 #                                                                      #
 #                           FEATURE SCALING                            #
@@ -136,7 +170,7 @@ testSet <- subset(customers, split == FALSE)
 trainingSet_copy_pre <- preProcess(trainingSet[,getIndipendentNumbersOfCol()], method = c("center", "scale"), thresh = 0.70)
 trainingSet_copy <- predict(trainingSet_copy_pre, trainingSet[,getIndipendentNumbersOfCol()])
 summary(trainingSet_copy)
-
+remove(trainingSet_copy_pre)
 ?preProcess
 
 # trainingSet[, getIndipendentNumbersOfCol()] <- scale(trainingSet[, getIndipendentNumbersOfCol()])
