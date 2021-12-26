@@ -108,25 +108,6 @@ ggplot(trainingSet, aes(x=Age, y=Total_Childs, colour=Marital_Status, size=Incom
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ########################################################################
 #                                                                      #
 #                        TOTAL SPENT ANALYSIS                          #
@@ -238,6 +219,8 @@ ggplot(trainingSet, aes(x=Total_spent, y=Income, colour=Age_range, size=Income))
 ########################################################################
 ggplot(trainingSet, aes(x=Total_Campains)) + geom_histogram(binwidth = 0.5, colour = "Black") + xlab("Number of different Campain")
 
+#NOTE: the majority didn't accept any campaign.   
+# the number of people who accepted 0 campaign is 3 times more than people who accepted 1 campaign.
 
 # Create dataAcceptedCmp
 dataAcceptedCmp <- data.frame(
@@ -250,37 +233,52 @@ dataAcceptedCmp <- data.frame(
 ggplot(dataAcceptedCmp, aes(x=name, y=value)) + 
   geom_bar(stat = "identity", color = "Black")  
 
+#NOTE: the campaign 4 is the most accepted. the less accepted is the campaign.
+# the 3rd and 5th campaign are equally  accepted.
 
 
 #--------------------------- Age
-ggplot(trainingSet, aes(x=Total_Campains)) + geom_histogram(aes(fill=Age_range), binwidth = 0.5, colour = "Black") + facet_grid(Age_range~.) + xlab("Number of different Campain")
+ggplot(trainingSet, aes(x=Total_Campains)) + geom_histogram(aes(fill=Age_range), binwidth = 0.5, colour = "Black") + facet_grid(Age_range~.) + xlab("Number of campaign accepted ")
+
+#NOTE: it is evident that the majority of individuals, not distinguishing
+# between adults and seniors have accepted 0 campaigns.
+
 #--------------------------- 
 
 
 
-#--------------------------- Marital_Status
-ggplot(trainingSet, aes(x=Total_Campains)) + geom_histogram(aes(fill=Marital_Status), binwidth = 0.5, colour = "Black") + facet_grid(Marital_Status~.) + xlab("Number of different Campain")
+#--------------------------- Marital_Status (X)
+ggplot(trainingSet, aes(x=Total_Campains)) + geom_histogram(aes(fill=Marital_Status), binwidth = 0.5, colour = "Black") + facet_grid(Marital_Status~.) + xlab("Number of campaign accepted")
+
+
+#NOTE: 
 #--------------------------- 
 
 
 
 #--------------------------- Total_Childs
-ggplot(trainingSet, aes(x=Total_Campains)) + geom_histogram(aes(fill=Total_Childs), binwidth = 0.5, colour = "Black") + facet_grid(Total_Childs~.) + xlab("Number of different Campain")
+ggplot(trainingSet, aes(x=Total_Campains)) + geom_histogram(aes(fill=Total_Childs), binwidth = 0.5, colour = "Black") + facet_grid(Total_Childs~.) + xlab("Number of campaign accepted")
+
+#NOTE: most instances for which the number of children is 0 have not accepted any campaigns. the values for families with 0 and with 1 child are very similar.
+# In the other cases, families with 2 or 3 children, 0 accepted campaigns prevails. 
+
 #--------------------------- 
 
 
-#--------------------------- Total_spent
-ggplot(trainingSet, aes(x=Total_Campains)) + geom_histogram(aes(fill=Total_spent), binwidth = 0.5, colour = "Black") + facet_grid(Total_Childs~.) + xlab("Number of different Campain")
+#--------------------------- Total_spent (X)
+ggplot(trainingSet, aes(x=Total_Campains)) + geom_histogram(aes(fill=Total_spent), binwidth = 0.5, colour = "Black") + facet_grid(Total_spent~.) + xlab("Number of campaign accepted")
 #--------------------------- 
 
 
-#--------------------------- Education
-ggplot(trainingSet, aes(x=Total_Campains)) + geom_histogram(aes(fill=Education), binwidth = 0.5, colour = "Black") + facet_grid(Education~.) + xlab("Number of different Campain")
+#--------------------------- Education (X)
+ggplot(trainingSet, aes(x=Total_Campains)) + geom_histogram(aes(fill=Education), binwidth = 0.5, colour = "Black") + facet_grid(Education~.) + xlab("Number of campaign accepted")
 #--------------------------- 
 
 
 #--------------------------- Income
-ggplot(trainingSet, aes(x=Total_Campains)) + geom_histogram(aes(fill=Income_range), binwidth = 0.5, colour = "Black") + facet_grid(Income_range~.) + xlab("Number of different Campain")
+ggplot(trainingSet, aes(x=Total_Campains)) + geom_histogram(aes(fill=Income_range), binwidth = 0.5, colour = "Black") + facet_grid(Income_range~.) + xlab("Number of campaign accepted")
+
+#NOTE:  higher the income, the less is the number of instances that accept 0 campaigns, while the number of acceptances for 2, 3 and 4 campaigns increases.
 #--------------------------- 
 
 
