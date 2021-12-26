@@ -45,7 +45,7 @@ fviz_nbclust(trainingSet,kmeans,method="wss")+geom_vline(xintercept=2,linetype=2
 k <- 2:10
 avg_sil <- sapply(k, silhouette_score)
 plot(k, type='b', avg_sil, xlab='Number of clusters', ylab='Average Silhouette Scores', frame=FALSE)
-avg_sil # <------ 0.6468039 0.6021632
+avg_sil # <------ 0.6468039 > 0.6021632
 
 # OR
 fviz_nbclust(trainingSet, kmeans, method="silhouette")
@@ -68,6 +68,7 @@ fviz_cluster(kmeans, trainingSet, geom = "point",ellipse.type = "norm",repel = T
 
 
 
+trainingSet <- mutate(cluster = as.factor(kmeans$cluster))
 
 
 
