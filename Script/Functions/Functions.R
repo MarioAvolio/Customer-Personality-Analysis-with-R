@@ -108,3 +108,15 @@ analyzeIndividuals <- function(set.PCA){
   cat("\n ---------------------- Contrib ---------------------- \n")
   print(ind$contrib)
 }
+
+
+########################################################################
+#                                                                      #
+#                              SILHOUETTE                              #
+#                                                                      #
+########################################################################
+silhouette_score <- function(k, df=trainingSet){
+  km <- kmeans(df, centers = k, nstart=25)
+  ss <- silhouette(km$cluster, dist(df))
+  mean(ss[, 3])
+}
