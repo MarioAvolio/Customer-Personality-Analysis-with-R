@@ -136,24 +136,42 @@ count(trainingSet, cluster)
 
 
 
+
 #visualizing wines
-ggplot(trainingSet, aes(MntWines)) + geom_histogram(color = "black", fill = "red") + 
-  facet_wrap(vars(cluster)) 
+wines <- ggplot(trainingSet, aes(MntWines)) + 
+   facet_grid(cluster~.) 
+
+wines + geom_histogram(color = "black", fill = "red") 
+wines + geom_density(fill="red", position = "Stack")
+
+
 
 #visualizing Income variable
-ggplot(trainingSet, aes(Income)) + geom_histogram(color = "black", fill = "green") + 
-  facet_wrap(vars(cluster)) + 
-  geom_vline(aes(xintercept=mean(Income)),color="blue", linetype="dashed", size = 1) +
+income <- ggplot(trainingSet, aes(Income))+ 
+  facet_grid(cluster~.) + 
   xlim(0,200000)
 
+income +  geom_histogram(color = "black", fill = "green")
+income + geom_density(fill="green", position = "Stack")
+
+
+
 #visualizing Total_spent
-ggplot(trainingSet, aes(Total_spent)) + geom_histogram(color = "black", fill = "purple") + facet_wrap(vars(cluster))
+ts <- ggplot(trainingSet, aes(Total_spent), colour=cluster) + facet_grid(cluster~.)
+ts + geom_histogram(color = "black", fill = "purple") 
+ts + geom_density(fill="purple", position = "Stack")
+
 
 
 #visualizing NumCatalogPurchases
-ggplot(trainingSet, aes(NumCatalogPurchases)) + geom_histogram(color = "black", fill = "blue") + facet_wrap(vars(cluster)) 
+numCatalogPurchases <- ggplot(trainingSet, aes(NumCatalogPurchases)) +  facet_grid(cluster~.)
+numCatalogPurchases + geom_histogram(color = "black", fill = "blue") 
+numCatalogPurchases + geom_density(fill="blue", position = "Stack")
+
 
 
 #visualizing meat variable
-ggplot(trainingSet, aes(MntMeatProducts)) + geom_histogram(color = "black", fill = "brown") + facet_wrap(vars(cluster))
+meat <- ggplot(trainingSet, aes(MntMeatProducts)) +  facet_grid(cluster~.)
+meat + geom_histogram(color = "black", fill = "brown") 
+meat + geom_density(fill="brown", position = "Stack")
 ########################################################################
