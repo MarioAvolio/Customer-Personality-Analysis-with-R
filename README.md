@@ -174,6 +174,10 @@ install.packages("ggplot2")
 install.packages("ggcorrplot")
 ```
 
+- seriation
+```
+install.packages("seriation")
+```
 
 ### Installation
 ```sh
