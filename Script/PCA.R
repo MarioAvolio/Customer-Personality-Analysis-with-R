@@ -25,36 +25,36 @@ library("caret")
 #                                                                      #
 ########################################################################
 #Running a PCA.
-trainingSet_pca <- PCA(trainingSet, graph = FALSE)
+pca <- PCA(trainingSet_scaled, graph = FALSE)
 
 ?PCA
 #----------------------------------------------------- Exploring PCA
 # Getting the summary of the pca
-summary(trainingSet_pca)
+summary(pca)
 
 #Getting the variance of the first 9 new dimensions
-trainingSet_pca$eig[,2][1:9]
+pca$eig[,2][1:9]
 
 #Getting the cummulative variance
-trainingSet_pca$eig[,3][1:5]
+pca$eig[,3][1:5]
 
 #Getting the most correlated variables
-dimdesc(trainingSet_pca, axes = 1:2)
+dimdesc(pca, axes = 1:2)
 
 # get eigenvalue
-get_eigenvalue(trainingSet_pca)
+get_eigenvalue(pca)
 
 # get variables and indivisuals information
 # • var$coord: coordinates of variables to create a scatter plot
 # • var$cos2: represents the quality of representation for variables on the factor map.
 # • var$contrib: contains the contributions (in percentage) of the variables to the principal
 # components.
-analyzeVariablesPCA(trainingSet_pca)
-analyzeIndividuals(trainingSet_pca)
+analyzeVariablesPCA(pca)
+analyzeIndividuals(pca)
 
 
 #Tracing variable contributions in customers_pca
-trainingSet_pca$var$contrib
+pca$var$contrib
 ########################################################################
 
 
@@ -74,15 +74,15 @@ trainingSet_pca$var$contrib
 #                            VISUALIZE PCA                             #
 #                                                                      #
 ########################################################################
-fviz_eig(trainingSet_pca, addlabels = TRUE, ylim = c(0, 50))
-fviz_contrib(trainingSet_pca, choice = "var", axes = 1, top = 5)
-fviz_pca_biplot(trainingSet_pca)
+fviz_eig(pca, addlabels = TRUE, ylim = c(0, 50))
+fviz_contrib(pca, choice = "var", axes = 1, top = 5)
+fviz_pca_biplot(pca)
 
 
 #Creating a factor map for the variable contributions
-fviz_pca_var(trainingSet_pca, col.var = "contrib", repel = TRUE)
+fviz_pca_var(pca, col.var = "contrib", repel = TRUE)
 
-fviz_pca_var(trainingSet_pca, select.var = list(contrib = 5), col.var = "contrib", repel = TRUE)
+fviz_pca_var(pca, select.var = list(contrib = 5), col.var = "contrib", repel = TRUE)
 
 # NOTE:
 # - Positively correlated variables are grouped
@@ -109,7 +109,7 @@ fviz_pca_var(trainingSet_pca, select.var = list(contrib = 5), col.var = "contrib
 # - A low cos2 indicates that the individual is
 # not perfectly represented by the PCs.
 
-fviz_pca_ind(trainingSet_pca, col.ind = "cos2",
+fviz_pca_ind(pca, col.ind = "cos2",
              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
              repel = TRUE # Avoid text overlapping (slow if many points)
 )
