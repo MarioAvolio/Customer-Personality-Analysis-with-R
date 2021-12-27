@@ -1,15 +1,25 @@
 # execute DataPreprocessing
 source(paste(getwd(),"/Script/DataPreprocessing.R",sep = "")) 
+
+
+########################################################################
+#                                                                      #
+#                               LIBRARY                                #
+#                                                                      #
+########################################################################
 library("factoextra")
-
-trainingSet <- trainingSet[, c(getNumberOfColFromName("Total_spent", trainingSet), 
-                                    getNumberOfColFromName("MntMeatProducts", trainingSet), 
-                                    getNumberOfColFromName("NumCatalogPurchases", trainingSet), 
-                                    getNumberOfColFromName("MntWines", trainingSet), 
-                                    getNumberOfColFromName("MntFishProducts", trainingSet))]
+library("cluster")
+########################################################################
 
 
-
+# trainingSet <- trainingSet[, c(getNumberOfColFromName("Total_spent", trainingSet), 
+#                                     getNumberOfColFromName("MntMeatProducts", trainingSet), 
+#                                     getNumberOfColFromName("NumCatalogPurchases", trainingSet), 
+#                                     getNumberOfColFromName("MntWines", trainingSet), 
+#                                     getNumberOfColFromName("MntFishProducts", trainingSet))]
+# 
+# 
+# 
 
 
 
@@ -45,7 +55,7 @@ fviz_nbclust(trainingSet,kmeans,method="wss")+geom_vline(xintercept=2,linetype=2
 k <- 2:10
 avg_sil <- sapply(k, silhouette_score)
 plot(k, type='b', avg_sil, xlab='Number of clusters', ylab='Average Silhouette Scores', frame=FALSE)
-avg_sil # <------ 0.6468039 > 0.6021632
+avg_sil # <<<- important
 
 # OR
 fviz_nbclust(trainingSet, kmeans, method="silhouette")
@@ -61,15 +71,17 @@ fviz_nbclust(trainingSet, kmeans, method="silhouette")
 #                                                                      #
 ########################################################################
 set.seed(29)
-kmeans <- kmeans(trainingSet, 2, nstart = 10)
-print(km.res$centers)
-fviz_cluster(kmeans, trainingSet, geom = "point",ellipse.type = "norm",repel = TRUE)
+km <- kmeans(trainingSet, 2, nstart = 10)
+print(km$centers)
+fviz_cluster(km, trainingSet, geom = "point",ellipse.type = "norm",repel = TRUE)
 ########################################################################
 
 
+cl <- km$cluster
+trainingSet <- mutate(trainingSet, cluster = cl)
 
-trainingSet <- mutate(cluster = as.factor(kmeans$cluster))
-
+#Calculating the mean for each category
+count(trainingSet, cluster)
 
 
 

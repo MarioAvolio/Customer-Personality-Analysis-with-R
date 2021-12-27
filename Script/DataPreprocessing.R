@@ -32,6 +32,13 @@ source(paste(getwd(),"/Script/DescriptionOfData.R",sep = ""))
 
 
 
+
+
+
+
+
+
+
 ########################################################################
 #                                                                      #
 #                           REFACTOR customers                         #
@@ -147,6 +154,26 @@ split <- sample.split(customers$Response, SplitRatio = 0.8)
 trainingSet <- subset(customers, split == TRUE)
 testSet <- subset(customers, split == FALSE)
 ########################################################################
+
+
+
+
+
+########################################################################
+#                                                                      #
+#                           FEATURE SCALING                            #
+#                                                                      #
+########################################################################
+
+trainingSet_copy_pre <- preProcess(trainingSet[,getIndipendentNumbersOfCol()], method = c("center", "scale"), thresh = 0.70)
+trainingSet <- predict(trainingSet_copy_pre, trainingSet[,getIndipendentNumbersOfCol()])
+summary(trainingSet)
+remove(trainingSet_copy_pre)
+
+# trainingSet[, getIndipendentNumbersOfCol()] <- scale(trainingSet[, getIndipendentNumbersOfCol()])
+# testSet[, getIndipendentNumbersOfCol()] <- scale(testSet[, getIndipendentNumbersOfCol()])
+########################################################################
+
 
 
 
