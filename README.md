@@ -179,6 +179,24 @@ install.packages("ggcorrplot")
 install.packages("seriation")
 ```
 
+- rpart
+```
+install.packages("rpart")
+```
+
+
+- tidyverse
+```
+install.packages("tidyverse")
+```
+
+
+- RColorBrewer
+```
+install.packages("RColorBrewer")
+```
+
+
 ### Installation
 ```sh
 git clone https://github.com/MarioAvolio/Customer-Personality-Analysis-with-R.git
