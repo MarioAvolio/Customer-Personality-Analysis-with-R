@@ -184,6 +184,11 @@ install.packages("seriation")
 install.packages("rpart")
 ```
 
+- rpart.plot
+```
+install.packages("rpart.plot")
+```
+
 
 - tidyverse
 ```

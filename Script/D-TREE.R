@@ -7,6 +7,7 @@ source(paste(getwd(),"/Script/DataPreprocessing.R",sep = ""))
 #                                                                      #
 ########################################################################
 library("rpart")
+library("rpart.plot")
 library("tidyverse")
 
 library("RColorBrewer")
@@ -14,7 +15,13 @@ library("RColorBrewer")
 
 ########################################################################
 
+
+#decision tree considering all variables
 decisionTree = rpart(Response ~ ., data=trainingSet, method="class")
+rpart.plot(decisionTree)
+
+
+#decision tree using the first 4 variables
 decisionTree = rpart(Response ~ Education + Marital_Status + Income + Total_Childs , data=trainingSet, method="class")
 
 rpart.plot(decisionTree)
