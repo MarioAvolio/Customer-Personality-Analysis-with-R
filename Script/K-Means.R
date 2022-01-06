@@ -120,8 +120,6 @@ dissplot(dist(trainingSet_input), labels=cl,options=list(main="Kmeans Clustering
 
 
 
-
-
 ########################################################################
 #                                                                      #
 #                               ANALISYS                               #
@@ -134,7 +132,7 @@ count(trainingSet_input, cluster)
 trainingSet <- mutate(trainingSet, cluster = cl)
 count(trainingSet, cluster)
 
-
+trainingSet
 
 
 #visualizing wines
@@ -160,6 +158,9 @@ income + geom_density(fill="green", position = "Stack")
 ts <- ggplot(trainingSet, aes(Total_spent), colour=cluster) + facet_grid(cluster~.)
 ts + geom_histogram(color = "black", fill = "purple") 
 ts + geom_density(fill="purple", position = "Stack")
+
+spentplot <- ggplot(trainingSet, aes(x=cluster,y=Total_spent,fill=cluster))+geom_boxplot(outlier.colour="black", outlier.shape=16,outlier.size=2, notch=T)
+spentplot
 
 
 
