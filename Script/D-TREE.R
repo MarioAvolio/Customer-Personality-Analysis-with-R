@@ -1,5 +1,5 @@
 # execute DataPreprocessing
-source(paste(getwd(),"/Script/DataPreprocessing.R",sep = "")) 
+source(paste(getwd(),"/Script/PCA.R",sep = "")) 
 
 ########################################################################
 #                                                                      #
@@ -17,13 +17,13 @@ library("RColorBrewer")
 
 
 #decision tree considering all variables
-decisionTreeAll = rpart(Response ~ ., data=trainingSet, method="class")
+decisionTreeAll = rpart(Response ~ ., data=trainingSet_input, method="class")
 rpart.plot(decisionTreeAll)
 
 #We can now use our decision tree model, already trained, to make a prediction on our test set
-trainingSet$Prediction1 <- predict(decisionTreeAll, trainingSet, type = "class")
+trainingSet_input$Prediction1 <- predict(decisionTreeAll, trainingSet_input, type = "class")
 
-confusion.matrix1 = table(trainingSet$Response, trainingSet$Prediction1)
+confusion.matrix1 = table(trainingSet_input$Response, trainingSet_input$Prediction1)
 
 confusion.matrix1
 
@@ -67,16 +67,16 @@ rpart.plot(prunedDecisionTreeAll)
 
 #lets see what are the changes considering the first four variables
 #decision tree using the first 4 variables
-decisionTreeFew = rpart(Response ~ Education + Marital_Status + Income + Total_Childs , data=trainingSet, method="class")
+decisionTreeFew = rpart(Response ~ Education + Marital_Status + Income + Total_Childs , data=trainingSet_input, method="class")
 
 rpart.plot(decisionTreeFew)
 
 
 
 #We can now use our decision tree model, already trained, to make a prediction on our test set
-trainingSet$Prediction2 <- predict(decisionTreeFew, trainingSet, type = "class")
+trainingSet_input$Prediction2 <- predict(decisionTreeFew, trainingSet_input, type = "class")
 
-confusion.matrix2 = table(trainingSet$Response, trainingSet$Prediction2)
+confusion.matrix2 = table(trainingSet_input$Response, trainingSet_input$Prediction2)
 
 confusion.matrix2
 

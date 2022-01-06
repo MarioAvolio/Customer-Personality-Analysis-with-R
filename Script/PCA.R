@@ -78,7 +78,6 @@ fviz_eig(pca, addlabels = TRUE, ylim = c(0, 50))
 fviz_contrib(pca, choice = "var", axes = 1, top = 5)
 fviz_pca_biplot(pca)
 
-
 #Creating a factor map for the variable contributions
 fviz_pca_var(pca, col.var = "contrib", repel = TRUE)
 
@@ -114,6 +113,10 @@ fviz_pca_ind(pca, col.ind = "cos2",
              repel = TRUE # Avoid text overlapping (slow if many points)
 )
 
+
+# ---------------------------------- Extract the principal components
+trainingSet_input <- data.frame(get_pca_ind(pca)$coord)
+# trainingset.pca <- cbind(class=trainingSet_scaled$class, trainingSet.pca.input)
 ########################################################################
 
 

@@ -1,5 +1,5 @@
 # execute DataPreprocessing
-source(paste(getwd(),"/Script/DataPreprocessing.R",sep = "")) 
+source(paste(getwd(),"/Script/PCA.R",sep = "")) 
 
 
 ########################################################################
@@ -24,14 +24,14 @@ library("cluster")
 set.seed(6)
 wcss <- vector()
 for (i in 1:10) {
-  wcss[i] <- sum(kmeans(trainingSet_scaled, i)$withinss)
+  wcss[i] <- sum(kmeans(trainingSet_input, i)$withinss)
 }
 plot(1:10, wcss, type="b", main = paste('Clusters'), xlab='Number of clusters', ylab="WCSS")
 
 
 # OR
 
-fviz_nbclust(trainingSet_scaled,kmeans,method="wss")+geom_vline(xintercept=2,linetype=2)
+fviz_nbclust(trainingSet_input,kmeans,method="wss")+geom_vline(xintercept=2,linetype=2)
 ########################################################################
 
 
@@ -57,7 +57,7 @@ plot(k, type='b', avg_sil, xlab='Number of clusters', ylab='Average Silhouette S
 avg_sil # <<<- important
 
 # OR
-fviz_nbclust(trainingSet_scaled, kmeans, method="silhouette")
+fviz_nbclust(trainingSet_input, kmeans, method="silhouette")
 ########################################################################
 
 
@@ -81,9 +81,9 @@ fviz_nbclust(trainingSet_scaled, kmeans, method="silhouette")
 #                                                                      #
 ########################################################################
 set.seed(29)
-km <- kmeans(trainingSet_scaled, 2, nstart = 10)
+km <- kmeans(trainingSet_input, 2, nstart = 10)
 print(km$centers)
-fviz_cluster(km, trainingSet_scaled, geom = "point",ellipse.type = "norm",repel = TRUE)
+fviz_cluster(km, trainingSet_input, geom = "point",ellipse.type = "norm",repel = TRUE)
 cl <- km$cluster
 ########################################################################
 
@@ -101,7 +101,7 @@ cl <- km$cluster
 #                         DISSIMILARITY MATRIX                         #
 #                                                                      #
 ########################################################################
-dissplot(dist(trainingSet_scaled), labels=cl,options=list(main="Kmeans Clustering With k=2"))
+dissplot(dist(trainingSet_input), labels=cl,options=list(main="Kmeans Clustering With k=2"))
 
 # clusters similar to each
 # other are plotted
@@ -127,9 +127,9 @@ dissplot(dist(trainingSet_scaled), labels=cl,options=list(main="Kmeans Clusterin
 #                               ANALISYS                               #
 #                                                                      #
 ########################################################################
-trainingSet_scaled <- mutate(trainingSet_scaled, cluster = cl)
+trainingSet_input <- mutate(trainingSet_input, cluster = cl)
 #Calculating the mean for each category
-count(trainingSet_scaled, cluster)
+count(trainingSet_input, cluster)
 
 trainingSet <- mutate(trainingSet, cluster = cl)
 count(trainingSet, cluster)

@@ -44,7 +44,7 @@ customers <- read.csv(paste(getwd(),"/Data/marketing_campaign.csv",sep = ""), he
 dim(customers)
 head(customers, n=6)
 glimpse(customers)
-sapply(customers, class)
+
 
 summary(customers) # most important!
 
