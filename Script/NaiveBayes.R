@@ -1,4 +1,4 @@
-source(paste(getwd(),"/Model/DataPreprocessing.R",sep = "")) # execute DataPreprocessing
+source(paste(getwd(),"/Script/DataPreprocessing.R",sep = "")) # execute DataPreprocessing
 
 trainingSet[-29]=scale(trainingSet[-29])
 testSet[-29]=scale(testSet[-29])

@@ -17,7 +17,7 @@ library("RColorBrewer")
 
 
 #decision tree considering all variables
-decisionTreeAll = rpart(Response ~ ., data=trainingSet_input, method="class")
+decisionTreeAll = rpart(trainingSet_input$Response ~ ., data=trainingSet_input, method="class")
 rpart.plot(decisionTreeAll)
 
 #We can now use our decision tree model, already trained, to make a prediction on our test set
