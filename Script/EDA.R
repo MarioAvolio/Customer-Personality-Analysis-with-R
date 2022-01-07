@@ -6,21 +6,34 @@
 source(paste(getwd(),"/Script/DataPreprocessing.R",sep = "")) 
 
 # Age Range
-ageRange <- cut(trainingSet$Age, breaks = c(24, 64, Inf), include.lowest = T, ordered_result = T, labels = c("Adult", "Senior"))
+ageRange <- cut(trainingSet$Age, breaks = c(24, 64, Inf), include.lowest = T,
+                ordered_result = T, labels = c("Adult", "Senior"))
+
 trainingSet <- mutate(trainingSet, Age_range = ageRange)
+
+# Income Range
+incomeRange <- cut(trainingSet$Income, 
+                   calculateBreaksFromSummary(trainingSet$Income),
+                   labels = c("low", "low medium", "medium high", "high"))
+
+trainingSet <- mutate(trainingSet, Income_range = incomeRange)
+
+# Spent Range
+spentRange <- cut(trainingSet$Total_spent, 
+                  calculateBreaksFromSummary(trainingSet$Total_spent),
+                  labels = c("low", "low medium", "medium high", "high"))
+
+trainingSet <- mutate(trainingSet, Spent_range = spentRange)
+
+#Age pie plot
 
 ggplot(trainingSet, aes(x="", fill=ageRange))+
   geom_bar(width = 1)+
   coord_polar("y")+theme_void()
 
-#looking the pie chart is clear that the majory are adult. 
+#looking the pie plot is clear that the majory are adult. 
 
-
-# Income Range
-incomeRange <- cut(trainingSet$Income, 
-                  calculateBreaksFromSummary(trainingSet$Income),
-                  labels = c("low", "low medium", "medium high", "high"))
-trainingSet <- mutate(trainingSet, Income_range = incomeRange)
+#Income pie plot
 
 ggplot(trainingSet, aes(x="", fill=incomeRange))+
   geom_bar(width = 1)+
@@ -28,20 +41,13 @@ ggplot(trainingSet, aes(x="", fill=incomeRange))+
 
 # looking the pie chart the quantity are very similiar.
 
-# SpentRange
-spentRange <- cut(trainingSet$Total_spent, 
-                  calculateBreaksFromSummary(trainingSet$Total_spent),
-                   labels = c("low", "low medium", "medium high", "high"))
-trainingSet <- mutate(trainingSet, Spent_range = spentRange)
+#Spent pie plot
 
 ggplot(trainingSet, aes(x="", fill=spentRange))+
   geom_bar(width = 1)+
   coord_polar("y")+theme_void()
 
 # looking the pie chart the quantity of people who spend low is equal to high
-
-
-
 
 
 
