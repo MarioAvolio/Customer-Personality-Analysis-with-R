@@ -120,3 +120,26 @@ silhouette_score <- function(k, df=trainingSet){
   ss <- silhouette(km$cluster, dist(df))
   mean(ss[, 3])
 }
+
+
+
+
+
+
+
+
+########################################################################
+#                                                                      #
+#                 Relationship Income and Consumption                  #
+#                                                                      #
+########################################################################
+
+plotRelationship <- function(product){
+  plot = trainingSet %>%
+    ggplot(aes_string(x='Income', y=product)) + 
+    geom_point() +
+    geom_smooth(aes_string(x='Income', y=product), method='gam', formula=y ~ s(x, bs = "cs")) +
+    ggtitle(paste('Scatterplot of Income and ', product)) 
+  
+  return(plot)
+}

@@ -4,12 +4,22 @@
 #                                                                      #
 ########################################################################
 source(paste(getwd(),"/Script/DataPreprocessing.R",sep = "")) 
+library(plotly)
+
+# Encoding the numeric to factor
+trainingSet <- mutate(trainingSet, Education = case_when(Education == 1 ~ "graduate",
+                                                     Education == 0 ~ "non-graduate" ))
+trainingSet <- mutate(trainingSet, Marital_Status = case_when(Marital_Status == 1 ~ "Couple",
+                                                          Marital_Status == 0 ~ "Single"))
+
 
 # Age Range
 ageRange <- cut(trainingSet$Age, breaks = c(24, 64, Inf), include.lowest = T,
                 ordered_result = T, labels = c("Adult", "Senior"))
 
 trainingSet <- mutate(trainingSet, Age_range = ageRange)
+
+
 
 # Income Range
 incomeRange <- cut(trainingSet$Income, 
@@ -25,29 +35,206 @@ spentRange <- cut(trainingSet$Total_spent,
 
 trainingSet <- mutate(trainingSet, Spent_range = spentRange)
 
-#Age pie plot
 
+########################################################################
+
+
+
+
+
+
+
+
+
+
+
+########################################################################
+#                                                                      #
+#                                PEOPLE                                #
+#                                                                      #
+########################################################################
+
+#--------------------------- Age
+#Age pie plot
 ggplot(trainingSet, aes(x="", fill=ageRange))+
   geom_bar(width = 1)+
   coord_polar("y")+theme_void()
 
-#looking the pie plot is clear that the majory are adult. 
+# Age Distribution
+ggplot(data=trainingSet) +
+  geom_histogram(mapping=aes(x=Age), binwidth=4, fill='white', color='black') +
+  geom_vline(aes(xintercept=mean(Age)), linetype='dashed', color='red', size=1.5) +
+  ggtitle('Histogram of age of trainingSet')
 
+#looking the pie plot is clear that the majory are adult. 
+#--------------------------- 
+
+
+
+#--------------------------- Education
+# Education Level
+ggplot(trainingSet, mapping=aes(x=Education, fill=Education)) + 
+  geom_bar() + 
+  ggtitle('Bar plot of education level') +
+  theme(legend.position="none")
+#--------------------------- 
+
+
+
+#--------------------------- Marital Status
+df_temp = trainingSet %>% count(Marital_Status) %>% filter(n>5)
+ggplot(df_temp,mapping=aes(x='', y=n, fill=Marital_Status)) + 
+  geom_bar(stat='identity', width=1, color='white') + 
+  coord_polar("y", start=0) +
+  ggtitle('Pie chart of marital status') +
+  theme_void() +
+  theme(plot.title=element_text(face='bold', size=30), legend.text=element_text(size=20), legend.title=element_text(size=20, face='bold'))
+#--------------------------- 
+
+
+
+#--------------------------- Income
 #Income pie plot
 
 ggplot(trainingSet, aes(x="", fill=incomeRange))+
   geom_bar(width = 1)+
   coord_polar("y")+theme_void()
 
+
+# Income boxplot for different educational levels
+
+plot = trainingSet %>%
+  ggplot(mapping=aes(x=Education, y=incomeRange, fill=Education)) +
+  geom_boxplot() + 
+  ggtitle('Box plot of income across different education levels') +
+  theme(legend.position='none')
+ggplotly(plot)
+
 # looking the pie chart the quantity are very similiar.
+#--------------------------- 
 
-#Spent pie plot
 
+#--------------------------- Spent pie plot
 ggplot(trainingSet, aes(x="", fill=spentRange))+
   geom_bar(width = 1)+
   coord_polar("y")+theme_void()
 
 # looking the pie chart the quantity of people who spend low is equal to high
+#--------------------------- 
+
+
+########################################################################
+
+
+
+
+
+
+
+
+
+
+########################################################################
+#                                                                      #
+#                               PRODUCTS                               #
+#                                                                      #
+########################################################################
+
+#--------------------------- WINES
+
+
+plot = ggplot(trainingSet) +
+  geom_histogram(aes(x=MntWines), fill='#58181F', color='white', binwidth=50) +
+  ggtitle('Histogram of wine purchased in the last two years')
+
+ggplotly(plot)
+#--------------------------- 
+
+
+#--------------------------- FRUITS
+plot = ggplot(trainingSet) +
+  geom_histogram(aes(x=MntFruits), fill='#77dd77', color='white', binwidth=10) + 
+  ggtitle('Histogram of fruits purchased in the last two years')
+
+ggplotly(plot)
+#--------------------------- 
+
+
+
+#--------------------------- MEAT
+plot = ggplot(trainingSet) +
+  geom_histogram(aes(x=MntMeatProducts), binwidth=50, fill='red', color='white') +
+  ggtitle('Histogram of meat products purchased in the last two years')
+
+ggplotly(plot)
+#--------------------------- 
+
+
+
+#--------------------------- FISH
+plot = ggplot(trainingSet) +
+  geom_histogram(aes(x=MntFishProducts), binwidth=10, fill='#add8e6', color='white') +
+  ggtitle('Histogram of fish products purchased in the last two years')
+
+ggplotly(plot)
+#--------------------------- 
+
+
+#--------------------------- SWEET
+plot = ggplot(trainingSet) +
+  geom_histogram(aes(x=MntSweetProducts), binwidth=10, fill='blue', color='white') +
+  ggtitle('Histogram of sweet products purchased in the last two years')
+
+ggplotly(plot)
+#--------------------------- 
+
+
+
+#--------------------------- GOLD
+plot = ggplot(trainingSet) +
+  geom_histogram(aes(x=MntGoldProds), binwidth=20, fill='#e5c100', color='white') +
+  ggtitle('Histogram of gold purchased in the last two years')
+
+ggplotly(plot)
+#--------------------------- 
+
+
+########################################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+########################################################################
+#                                                                      #
+#                 Relationship Income and Consumption                  #
+#                                                                      #
+########################################################################
+
+print(plotRelationship('MntWines'))
+print(plotRelationship('MntFruits'))
+print(plotRelationship('MntMeatProducts'))
+print(plotRelationship('MntFishProducts'))
+print(plotRelationship('MntSweetProducts'))
+print(plotRelationship('MntGoldProds'))
+
+########################################################################
+
+
+
+
+
+
+
+
 
 
 
@@ -104,10 +291,26 @@ income_childs_histogram + facet_grid(Income_range~.)
 #--------------------------- 
 
 
+trainingSet %>%
+  ggplot(aes(x=Income, y=Total_spent)) +
+  geom_point() +
+  geom_smooth() +
+  facet_wrap(~Total_Childs) + 
+  ggtitle("Scatterplot of Consumption against Income across\ndifferent amount of children") + 
+  labs(y='Consumption overall')
+
+
 ggplot(trainingSet, aes(x=Age, y=Total_Childs, colour=Marital_Status, size=Income)) + 
   facet_grid(Marital_Status~Education) + 
   geom_jitter() + geom_boxplot(size=0.7, alpha=0.5)
 ########################################################################
+
+
+
+
+
+
+
 
 
 
@@ -303,7 +506,7 @@ ggplot(trainingSet, aes(x=Total_Campains)) + geom_histogram(aes(fill=Income_rang
 #                                                                      #
 ########################################################################
 
-# DataExplorer::create_report(customers, output_dir = paste(getwd(),"/Output/Data/",sep = ""), output_file = "reportAfterDataPreprocessing.html")
+# DataExplorer::create_report(trainingSet, output_dir = paste(getwd(),"/Output/Data/",sep = ""), output_file = "reportAfterDataPreprocessing.html")
 ########################################################################
 
 
@@ -324,6 +527,12 @@ trainingSet <- select(trainingSet, -Age_range)
 trainingSet <- select(trainingSet, -Income_range)
 ########################################################################
 
+
+# Encoding the categorical features to numeric
+trainingSet <- mutate(trainingSet, Education = case_when(Education == "graduate" ~ 1,
+                                                     Education == "non-graduate" ~ 0))
+trainingSet <- mutate(trainingSet, Marital_Status = case_when(Marital_Status == "Couple" ~ 1,
+                                                          Marital_Status == "Single" ~ 0))
 
 
 
