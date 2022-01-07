@@ -116,23 +116,14 @@ dissplot(dist(trainingSet_input), labels=cl,options=list(main="Kmeans Clustering
 
 
 
-
-
-
-
 ########################################################################
 #                                                                      #
 #                               ANALISYS                               #
 #                                                                      #
 ########################################################################
-trainingSet_input <- mutate(trainingSet_input, cluster = cl)
-#Calculating the mean for each category
-count(trainingSet_input, cluster)
-
 trainingSet <- mutate(trainingSet, cluster = cl)
+trainingSet$cluster <- as.factor(trainingSet$cluster)
 count(trainingSet, cluster)
-
-trainingSet
 
 
 #visualizing wines
@@ -141,7 +132,7 @@ wines <- ggplot(trainingSet, aes(MntWines)) +
 
 wines + geom_histogram(color = "black", fill = "red") 
 wines + geom_density(fill="red", position = "Stack")
-
+ggplot(trainingSet, aes(x=cluster,y=MntWines,fill=cluster))+geom_boxplot(outlier.colour="black")
 
 
 #visualizing Income variable
@@ -151,6 +142,7 @@ income <- ggplot(trainingSet, aes(Income))+
 
 income +  geom_histogram(color = "black", fill = "green")
 income + geom_density(fill="green", position = "Stack")
+ggplot(trainingSet, aes(x=cluster,y=Income,fill=cluster))+geom_boxplot(outlier.colour="black") + ylim(0,200000)
 
 
 
@@ -158,21 +150,19 @@ income + geom_density(fill="green", position = "Stack")
 ts <- ggplot(trainingSet, aes(Total_spent), colour=cluster) + facet_grid(cluster~.)
 ts + geom_histogram(color = "black", fill = "purple") 
 ts + geom_density(fill="purple", position = "Stack")
-
-spentplot <- ggplot(trainingSet, aes(x=cluster,y=Total_spent,fill=cluster))+geom_boxplot(outlier.colour="black", outlier.shape=16,outlier.size=2, notch=T)
-spentplot
-
+ggplot(trainingSet, aes(x=cluster,y=Total_spent,fill=cluster))+geom_boxplot(outlier.colour="black")
 
 
 #visualizing NumCatalogPurchases
 numCatalogPurchases <- ggplot(trainingSet, aes(NumCatalogPurchases)) +  facet_grid(cluster~.)
 numCatalogPurchases + geom_histogram(color = "black", fill = "blue") 
 numCatalogPurchases + geom_density(fill="blue", position = "Stack")
-
+ggplot(trainingSet, aes(x=cluster,y=NumCatalogPurchases,fill=cluster))+geom_boxplot(outlier.colour="black") + ylim(0,10)
 
 
 #visualizing meat variable
 meat <- ggplot(trainingSet, aes(MntMeatProducts)) +  facet_grid(cluster~.)
 meat + geom_histogram(color = "black", fill = "brown") 
 meat + geom_density(fill="brown", position = "Stack")
+ggplot(trainingSet, aes(x=cluster,y=MntMeatProducts,fill=cluster))+geom_boxplot(outlier.colour="black")
 ########################################################################
