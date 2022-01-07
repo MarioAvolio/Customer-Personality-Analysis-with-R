@@ -16,6 +16,9 @@ library(DataExplorer)
 
 
 
+# Open file
+png(file=paste(getwd(),"/Output/imgs/DESCRIPTION/DESCRIPTION%03d.png",sep = ""), width = 800, height = 800)
+
 
 
 
@@ -26,9 +29,6 @@ library(DataExplorer)
 ######################################################################## 
 customers <- read.csv(paste(getwd(),"/Data/marketing_campaign.csv",sep = ""), header=TRUE, sep="\t",  stringsAsFactors=F) # use TAB as separator!
 ########################################################################
-
-
-
 
 
 
@@ -307,6 +307,8 @@ miss_var_summary(customers) # Summarizing missingness in each variable
 ########################################################################
 
 
+
+dev.off() 
 
 
 
