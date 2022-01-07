@@ -225,9 +225,7 @@ print(plotRelationship('MntMeatProducts'))
 print(plotRelationship('MntFishProducts'))
 print(plotRelationship('MntSweetProducts'))
 print(plotRelationship('MntGoldProds'))
-
 ########################################################################
-
 
 
 
@@ -291,6 +289,12 @@ income_childs_histogram + facet_grid(Income_range~.)
 #--------------------------- 
 
 
+ggplot(trainingSet, aes(x=Age, y=Total_Childs, colour=Marital_Status, size=Income)) + 
+  facet_grid(Marital_Status~Education) + 
+  geom_jitter() + geom_boxplot(size=0.7, alpha=0.5)
+
+
+
 trainingSet %>%
   ggplot(aes(x=Income, y=Total_spent)) +
   geom_point() +
@@ -300,9 +304,14 @@ trainingSet %>%
   labs(y='Consumption overall')
 
 
-ggplot(trainingSet, aes(x=Age, y=Total_Childs, colour=Marital_Status, size=Income)) + 
-  facet_grid(Marital_Status~Education) + 
-  geom_jitter() + geom_boxplot(size=0.7, alpha=0.5)
+trainingSet %>% 
+  gather('ProductType', 'MntProduct', all_of(products)) %>%
+  group_by(ProductType, Total_Childs) %>%
+  summarise(amount = sum(MntProduct)/n()) %>%
+  ggplot(aes(x=ProductType, y=amount, fill=as.factor(Total_Childs))) +
+  geom_bar(position="dodge",stat="identity") +
+  labs(fill='Total_Childs', x='Type of Product', y='Amount of Product') +
+  ggtitle('Barplot average consumption per product')
 ########################################################################
 
 
