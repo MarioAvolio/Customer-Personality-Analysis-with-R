@@ -99,9 +99,8 @@ ggplot(df_temp,mapping=aes(x='', y=n, fill=Marital_Status)) +
 ggplot(trainingSet, aes(x="", fill=incomeRange))+
   geom_bar(width = 1)+
   coord_polar("y")+theme_void()
-
-
 # Income boxplot for different educational levels
+
 
 plot = trainingSet %>%
   ggplot(mapping=aes(x=Education, y=incomeRange, fill=Education)) +
@@ -110,7 +109,11 @@ plot = trainingSet %>%
   theme(legend.position='none')
 ggplotly(plot)
 
-# looking the pie chart the quantity are very similiar.
+mplot = ggplot(trainingSet, aes(x=Marital_Status,y=Income,fill=Marital_Status))+ylim(0,180000)+geom_boxplot(outlier.colour="black")
+mplot
+
+eduplot = ggplot(trainingSet, aes(x=Education,y=Income,fill=Education))+ylim(0,180000)+geom_boxplot(outlier.colour="black")
+eduplot
 #--------------------------- 
 
 
