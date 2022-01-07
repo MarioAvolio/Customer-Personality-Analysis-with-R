@@ -15,6 +15,8 @@ library("caret")
 
 
 
+#SAVE
+png(file=paste(getwd(),"/Output/imgs/PCA/PCA%03d.png",sep = ""), width = 800, height = 800)
 
 
 
@@ -119,5 +121,9 @@ trainingSet_input <- data.frame(get_pca_ind(pca)$coord)
 # trainingset.pca <- cbind(class=trainingSet_scaled$class, trainingSet.pca.input)
 ########################################################################
 
+
+
+#turn off png plotting
+dev.off() 
 
 

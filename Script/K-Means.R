@@ -13,6 +13,8 @@ library("cluster")
 ########################################################################
 
 
+#SAVE
+png(file=paste(getwd(),"/Output/imgs/KMEANS/KMEANS%03d.png",sep = ""), width = 800, height = 800)
 
 
 
@@ -166,3 +168,11 @@ meat + geom_histogram(color = "black", fill = "brown")
 meat + geom_density(fill="brown", position = "Stack")
 ggplot(trainingSet, aes(x=cluster,y=MntMeatProducts,fill=cluster))+geom_boxplot(outlier.colour="black")
 ########################################################################
+
+
+
+
+
+#turn off png plotting
+dev.off() 
+

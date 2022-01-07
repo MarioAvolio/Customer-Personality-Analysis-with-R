@@ -43,8 +43,9 @@ trainingSet <- mutate(trainingSet, Spent_range = spentRange)
 
 
 
-
-
+# Save 
+#pdf(file=paste(getwd(),"/Output/imgs/EDA/EDA.pdf",sep = ""))
+png(file=paste(getwd(),"/Output/imgs/EDA/EDA%03d.png",sep = ""), width = 800, height = 800)
 
 
 
@@ -127,8 +128,6 @@ ggplot(trainingSet, aes(x="", fill=spentRange))+
 
 
 ########################################################################
-
-
 
 
 
@@ -328,7 +327,6 @@ trainingSet %>%
 
 
 
-
 ########################################################################
 #                                                                      #
 #                        TOTAL SPENT ANALYSIS                          #
@@ -486,11 +484,6 @@ ggplot(trainingSet, aes(x=Total_Campains)) + geom_histogram(aes(fill=Total_Child
 #--------------------------- 
 
 
-#--------------------------- Total_spent (X)
-ggplot(trainingSet, aes(x=Total_Campains)) + geom_histogram(aes(fill=Total_spent), binwidth = 0.5, colour = "Black") + facet_grid(Total_spent~.) + xlab("Number of campaign accepted")
-#--------------------------- 
-
-
 #--------------------------- Education (X)
 ggplot(trainingSet, aes(x=Total_Campains)) + geom_histogram(aes(fill=Education), binwidth = 0.5, colour = "Black") + facet_grid(Education~.) + xlab("Number of campaign accepted")
 #--------------------------- 
@@ -508,6 +501,8 @@ ggplot(trainingSet, aes(x=Total_Campains)) + geom_histogram(aes(fill=Income_rang
 
 
 
+#turn off png plotting
+dev.off() 
 
 
 
