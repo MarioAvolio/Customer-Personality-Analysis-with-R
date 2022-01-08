@@ -35,9 +35,8 @@ source(paste(getwd(),"/Script/DescriptionOfData.R",sep = ""))
 
 
 
-
-
-
+library(xtable)
+print(xtable(as.data.frame(head(customers[,c("Total_spent", "Total_Campains", "Total_Childs")])), type = "latex"), file = "filename2.tex")
 
 ########################################################################
 #                                                                      #
@@ -56,18 +55,20 @@ customers <- mutate(customers, Marital_Status = replace(Marital_Status, Marital_
 unique(customers$Education)
 customers <- mutate(customers, Education = replace(Education, Education == "Graduation"| Education == "PhD" | Education == "Master", "graduate"))
 customers <- mutate(customers, Education = replace(Education, Education == "Basic"| Education == "2n Cycle", "non-graduate"))
+# ------------------------------------- 
 
+
+
+# ------------------------------------- CONVERSION
 #Converting them to factors
 customers <- mutate(customers, Marital_Status = as.factor(Marital_Status), Education = as.factor(Education))
 
 # Encoding the categorical features to numeric
 customers <- mutate(customers, Education = case_when(Education == "graduate" ~ 1,
-                                                                  Education == "non-graduate" ~ 0))
+                                                     Education == "non-graduate" ~ 0))
 customers <- mutate(customers, Marital_Status = case_when(Marital_Status == "Couple" ~ 1,
-                                                                       Marital_Status == "Single" ~ 0))
+                                                          Marital_Status == "Single" ~ 0))
 # ------------------------------------- 
-
-
 
 
 
@@ -77,8 +78,6 @@ customers <- mutate(customers, Total_spent = MntWines + MntFruits + MntMeatProdu
 
 # Details about previous campains also combined. Creating a new variable:Total_Campains
 customers <- mutate(customers, Total_Campains = AcceptedCmp1 + AcceptedCmp2 + AcceptedCmp3 + AcceptedCmp4 + AcceptedCmp5)
-# customers <- mutate(customers, Type_Of_Campains = paste(AcceptedCmp1*1, AcceptedCmp2*2, AcceptedCmp3*3, AcceptedCmp4*4, AcceptedCmp5*5, sep=", "))
-
 
 # These variables can be combined and we can get the no of children for the customers. Creating a new variable:Total_Childs
 customers <- mutate(customers, Total_Childs = Kidhome + Teenhome)

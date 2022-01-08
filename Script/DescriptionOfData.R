@@ -288,6 +288,8 @@ ggplot(customers, aes(y = Income)) + geom_boxplot()
 n_miss(customers) # counting the total number of missing values in the data
 miss_var_summary(customers) # Summarizing missingness in each variable 
 
+library(xtable)
+print(xtable(as.data.frame(miss_var_summary(customers)), type = "latex"), file = "filename2.tex")
 
 # NOTE:
 #   
