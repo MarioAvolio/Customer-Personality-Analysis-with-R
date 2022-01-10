@@ -6,9 +6,11 @@ source(paste(getwd(),"/Script/PCA.R",sep = ""))
 #                                                                      #
 ########################################################################
 library("rpart")
+library("caret")
 library("rpart.plot")
 library("tidyverse")
 library("RColorBrewer")
+library(xtable)
 ########################################################################
 
 
@@ -38,6 +40,7 @@ confusionMatrix.default
 
 
 
+
 cv.ct <- rpart( Response ~ ., 
                 data = trainingSet_input, 
                 method = "class", 
@@ -45,6 +48,9 @@ cv.ct <- rpart( Response ~ .,
                 xval = 10)
 printcp(cv.ct)
 
+cv.ct
+
+print(xtable(printcp(cv.ct), type = "latex"), file = "filename2.tex")
 
 # min error
 minerror <- min(cv.ct$cptable[ , 4])
@@ -71,5 +77,6 @@ prp( response.best.tree,
 
 
 response.best.tree.pred <- predict(response.best.tree, trainingSet_input, type = "class")
-confusionMatrix2<-confusionMatrix(response.best.tree, as.factor(trainingSet_input$Response), positive = "1")
+confusionMatrix2<-confusionMatrix(response.best.tree.pred, as.factor(trainingSet_input$Response), positive = "1")
+confusionMatrix2
 
