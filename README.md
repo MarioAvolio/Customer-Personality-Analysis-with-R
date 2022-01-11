@@ -38,11 +38,9 @@
   <p align="center">
     with R Program Language
     <br />
-    <a href="https://github.com/MarioAvolio/Customer-Personality-Analysis-with-R"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/MarioAvolio/Customer-Personality-Analysis-with-R/blob/main/DOC/Report/Relazione___Customer_Personality_Analysis_.pdf"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/MarioAvolio/Customer-Personality-Analysis-with-R">View Demo</a>
-    ·
     <a href="https://github.com/MarioAvolio/Customer-Personality-Analysis-with-R/issues">Report Bug</a>
     ·
     <a href="https://github.com/MarioAvolio/Customer-Personality-Analysis-with-R/issues">Request Feature</a>
@@ -68,7 +66,6 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
@@ -210,22 +207,16 @@ git clone https://github.com/MarioAvolio/Customer-Personality-Analysis-with-R.gi
 
 
 
-<!-- USAGE EXAMPLES -->
-## Usage
-TODO
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
 <!-- ROADMAP -->
 ## Roadmap
 
-- [X] Importing Data 
-- [X] EDA 
-- [X] Pre-Processing Data 
+- [X] Description Of Data
+- [X] Data Preprocessing
+- [X] EDA
 - [X] PCA 
-- [X] Analysis Algorithm (K-Means)
+- [X] Analysis Algorithm 
+  - [X] K-Means
+  - [X] D-Tree
 
 See the [open issues](https://github.com/MarioAvolio/Customer-Personality-Analysis-with-R/issues) for a full list of proposed features (and known issues).
 
