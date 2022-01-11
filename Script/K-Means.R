@@ -117,7 +117,6 @@ dissplot(dist(trainingSet_input), labels=cl,options=list(main="Kmeans Clustering
 
 
 
-
 ########################################################################
 #                                                                      #
 #                               ANALISYS                               #
@@ -142,7 +141,7 @@ income <- ggplot(trainingSet, aes(Income))+
   facet_grid(cluster~.) + 
   xlim(0,200000)
 
-income +  geom_histogram(color = "black", fill = "green")
+income +  geom_histogram(color = "black", fill = "green") + geom_vline(aes(xintercept=mean(Income)),color="blue", linetype="dashed", size = 1)
 income + geom_density(fill="green", position = "Stack")
 ggplot(trainingSet, aes(x=cluster,y=Income,fill=cluster))+geom_boxplot(outlier.colour="black") + ylim(0,200000)
 
