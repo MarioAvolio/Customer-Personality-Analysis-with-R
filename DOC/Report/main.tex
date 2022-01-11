@@ -5,11 +5,12 @@
 \usepackage[italian]{babel}
 \usepackage{float}
 \usepackage{subfigure}
-
+\usepackage{multirow}
 \usepackage{listings}
 \usepackage[svgnames]{xcolor}
 \usepackage{babel,blindtext}
 \usepackage{titlesec}
+
 
 \setcounter{secnumdepth}{4}
 
@@ -67,7 +68,7 @@ L'apprendimento automatico e la statistica sono discipline strettamente collegat
 \end{abstract}
 
 \section{Descrizione del dominio di riferimento e obiettivi dell’elaborato}
-Molto spesso lo sviluppo di nuovi prodotti o servizi è attivato dall’imitazione dei concorrenti e da analisi di mercato generiche, mentre al cliente si dedica poca attenzione. L’acquisto è prima di tutto un’esperienza ed è necessario comprendere quali bisogni la guidano: solo così ogni segmento di mercato individuato sarà connesso con la capacità dell’azienda di soddisfare le aspettative dei clienti, comprese quelle inespresse. Progettare, sviluppare e vendere prodotti non connessi con il proprio target rappresenta un costo insostenibile, mentre è necessario progettare uno sviluppo in linea con la \textit{customer satisfaction}. Per questo motivo \href{https://www.kaggle.com/imakash3011/customer-personality-analysis}{Customer Personality Analysis} riguarda un'analisi dettagliata dei clienti ideali per una generica azienda. Il compito fondamentale è quello di aiutare un'attività commerciale a comprendere meglio i propri compratori al fine di rendere più semplice la modifica e la scelta dei propri prodotti, in relazione alle esigenze richieste dagli acquirenti. L'obiettivo che ha spinto ad analizzare questo insieme di dati è inerente alle \textbf{diverse} personalità e comportamenti che gli acquirenti assumono durante il ruolo di potenziali clienti aziendali. Per questo motivo le aziende non possono adottare lo stesso approccio per ogni tipologia di plausibile compratore. 
+Molto spesso lo sviluppo di nuovi prodotti o servizi è attivato dall’imitazione dei concorrenti e da analisi di mercato generiche, mentre al cliente si dedica poca attenzione. L’acquisto è prima di tutto un’esperienza ed è necessario comprendere quali bisogni la guidano: solo così ogni segmento di mercato individuato sarà connesso con la capacità dell’azienda di soddisfare le aspettative dei clienti, comprese quelle inespresse. Progettare, sviluppare e vendere prodotti non connessi con il proprio target rappresenta un costo insostenibile, mentre è necessario progettare uno sviluppo in linea con la \textit{customer satisfaction}. Per questo motivo \href{https://github.com/MarioAvolio/Customer-Personality-Analysis-with-R}{Customer Personality Analysis} riguarda un'analisi dettagliata dei clienti ideali per una generica azienda. Il compito fondamentale è quello di aiutare un'attività commerciale a comprendere meglio i propri compratori al fine di rendere più semplice la modifica e la scelta dei propri prodotti, in relazione alle esigenze richieste dagli acquirenti. L'obiettivo che ha spinto ad analizzare questo insieme di dati è inerente alle \textbf{diverse} personalità e comportamenti che gli acquirenti assumono durante il ruolo di potenziali clienti aziendali. Per questo motivo le aziende non possono adottare lo stesso approccio per ogni tipologia di plausibile compratore. 
 
 \section{Scelte di design, ipotesi e assunzioni}
 TODO
@@ -256,21 +257,22 @@ customers <- read.csv(paste(getwd(),"/Data/marketing_campaign.csv",sep = ""), he
             \includegraphics[width=0.4\textwidth]{Img/DESCRIPTION/DESCRIPTION017.png}
         }%
         \subfigure[BoxPlot Z\_CostContact]{%
-            \label{fig:Z_Revenue}
+            \label{fig:ZRevenue}
            \includegraphics[width=0.4\textwidth]{Img/DESCRIPTION/DESCRIPTION018.png}
         }\\ %  ------- End of the first row ----------------------%
         \subfigure[BoxPlot Z\_Revenue]{%
-            \label{fig:Z_CostContact}
+            \label{fig:ZCostContact}
             \includegraphics[width=0.4\textwidth]{Img/DESCRIPTION/DESCRIPTION019.png}
         }%
         \subfigure[BoxPlot Income]{%
-            \label{fig:BoxPlot_Income}
+            \label{fig:BoxPlotIncome}
             \includegraphics[width=0.4\textwidth]{Img/DESCRIPTION/DESCRIPTION021.png}
         }%
 %
     \end{center}
 \end{figure}
-Durante questa prima indagine sono stati effettuati controlli di base sulle variabili. In particolare, dalle analisi dei boxplot riportati rispettivamente nelle figure \ref{fig:Z_CostContact} e \ref{fig:Z_Revenue} è doveroso notare la mancanza di \textbf{varianza} di tali variabili, questo aspetto sarà successivamente preso in considerazione durante la fase di preprocessing.\\ Inoltre durante l'analisi delle figure \ref{fig:BoxPlot_Income} e \ref{fig:Histogram_Income}, mediante un apposito \textit{warning} durante l'esecuzione del codice R, si è notata la presenza di alcuni valori mancanti.
+
+Durante questa prima indagine sono stati effettuati controlli di base sulle variabili. In particolare, dalle analisi dei boxplot riportati rispettivamente nelle figure \ref{fig:ZCostContact} e \ref{fig:ZRevenue} è doveroso notare la mancanza di \textbf{varianza} di tali variabili, questo aspetto sarà successivamente preso in considerazione durante la fase di preprocessing.\\ Inoltre durante l'analisi delle figure \ref{fig:BoxPlotIncome} e \ref{fig:Histogram_Income}, mediante un apposito \textit{warning} durante l'esecuzione del codice R, si è notata la presenza di alcuni valori mancanti.
 \begin{lstlisting}[language=R]
 hist(customers$Income,40,col="#adcae6")
 ggplot(customers, aes(y = Income)) + geom_boxplot()
@@ -505,6 +507,29 @@ customers <- mutate(customers, Age = thisYear - Year_Birth)
 #Dropping some redundant features
 customers <- select(customers, - ID, - Year_Birth, - Z_CostContact, - Z_Revenue, -Dt_Customer)
 \end{lstlisting}
+\subsubsection{Risoluzione dei valori mancanti}
+Come mostrato nel codice sottostante, non si è deciso di eliminare completamente i valori mancanti all'interno della variabile \textit{income}, bensì si è adottata un'altra strategia: la sostituzione con il valore medio della variabile stessa.
+\begin{lstlisting}[language=R]
+customers$Income <- ifelse(is.na(customers$Income), # is.na check is a value is not available
+                          ave(customers$Income, FUN = function(x) mean(x, na.rm = TRUE)), # if is not available change with average
+                          customers$Income # else
+) 
+\end{lstlisting}
+\subsubsection{Splitting in TrainingSet e TestSet}
+Al fine di una buona analisi dei dati, si è deciso di suddividere il dataset iniziale in due più ridotti: l'insieme di allenamento e quello di testing. Il codice sottostante mostra la procedura effettuata.
+\begin{lstlisting}[language=R]
+set.seed(17538)
+split <- sample.split(customers$Response, SplitRatio = 0.8)
+trainingSet <- subset(customers, split == TRUE)
+testSet <- subset(customers, split == FALSE)
+\end{lstlisting}
+\subsubsection{Feature Scaling}
+E' opportuno sottolineare che si è deciso di normalizzare i valori delle variabili al fine di poter utilizzare al meglio gli algoritmi di machine learning che verranno descritti nel corso di questa trattazione. Il codice seguente mostra un esempio:
+\begin{lstlisting}[language=R]
+trainingSet_scaled <- as.data.frame(scale(trainingSet[, getIndipendentNumbersOfCol()]))
+testSet_scaled <- as.data.frame(scale(testSet[, getIndipendentNumbersOfCol()]))
+\end{lstlisting}
+
 
 \subsection{EDA}
 Dopo aver eseguito il preprocessing dei dati si è passati ad un'analisi esplorativa dei dati mutando i valori che può assumere una certa variabile tramite la funzione \textit{cut}. 
@@ -514,66 +539,87 @@ Questa operazione è stata eseguita per \textit{Age}, \textit{Income} e Total sp
 # Age Range
 ageRange <- cut(trainingSet$Age, breaks = c(24, 64, Inf), include.lowest = T,
                 ordered_result = T, labels = c("Adult", "Senior"))
-
 trainingSet <- mutate(trainingSet, Age_range = ageRange)
 
 # Income Range
 incomeRange <- cut(trainingSet$Income, 
                    calculateBreaksFromSummary(trainingSet$Income),
                    labels = c("low", "low medium", "medium high", "high"))
-
 trainingSet <- mutate(trainingSet, Income_range = incomeRange)
 
 # Spent Range
 spentRange <- cut(trainingSet$Total_spent, 
                   calculateBreaksFromSummary(trainingSet$Total_spent),
                   labels = c("low", "low medium", "medium high", "high"))
-
 trainingSet <- mutate(trainingSet, Spent_range = spentRange)
 \end{lstlisting}
 
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=.4\textwidth]{Img/EDA/EDA001.png}
-    \caption{Age pie Chart}
+\begin{figure}[H]
+     \begin{center}
+%
+        \subfigure[PiePlot Year\_Birth]{%
+
+            \includegraphics[width=0.45\textwidth]{Img/EDA/EDA001.png}
+        }%
+        \subfigure[PiePlot Income]{%
+            \includegraphics[width=0.5\textwidth]{Img/EDA/EDA004.png}
+        }\\ %  ------- End of the first row ----------------------%
+        \subfigure[PiePlot di Marital\_Status]{%
+
+            \includegraphics[width=0.5\textwidth]{Img/EDA/EDA005.png}
+        }%
+%
+    \end{center}
 \end{figure}
 
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=.4\textwidth]{Img/EDA/EDA003.png}
-    \caption{Education bar plot}
-\end{figure}
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=0.4\textwidth]{Img/EDA/EDA004.png}
-    \caption{Income pie Chart }
-\end{figure}
 
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=.4\textwidth]{Img/EDA/EDA005.png}
-    \caption{Total\_Spent pie Chart}
-\end{figure}
-
-Il primo grafico a torta è relativo alla variabile Age, il colore viola rappresenta il valore \textit{Adult} mentre il colore giallo \textit{Senior}. Dal grafico si ricava che la maggior parte degli individui è \textit{Adult}.
+Il primo grafico a torta (t) è relativo alla variabile Age, il colore viola rappresenta il valore \textit{Adult} mentre il colore giallo \textit{Senior}. Dal grafico si ricava che la maggior parte degli individui è \textit{Adult}.
 Il secondo rappresenta la variabile \textit{income}, il dataset è equi-distribuito in questo caso.
 La distribuizione dei valori che assume la variabile \textit{Total spent} è raffigurata nella Figura 3. Da essa si ricava che low e high sono simili mentre quello più frequente è \textit{low medium}.\\
-In seguito si sono seguite delle analisi per le variabili children, total spent e campaign.\\
-La maggior parte delle istanze del dataset ha 1 figlio, la variabile Total\_Children è la somma tra la variabile KidHome e TeenHome. Questa informazione si è ricavata eseguendo il codice riportato i seguito.\\
+Inoltre si può notare facendo l'istogramma della variabile \textit{Age}che l'età media degli individui presenti nel dataset è superiore ai 50 anni e la maggioranza ha un titolo di studio maggiore o uguale alla laurea.
+
+
+\begin{figure}[H]
+     \begin{center}
+%
+        \subfigure[Istogramma di Age.]{%
+
+            \includegraphics[width=0.4\textwidth]{Img/EDA/EDA002.png}
+            \label{fig:IstogrammaAge}
+        }%
+        \subfigure[Istogramma di Income.]{%
+            \includegraphics[width=0.4\textwidth]{Img/EDA/EDA007.png}
+            \label{fig:IstogrammaIncome}
+        }\\ %  ------- End of the first row ----------------------%
+%
+\subfigure[Istogramma di Education.]{%
+            \includegraphics[width=0.4\textwidth]{Img/EDA/EDA003.png}
+            \label{fig:IstogrammaEducation}
+        }\\ %  ------- End of the first row ----------------------%
+%
+\subfigure[BoxPlot di Education.]{%
+            \includegraphics[width=0.4\textwidth]{Img/EDA/EDA054.png}
+            \label{fig:BoxPlotEducation}
+        }\\ %  ------- End of the first row ----------------------%
+%
+
+    \end{center}
+\end{figure}
 
 \newpage
 \subsubsection{Total Children}
-Facendo il bar-plot della variabile \textit{Total\_Children} si nota che la maggior parte delle istanze presenti nel dataset ha 1 figlio.
+La maggior parte delle istanze del dataset ha 1 figlio, la variabile Total\_Children è la somma tra la variabile KidHome e TeenHome. Questa informazione si è ricavata eseguendo il codice riportato i seguito.\\
 
+\begin{lstlisting}[language=R]
+ggplot(trainingSet, aes(x=Total_Childs)) + geom_histogram(binwidth = 0.5, colour = "Black")
+\end{lstlisting}
 
-
-\begin{figure}[h!]
+\begin{figure}[h]
     \centering
-    \includegraphics[width=.6\textwidth]{Img/EDA/EDA015.png}
+    \includegraphics[width=.4\textwidth]{Img/EDA/EDA015.png}
     \caption{hist plot di total\_children }
+    \label{fig:IstogrammaTc}
 \end{figure}
-
-\newpage
 
 \paragraph{Total\_Childen e Age}
 Si è analizzata anche la relazione tra il numero totale di figli, \textit{Total\_children} ed \textit{Age} ed è risultato che tra gli \textit{Adult} il numero di figli più frequente è 1 e che rispetto ai \textit{Senior} hanno più figli.
@@ -582,15 +628,13 @@ Si è analizzata anche la relazione tra il numero totale di figli, \textit{Total
 age_children_histogram <- ggplot(trainingSet, aes(x=Total_Spent)) + geom_histogram(aes(fill=Age_range), binwidth = 0.5, colour = "Black")
 age_children_histogram + facet_grid(Age_range~.)
 \end{lstlisting}
-\begin{figure}[h!]
+\begin{figure}[h]
     \centering
-    \includegraphics[width=.6\textwidth]{Img/EDA/EDA016.png}
-    \caption{hist plot di Total\_Children e Age}
-    \label{fig:fviz_eig(pca, addlabels = TRUE, ylim = c(0, 50))}
+    \includegraphics[width=.45\textwidth]{Img/EDA/EDA016.png}
+    \caption{Istogramma di Total\_Children e Age}
+    \label{fig:IstogrammaTcAge}
 \end{figure}
-
 \newpage
-
 \paragraph{Total\_Children e Marital\_Status}
 Nel pre processing i valori che può assumere la variabile \textit{Marital\_Status}sono stati collassati in due possibili valori.
 \textit{Marital\_Status} è 0 se l'istanza ha come valore dell'attributo \textit{Marital\_Status} è \textit{single}, \textit{widow} oppure \textit{divorced}.
@@ -600,226 +644,373 @@ Rappresentando il diagramma a barre considerando \textit{Total\_Children}e \text
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=.6\textwidth]{Img/EDA/EDA017.png}
-    \caption{hist plot di Total\_Children e Marital\_Status}
-    \label{fig:fviz_eig(pca, addlabels = TRUE, ylim = c(0, 50))}
+    \includegraphics[width=.4\textwidth]{Img/EDA/EDA017.png}
+    \caption{Istogramma di Total\_Children e Marital\_Status}
+    \label{fig:IstogrammaTcMaritalStatus}
 \end{figure}
 
-\newpage
-\paragraph{Total\_Children e Education}
+Il grafico prendendo in considerazione la variabile \textit{Education} è simile. 
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=.6\textwidth]{Img/EDA/EDA018.png}
+    \includegraphics[width=.4\textwidth]{Img/EDA/EDA018.png}
     \caption{hist plot di Total\_Children e Education}
-    \label{fig:fviz_eig(pca, addlabels = TRUE, ylim = c(0, 50))}
+    \label{fig:IstogrammaTcEducation}
 \end{figure}
 
-
+\newpage
 
 \paragraph{Total\_Children e Income}
 
 Sia dall' hist plot che dal jitte rplot si nota che più è basso il guadagno più si hanno figli. Nel caso di due figli ci sono più casi di persone con stipendio \textit{low medium} rispetto a chi ha uno stipendio \textit{low}. 
 Nel caso di istanze con stipendio \textit{high} è comune che si abbiano figli. 
 
+\begin{figure}[h!]
+\begin{minipage}[c]{0.4\linewidth}
+\includegraphics[width=\linewidth]{Img/EDA/EDA020.png}
+\caption{Istogramma Income e Total\_Children}
+\label{fig:IstogrammaTcIncome}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.4\linewidth}
+\includegraphics[width=\linewidth]{Img/EDA/EDA022.png}
+\caption{ScatterPlot , Income e Total\_Children}
+\label{fig:ScatterPlotTcIncome}
+\end{minipage}%
+\end{figure}
+
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.5\textwidth]{Img/EDA/EDA021.png}
-    \caption{jitter plot di Total\_Children e Income}
-    \label{fig:fviz_eig(pca, addlabels = TRUE, ylim = c(0, 50))}
+    \caption{JitterPlot di Total\_Children e Income}
+    \label{fig:JitterPlotTcIncome}
 \end{figure}
 
-
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=0.5\textwidth]{Img/EDA/EDA022.png}
-    \caption{scatter plot , Income e Total\_Children }
-    \label{fig:fviz_eig(pca, addlabels = TRUE, ylim = c(0, 50))}
-\end{figure}
-
-\paragraph{Total\_Children jitter+boxplot}
-
-
+\newpage
 \subsubsection{Total Spent}
 La maggior parte degli individui spende meno di 500\$.
+Facendo il bar-plot della variabile \textit{Total\_Spent} si nota che le istanze presenti nel dataset spendono più per il vino e per la carne.\\
+Per poter produrre il grafico della Figura \ref{fig:IstogrammaTs} sono stati sommati i totali che ogni istanza ha speso per un certo prodotto.
 
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=.5\textwidth]{Img/EDA/EDA024.png}
-    \caption{hist plot di total\_spent }
+
+\begin{lstlisting}[language=R]
+# Plot histogram of total_spent
+ggplot(trainingSet, aes(x=Total_spent)) + geom_histogram(binwidth = 15, colour = "Black")
+
+# Create dataAcceptedCmp
+dataTotalSpent <- data.frame(
+  name = c("MntWines", "MntFruits", "MntMeatProducts", "MntFishProducts", "MntSweetProducts", "MntGoldProds"),  
+  value = c(sum(trainingSet$MntWines), sum(trainingSet$MntFruits), sum(trainingSet$MntMeatProducts),
+            sum(trainingSet$MntFishProducts), sum(trainingSet$MntSweetProducts), sum(trainingSet$MntGoldProds)))
+
+# Barplot of total_spent for each type
+ggplot(dataTotalSpent, aes(x=name, y=value)) + 
+  geom_bar(stat = "identity", color = "Black") + xlab("Total Spent for each type")  
+\end{lstlisting}
+
+
+\begin{figure}[H]
+  \centering
+  \begin{minipage}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{Img/EDA/EDA024.png}
+    \caption{Istogramma Total\_Spent.}
+    \label{fig:IstogrammaTs}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{Img/EDA/EDA023.png}
+    \caption{Istogramma di Total\_Spent distinguendo i tipi di prodotto.}
+    \label{fig:IstogrammaTsTypeProduct}
+  \end{minipage}
 \end{figure}
 
-Facendo il bar-plot della variabile \textit{Total\_Spent} si nota che le istanze presenti nel dataset spendono più per il vino e per la carne. 
 
 
-
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=.5\textwidth]{Img/EDA/EDA023.png}
-    \caption{hist plot di total\_spent distinguedo tipi di prodotto }
+\begin{figure}[H]
+  \centering
+  \begin{minipage}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{Img/EDA/EDA048.png}
+    \caption{Istogramma Wine}
+    \label{fig:IstogrammaWine}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{Img/EDA/EDA049.png}
+    \caption{Istogramma Fruit}
+     \label{fig:IstogrammaFruit}
+  \end{minipage}
 \end{figure}
 
-Per poter produrre il grafico della Figura 12 sono stati sommati i totali che ogni istanza ha speso per un certo prodotto.
+\begin{figure}[H]
+  \centering
+  \begin{minipage}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{Img/EDA/EDA050.png}
+    \caption{Istogramma Meat}
+     \label{fig:IstogrammaMeat}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{Img/EDA/EDA051.png}
+    \caption{Istogramma Fish}
+     \label{fig:IstogrammaFish}
+  \end{minipage}
+\end{figure}
 
 
-
+\begin{figure}[H]
+  \centering
+  \begin{minipage}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{Img/EDA/EDA052.png}
+    \caption{Istogramma Sweet}
+     \label{fig:IstogrammaSweet}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{Img/EDA/EDA053.png}
+    \caption{Istogramma Gold}
+     \label{fig:IstogrammaGold}
+  \end{minipage}
+\end{figure}
 
 \paragraph{Total Spent e Age}
-La maggior parte degli individui spende meno di 500\$.
+Osservando la variabile \textit{Total\_Spent} considerando \textit{Age} si ha che la maggior parte degli individui spende meno di 500\$.
+
+\begin{lstlisting}[language=R]
+age_total_spent_histogram <- ggplot(trainingSet, aes(x=Total_spent)) + facet_grid(Age_range~.) 
+age_total_spent_histogram + geom_histogram(aes(fill=Age_range), binwidth = 15, color="Black")
+age_total_spent_histogram + geom_density(aes(fill=Age_range), position = "Stack")
+\end{lstlisting}
 
 
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=.5\textwidth]{Img/EDA/EDA026.png}
-    \caption{hist plot di Total\_Spent e Age }
+\begin{figure}[h]
+  \centering
+  \begin{minipage}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{Img/EDA/EDA026.png}
+    \caption{Istogramma di Total\_Spent e Age}
+     \label{fig:IstogrammaTsAge}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{Img/EDA/EDA027.png}
+    \caption{Diagramma di Densità di Total\_Spent e Age}
+     \label{fig:DensitaTsAge}
+  \end{minipage}
 \end{figure}
 
 
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=.5\textwidth]{Img/EDA/EDA027.png}
-    \caption{density plot di Total\_Spent e Age }
-\end{figure}
 
+\newpage
 \paragraph{Total Spent e Marital\_Status}
 In questo caso sembrano simili. la maggior parte delle coppie spende un totale inferiore a 500.
-La situazione in single è un po' più rilassata sarà che la maggior parte degli individui
- nel set di dati sono coppia
+La situazione in single è un po' più rilassata che può essere dovuto al fatto che la maggior parte degli individui nel dataset sono coppie.
+
+\begin{lstlisting}[language=R]
+marital_status_total_spent_histogram <- ggplot(trainingSet, aes(x=Total_spent)) + facet_grid(Marital_Status~.) 
+marital_status_total_spent_histogram + geom_histogram(aes(fill=Marital_Status), binwidth = 15, colour = "Black")
+marital_status_total_spent_histogram + geom_density(aes(fill=Marital_Status), position = "Stack")
+\end{lstlisting}
 
 
-
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=.5\textwidth]{Img/EDA/EDA028.png}
-    \caption{hist plot di Total\_Spent e Marital\_Status }
+\begin{figure}[h]
+  \centering
+  \begin{minipage}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{Img/EDA/EDA028.png}
+    \caption{Istogramma di Total\_Spent e Marital\_Status}
+    \label{fig:IstogrammaTsMaritalStatus}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{Img/EDA/EDA029.png}
+    \caption{Diagramma di Densità di Total\_Spent e Marital\_Status }
+     \label{fig:DensitaTsMaritalStatus}
+  \end{minipage}
 \end{figure}
 
-
-
-
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=.5\textwidth]{Img/total spent analysis/density_plot/[DENSITY| TS] Marital_Status.png}
-    \caption{density plot di Total\_Spent e Marital\_Status }
-\end{figure}
-
+\newpage
 \paragraph{Total Spent ed Education}
 I laureati in genere spendono più dei non laureati. la maggior parte dei non laureati spende da 0 a 1500. da 1500 ci sono più casi di laureati che non laureati.
-
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=.5\textwidth]{Img/EDA/EDA030.png}
-    \caption{hist plot di Total\_Spent e Education}
-\end{figure}
-
-
 Il grafico della densità   è molto simile a quello della variabile \textit{Marital\_Status}.
 
+\begin{lstlisting}[language=R]
+education_total_spent_histogram <- ggplot(trainingSet, aes(x=Total_spent)) + facet_grid(Education~.)
+education_total_spent_histogram + geom_histogram(aes(fill=Education), binwidth = 15, colour = "Black")
+education_total_spent_histogram + geom_density(aes(fill=Education), position = "Stack")
+\end{lstlisting}
 
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=.5\textwidth]{Img/EDA/EDA031.png}
-    \caption{density plot di Total\_Spent e Education}
+
+\begin{figure}[h]
+  \centering
+  \begin{minipage}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{Img/EDA/EDA030.png}
+    \caption{Istogramma di Total\_Spent e Education}
+    \label{fig:IstogrammaTsEducation}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{Img/EDA/EDA031.png}
+    \caption{Diagramma di Densità di Total\_Spent e Education}
+     \label{fig:DensitaTsEducation}
+  \end{minipage}
 \end{figure}
+
 
 \newpage
 
 \paragraph{Total Spent e Total\_Children}
 
+\begin{lstlisting}[language=R]
+children_total_spent_histogram <- ggplot(trainingSet, aes(x=Total_spent)) + facet_grid(Total_Childs~.)
+children_total_spent_histogram  + geom_histogram(aes(fill=Total_Childs), binwidth = 15, colour = "Black")
+children_total_spent_histogram  + geom_density(aes(fill=Total_Childs), position = "Stack")
+\end{lstlisting}
 
 
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=.5\textwidth]{Img/EDA/EDA032.png}
-    \caption{hist plot di Total\_Spent e Total\_Children}
+\begin{figure}[h]
+  \centering
+  \begin{minipage}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{Img/EDA/EDA032.png}
+    \caption{Istogramma di Total\_Spent e Total\_Children}
+    \label{fig:IstogrammaTsTc}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{Img/EDA/EDA033.png}
+    \caption{Diagramma di Densità di Total\_Spent e Total\_Children}
+    \label{fig:DensitaTsTc}
+  \end{minipage}
 \end{figure}
 
-
-Di seguito il grafico della densità.
-
-
-
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=.5\textwidth]{Img/EDA/EDA033.png}
-    \caption{density plot di Total\_Spent e Total\_Children}
-\end{figure}
 
 \newpage
-\paragraph{Total Spent e Income}
+\paragraph{Total\_Spent e Income}
+
+\begin{lstlisting}[language=R]
+income_total_spent_histogram <- ggplot(trainingSet, aes(x=Total_spent)) + geom_histogram(aes(fill=Income_range), binwidth = 15, colour = "Black")
+income_total_spent_histogram + facet_grid(Income_range~.)
+ggplot(trainingSet, aes(y=Income, x=Total_spent)) + geom_jitter() + geom_smooth()
+
+#--------------------------- 
+
+ggplot(trainingSet, aes(x=Total_spent, y=Income, colour=Marital_Status, size=Income)) + 
+  facet_grid(Marital_Status~Education) + 
+  geom_jitter() + ylim(0,100000) + geom_smooth() + geom_boxplot(size=0.7, alpha=0.5)
 
 
+ggplot(trainingSet, aes(x=Total_spent, y=Income, colour=Total_Childs, size=Income)) + 
+  facet_grid(Total_Childs~Education) + 
+  geom_jitter() + ylim(0,100000) + geom_smooth() + geom_boxplot(size=0.7, alpha=0.5)
 
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=.5\textwidth]{Img/EDA/EDA034.png}
-    \caption{hist plot di Total\_Spent e Income}
+
+ggplot(trainingSet, aes(x=Total_spent, y=Income, colour=Age_range, size=Income)) + 
+  facet_grid(Age_range~Education) + 
+  geom_jitter() + ylim(0,100000) + geom_smooth() + geom_boxplot(size=0.7, alpha=0.5)
+\end{lstlisting}
+
+\begin{figure}[h]
+  \centering
+  \begin{minipage}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{Img/EDA/EDA034.png}
+    \caption{Istogramma di Total\_Spent e Income}
+     \label{fig:IstogrammaTsIncome}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{Img/EDA/EDA035.png}
+    \caption{Diagramma di Densità di Total\_Spent e Income}
+     \label{fig:DensitaTsIncome}
+  \end{minipage}
 \end{figure}
 
 
 
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=.5\textwidth]{Img/EDA/EDA035.png}
-    \caption{jitter plot di Total\_Spent e Income}
-\end{figure}
 
 \newpage
 
-\paragraph{Total Spent jitter+boxplot}
-
-
-
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=.5\textwidth]{Img/EDA/EDA036.png}
-    \caption{jitter boxplot di Total\_Spent, Income e Marital\_Status.}
+\begin{figure}[h]
+  \centering
+  \begin{minipage}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{Img/EDA/EDA009.png}
+    \caption{ScatterPlot Income e MntWines}
+     \label{fig:ScatterPlotIncomeMntWines}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{Img/EDA/EDA010.png}
+    \caption{ScatterPlot Income e MntFruits}
+     \label{fig:ScatterPlotIncomeMntFruits}
+  \end{minipage}
 \end{figure}
 
 
 
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=.5\textwidth]{Img/EDA/EDA037.png}
-    \caption{jitter boxplot di Total\_Spent, Income e Total\_Children.}
+\begin{figure}[h]
+  \centering
+  \begin{minipage}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{Img/EDA/EDA011.png}
+    \caption{ScatterPlot Income e MntMeatProducts}
+     \label{fig:ScatterPlotIncomeMntMeat}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{Img/EDA/EDA012.png}
+    \caption{ScatterPlot Income e MntFishProducts}
+     \label{fig:ScatterPlotIncomeMntFish}
+  \end{minipage}
 \end{figure}
 
-\newpage
 
 
+\paragraph{Total\_Spent JitterPlot+BoxPlot}
 
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=.5\textwidth]{Img/EDA/EDA038.png}
-    \caption{jitter boxplot di Total\_Spent, Income ed Age.}
+\begin{figure}[H]
+     \begin{center}
+%
+        \subfigure[JitterPlot+BoxPlot di Total\_Spent, Income e Marital\_Status.]{%
+
+            \includegraphics[width=0.5\textwidth]{Img/EDA/EDA036.png}
+             \label{fig:JitterPlotTsMsIncome}
+        }%
+        \subfigure[JitterPlot+BoxPlot di Total\_Spent, Income e Total\_Children.]{%
+            \includegraphics[width=0.5\textwidth]{Img/EDA/EDA037.png}
+             \label{fig:JitterPlotTsTcIncome}
+        }\\ %  ------- End of the first row ----------------------%
+%
+\subfigure[JitterPlot+BoxPlot di Total\_Spent, Income ed Age.]{%
+            \includegraphics[width=0.5\textwidth]{Img/EDA/EDA038.png}
+             \label{fig:JitterPlotTsIncomeAge}
+        }\\ %  ------- End of the first row ----------------------%
+%
+    \end{center}
 \end{figure}
 
 \newpage
 
 \subsubsection{Campaign Analysis}
+
 Si è eseguita un'analisi anche sulle campagne accettate da ogni individuo. 
+Per ogni istanza del dataset si sa se ha accettato o meno una campagna. In questo caso le campagne considerate sono cinque e come è possibile osservare dai barplot più di mille istanze non hanno accettato alcuna campagna, mentre chi ha accettato una o più campagne ha scelto la campagna 4.\\
 
-\paragraph{Total\_Campaign}
-
-
-\paragraph{Total Spent e Age}
-
-\paragraph{Total Spent e Marital\_Status}
-
-\paragraph{Total Spent ed Education}
-
-\paragraph{Total Spent e Total\_Children}
-
-\paragraph{Total Spent e Income}
-
-\paragraph{Total Spent jitter+boxplot}
+\begin{figure}[H]
+  \centering
+  \begin{minipage}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{Img/EDA/EDA039.png}
+    \caption{Istogramma del numero totale di campagne accettate da un'istanza. Total\_Campaign}
+    \label{fig:IstogrammaTotalCampaign1}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{Img/EDA/EDA040.png}
+    \caption{Istogramma del numero di istanze che ha accettato la campagna i\-esima.}
+    \label{fig:IstogrammaTotalCampaign2}
+  \end{minipage}
+\end{figure}
 
 \newpage
 
 
 \subsection{PCA}
-La PCA è stata prevalentemente sfruttata al fine di ridurre il numero elevato di variabili che descrivono l'insieme di dati a un numero minore di variabili latenti, limitando il più possibile la perdita di informazioni. Il codice seguente mostra parte del codice riportato durante l'analisi dei dati.
+La PCA è stata prevalentemente sfruttata al fine di ridurre il numero elevato di variabili che descrivono l'insieme di dati a un numero minore di variabili latenti, limitando il più possibile la perdita di informazioni. Il codice seguente mostra parte del codice riportato durante l'analisi dei dati:
 \begin{lstlisting}[language=R]
 pca <- PCA(trainingSet_scaled, graph = FALSE)
 
@@ -844,6 +1035,9 @@ fviz_pca_biplot(pca)
 fviz_pca_var(pca, col.var = "contrib", repel = TRUE)
 
 fviz_pca_var(pca, select.var = list(contrib = 5), col.var = "contrib", repel = TRUE)
+
+# Extract the principal components
+trainingSet_input <- data.frame(get_pca_ind(pca)$coord)
 \end{lstlisting}
 Da esso si vuole dare particolare attenzione alla funzione \textit{get\_eigenvalue(pca)} che fornire le informazioni rappresentate nella tabella \ref{fig:get_eigenvalue(pca)}. Si vuole anche fornire un riferimento grafico a quest'ultima tramite l'output della funzione \textit{fviz\_eig(pca, addlabels = TRUE, ylim = c(0, 50))} descritto dalla figura \ref{fig:fviz_eig(pca, addlabels = TRUE, ylim = c(0, 50))}. Da essa si può notare che le prime 5 dimensioni fornite dalla PCA forniscono il 70\% della varianza cumulativa, per questo motivo si è deciso di prendere in considerazione tali dimensioni. Inoltre si vuole sottolineare l'importanza della prima dimensione che riesce a spiegare più del 40\% della varianza dei dati.
 \begin{table}[h!t]
@@ -874,16 +1068,16 @@ Dim.1 & 6.98 & 41.06 & 41.06 \\
 \caption{Output funzione \textit{get\_eigenvalue(pca)}}
 \label{fig:get_eigenvalue(pca)}
 \end{table}
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.7\textwidth]{Img/PCA/Rplot04.png}
+    \includegraphics[width=0.7\textwidth]{Img/PCA/Rplot.png}
     \caption{Output funzione \textit{fviz\_eig(pca, addlabels = TRUE, ylim = c(0, 50))}}
     \label{fig:fviz_eig(pca, addlabels = TRUE, ylim = c(0, 50))}
 \end{figure}
 In particolare la tabella \ref{fig:pca$var$contrib} vuole far notare il contributo di ciascun attributo del dataset nella creazione delle dimensioni della pca. Da essa possiamo notare le cinque principali variabili che hanno contribuito maggiormente nella creazione della prima dimensione della \textit{principal component analysis}: Total\_spent, MntMeatProducts, NumCatalogPurchases, MntWines e MntFishProducts. La figura \ref{fig:fviz_contrib(pca, choice = "var", axes = 1, top = 5)} ne mostra un grafico più esplicativo.
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.7\textwidth]{Img/PCA/Rplot04.png}
+    \includegraphics[width=0.7\textwidth]{Img/PCA/Rplot01.png}
     \caption{Output funzione \textit{fviz\_contrib(pca, choice = "var", axes = 1, top = 5)}}
     \label{fig:fviz_contrib(pca, choice = "var", axes = 1, top = 5)}
 \end{figure}
@@ -915,25 +1109,481 @@ Income & 7.31 & 0.16 & 2.59 & 3.75 & 0.92 \\
 \caption{Output \textit{pca\$var\$contrib}}
 \label{fig:pca$var$contrib}
 \end{table}
-Le funzioni \textit{fviz\_pca\_var} hanno permesso di analizzare graficamente le dimensioni che spie
+Le funzioni \textit{fviz\_pca\_var} hanno permesso di analizzare graficamente le dimensioni che spiegano il contributo delle variabili considerate nelle prime due dimensioni (fig. \ref{fig:fvizpcavar1} e fig. \ref{fig:fvizpcavar2}).
+
+\begin{figure}[!htb]
+   \begin{minipage}{0.48\textwidth}
+     \centering
+     \includegraphics[width=1\linewidth]{Img/PCA/Rplot03.png}
+     \caption{Contributo di tutte la variabili sulle prime due dimensioni.}\label{fig:fvizpcavar1}
+   \end{minipage}\hfill
+   \begin{minipage}{0.48\textwidth}
+     \centering
+     \includegraphics[width=1\linewidth]{Img/PCA/Rplot04.png}
+     \caption{Contributo delle cinque variabili più significative sulle prime due dimensioni.}\label{fig:fvizpcavar2}
+   \end{minipage}
+\end{figure}
+In fine si è preso in considerazione un nuovo dataset, nato dalle dimensioni fornite dalla PCA, descritto dalla tabella \ref{fig:PCADataset}. Esso verrà sfruttato durante l'analisi del dataset tramite i diversi algoritmi utilizzati.
+
+\begin{table}[h!t]
+\centering
+\begin{tabular}{rrrrrr}
+  \hline
+ & Dim.1 & Dim.2 & Dim.3 & Dim.4 & Dim.5 \\ 
+  \hline
+1 & 4.15 & 0.41 & 1.40 & 0.12 & 0.27 \\ 
+  2 & -2.56 & -0.14 & -0.62 & 1.48 & -0.78 \\ 
+  3 & 1.81 & -0.22 & 0.42 & 0.13 & -1.15 \\ 
+  4 & -2.46 & -0.91 & 0.29 & -0.99 & -0.58 \\ 
+  5 & -0.24 & 0.50 & 1.19 & 0.05 & 1.42 \\ 
+  6 & 0.65 & 0.73 & -0.16 & -0.19 & -1.22 \\ 
+   \hline
+\end{tabular}
+\caption{\textit{Head} del Dataset fornito dalla PCA}
+\label{fig:PCADataset}
+\end{table}
+
 
 \section{Modelli utilizzati}
-TODO
+Il dataset non presenta una variabile target specifica, per questo motivo di è ritenuto opportuno analizzare il tutto mediante algoritmi non supervisionati come quelli di \textbf{clustering}. In particolare si è deciso di utilizzare principalmente l'algoritmo \textbf{K-Means}. Oltre a ciò si è anche cercato di trovare un target su cui poter fare predizioni mediante alberi decisionali.
+
 \subsection{K-Means}
-TODO
+La natura stessa dei dati ha comportato l'obbligo di analizzare il tutto mediante un algoritmo come \textbf{K-Means}. 
+
+\subsubsection{Silhouette e Elbow Method}
+Si è ritenuto opportuno utilizzare metodi come \textbf{Elbow Method} e \textbf{Silhouette} al fine di determinare il numero ottimale di \textbf{clusters} da utilizzare. 
+\begin{lstlisting}[language=R]
+set.seed(6)
+wcss <- vector()
+for (i in 1:10) {
+  wcss[i] <- sum(kmeans(trainingSet_input, i)$withinss)
+}
+plot(1:10, wcss, type="b", main = paste('Clusters'), xlab='Number of clusters', ylab="WCSS")
+
+
+# OR
+
+fviz_nbclust(trainingSet_input,kmeans,method="wss")+geom_vline(xintercept=2,linetype=2)
+\end{lstlisting}
+Il codice mostra una prima analisi mediante \textit{elbow method}, il cui output si può notare dalle figure \ref{fig:Elbow1} e \ref{fig:Elbow2}. Esse mostrano un'inclinazione tra un numero di clusters compreso tra 2 e 3.
+\begin{figure}[!htb]
+   \begin{minipage}{0.48\textwidth}
+     \centering
+     \includegraphics[width=1\linewidth]{Img/K-MEANS/KMEANS001.png}
+     \caption{Elbow Method effettuato manualmente}\label{fig:Elbow1}
+   \end{minipage}\hfill
+   \begin{minipage}{0.48\textwidth}
+     \centering
+     \includegraphics[width=1\linewidth]{Img/K-MEANS/KMEANS002.png}
+     \caption{Elbow Method effettuato automaticamente dal metodo $fviz\_nbclust$}\label{fig:Elbow2}
+   \end{minipage}
+\end{figure}
+Per maggior sicurezza si è quindi deciso di sfruttare anche il metodo \textit{Silhouette} mediante il codice sottostante.
+
+\begin{lstlisting}[language=R]
+k <- 2:10
+avg_sil <- sapply(k, silhouette_score)
+plot(k, type='b', avg_sil, xlab='Number of clusters', ylab='Average Silhouette Scores', frame=FALSE)
+avg_sil # <<<- important
+
+# OR
+fviz_nbclust(trainingSet_input, kmeans, method="silhouette")
+\end{lstlisting}
+Il codice presenta in output i grafici espressi delle figure \ref{fig:Silhouette1} e \ref{fig:Silhouette2}, da cui si è potuto constatare con maggior sicurezza l'utilizzo di un numero di clusters pari a 2. 
+\begin{figure}[!htb]
+   \begin{minipage}{0.48\textwidth}
+     \centering
+     \includegraphics[width=1\linewidth]{Img/K-MEANS/KMEANS003.png}
+     \caption{Silhouette effettuata manualmente}\label{fig:Silhouette1}
+   \end{minipage}\hfill
+   \begin{minipage}{0.48\textwidth}
+     \centering
+     \includegraphics[width=1\linewidth]{Img/K-MEANS/KMEANS004.png}
+     \caption{Silhouette effettuata automaticamente dal metodo $fviz\_nbclust$}\label{fig:Silhouette2}
+   \end{minipage}
+\end{figure}
+\subsubsection{Algoritmo e Analisi}
+Il codice sottostante viene espresso mediante le figure  \ref{fig:clusters} e \ref{fig:dissimilaritymatrix} che rappresentano rispettivamente il \textbf{partizionamento per ogni cluster} e la \textbf{Matrice di dissimilarità}. E' doveroso notare che entrambe le figure mostrano un buon partizionamento degli elementi del cluster, sebbene ci sia qualche elemento di intersezione tra i due.
+\begin{lstlisting}[language=R]
+set.seed(29)
+km <- kmeans(trainingSet_input, 2, nstart = 10)
+print(km$centers)
+fviz_cluster(km, trainingSet_input, geom = "point",ellipse.type = "norm",repel = TRUE)
+cl <- km$cluster
+dissplot(dist(trainingSet_input), labels=cl,options=list(main="Kmeans Clustering With k=2"))
+\end{lstlisting}
+
+\begin{figure}[!htb]
+   \begin{minipage}{0.48\textwidth}
+     \centering
+         \includegraphics[width=1\textwidth]{Img/K-MEANS/KMEANS005.png}
+    \caption{Partizionamento in clusters dei dati}
+    \label{fig:clusters}
+   \end{minipage}\hfill
+   \begin{minipage}{0.48\textwidth}
+     \centering
+     \includegraphics[width=1\linewidth]{Img/K-MEANS/KMEANS006.png}
+     \caption{Dissimilarity matrix}\label{fig:dissimilaritymatrix}
+   \end{minipage}
+\end{figure}
+In particolare la figura \ref{fig:clusters} presenta gli elementi all'interno di ogni cluster. La tabella \ref{fig:clustersnumberelements} mostra il numero preciso di elementi per ogni cluster.
+\begin{table}[h!t]
+\centering
+\begin{tabular}{rlr}
+  \hline
+ & cluster & n \\ 
+  \hline
+1 & 1 & 1081 \\ 
+  2 & 2 & 711 \\ 
+   \hline
+\end{tabular}
+\caption{Numero di elementi per ogni cluster}
+\label{fig:clustersnumberelements}
+\end{table}
+Si è ritenuto necessario analizzare i risultati ottenuti mediante le variabili più significative, sorte durante la \textit{Principal Component Analisys}. 
+\begin{lstlisting}[language=R]
+wines <- ggplot(trainingSet, aes(MntWines)) + 
+   facet_grid(cluster~.) 
+
+wines + geom_histogram(color = "black", fill = "red") 
+wines + geom_density(fill="red", position = "Stack")
+ggplot(trainingSet, aes(x=cluster,y=MntWines,fill=cluster))+geom_boxplot(outlier.colour="black")
+\end{lstlisting}
+Il codice soprastante è descritto dalle figure \ref{fig:winesKmeansBoxPlot}, \ref{fig:winesKmeansDensity} e \ref{fig:winesKmeansHistogram}. Dall'analisi dei grafici si nota una spesa maggiore di vini per i \textit{customers} all'interno del secondo cluster. In particolare la maggior parte dei clienti all'interno del primo cluster non ha acquistato vini negli ultimi due anni. 
+
+\begin{figure}[!htb]
+   \begin{minipage}{0.48\textwidth}
+     \centering
+         \includegraphics[width=1\textwidth]{Img/K-MEANS/KMEANS007.png}
+    \caption{Istogramma della variabile Wines in relazione al numero di cluster}
+    \label{fig:winesKmeansHistogram}
+   \end{minipage}\hfill
+   \begin{minipage}{0.48\textwidth}
+     \centering
+     \includegraphics[width=1\linewidth]{Img/K-MEANS/KMEANS008.png}
+     \caption{Diagramma di densità della variabile Wines in relazione al numero di cluster}\label{fig:winesKmeansDensity}
+   \end{minipage}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Img/K-MEANS/KMEANS009.png}
+    \caption{BoxPlot della variabile Wines in relazione al numero di cluster}
+    \label{fig:winesKmeansBoxPlot}
+\end{figure}
+
+\begin{lstlisting}[language=R]
+income <- ggplot(trainingSet, aes(Income))+ 
+  facet_grid(cluster~.) + 
+  xlim(0,200000)
+
+income +  geom_histogram(color = "black", fill = "green")
+income + geom_density(fill="green", position = "Stack")
+ggplot(trainingSet, aes(x=cluster,y=Income,fill=cluster))+geom_boxplot(outlier.colour="black") + ylim(0,200000)
+\end{lstlisting}
+Il codice appena descritto ha il compito di analizzare gli elementi dei cluster in relazione al reddito di ciascun utente, ovvero in relazione alla variabile \textit{income}. Le figure \ref{fig:incomeKmeansDensity}, \ref{fig:incomeKmeansHistogram} e \ref{fig:incomeKmeansBoxPlot} ne mostrano la rappresentazione dei grafici. Da esse è doverso notare che nel primo cluster la maggior parte dei clienti possiede un reddito generalmente più basso rispetto ai \textit{customers} facenti parte del secondo. Calcolando il reddito medio dei compratori, pari a 52247 dollari, si può anche notare che la maggior parte degli elementi nel primo cluster possiedono un il reddito inferiore alla media. E' opportuno notare anche che, la maggior parte degli utenti del secondo cluster, contrariamente ai primi, possiedono un reddito superiore alla media.
+
+\begin{figure}[!htb]
+   \begin{minipage}{0.48\textwidth}
+     \centering
+         \includegraphics[width=1\textwidth]{Img/K-MEANS/KMEANS010.png}
+    \caption{Istogramma della variabile Income in relazione al numero di cluster}
+    \label{fig:incomeKmeansHistogram}
+   \end{minipage}\hfill
+   \begin{minipage}{0.48\textwidth}
+     \centering
+     \includegraphics[width=1\linewidth]{Img/K-MEANS/KMEANS011.png}
+     \caption{Diagramma di densità della variabile Income in relazione al numero di cluster}\label{fig:incomeKmeansDensity}
+   \end{minipage}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Img/K-MEANS/KMEANS012.png}
+    \caption{BoxPlot della variabile income in relazione al numero di cluster}
+    \label{fig:incomeKmeansBoxPlot}
+\end{figure}
+
+Un'altra variabile analizzata è Total\_spent, che spiega la gran parte della varianza della prima dimensione della PCA. Il codice sottostante speiga le figure \ref{fig:TotalSpentKmeansBoxPlot}, \ref{fig:TotalSpentKmeansDensity} e \ref{fig:TotalSpentKmeansHistogram}. In particolare, dall'analisi di esse è emerso che i compratori del primo cluster generalmente molto meno denaro rispetto a quelli del secondo. Oltre a ciò si può anche notare che quest'ultimi spendono mediamente più di mille dollari ogni due anni per prodotti come: vino, frutta, pesce e carne.
+\begin{lstlisting}[language=R]
+ts <- ggplot(trainingSet, aes(Total_spent), colour=cluster) + facet_grid(cluster~.)
+ts + geom_histogram(color = "black", fill = "purple") 
+ts + geom_density(fill="purple", position = "Stack")
+ggplot(trainingSet, aes(x=cluster,y=Total_spent,fill=cluster))+geom_boxplot(outlier.colour="black")
+\end{lstlisting}
+\begin{figure}[!htb]
+   \begin{minipage}{0.48\textwidth}
+     \centering
+         \includegraphics[width=1\textwidth]{Img/K-MEANS/KMEANS013.png}
+    \caption{Istogramma della variabile Total\_spent in relazione al numero di cluster}
+    \label{fig:TotalSpentKmeansHistogram}
+   \end{minipage}\hfill
+   \begin{minipage}{0.48\textwidth}
+     \centering
+     \includegraphics[width=1\linewidth]{Img/K-MEANS/KMEANS014.png}
+     \caption{Diagramma di Densità della variabile Total\_spent in relazione al numero di cluster}\label{fig:TotalSpentKmeansDensity}
+   \end{minipage}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Img/K-MEANS/KMEANS015.png}
+    \caption{BoxPlot della variabile Total\_spent in relazione al numero di cluster}
+    \label{fig:TotalSpentKmeansBoxPlot}
+\end{figure}
+
+Le figure \ref{fig:NumCatalogPurchasesKmeansBoxPlot}, \ref{fig:NumCatalogPurchasesKmeansDensity} e \ref{fig:NumCatalogPurchasesKmeansHistogram} mostrano che i clienti del primo cluster effettuino compere sul catalogo generalmente in quantità minore rispetto a quelli del secondo. Difatti ques'ultimi acquistano mediamente 5 prodotti dal catalogo.
+\begin{lstlisting}[language=R]
+numCatalogPurchases <- ggplot(trainingSet, aes(NumCatalogPurchases)) +  facet_grid(cluster~.)
+numCatalogPurchases + geom_histogram(color = "black", fill = "blue") 
+numCatalogPurchases + geom_density(fill="blue", position = "Stack")
+ggplot(trainingSet, aes(x=cluster,y=NumCatalogPurchases,fill=cluster))+geom_boxplot(outlier.colour="black") + ylim(0,10)
+\end{lstlisting}
+
+\begin{figure}[!htb]
+   \begin{minipage}{0.48\textwidth}
+     \centering
+         \includegraphics[width=1\textwidth]{Img/K-MEANS/KMEANS016.png}
+    \caption{Istogramma della variabile NumCatalogPurchases in relazione al numero di cluster}
+    \label{fig:NumCatalogPurchasesKmeansHistogram}
+   \end{minipage}\hfill
+   \begin{minipage}{0.48\textwidth}
+     \centering
+     \includegraphics[width=1\linewidth]{Img/K-MEANS/KMEANS017.png}
+     \caption{Diagramma di Densità della variabile NumCatalogPurchases in relazione al numero di cluster}\label{fig:NumCatalogPurchasesKmeansDensity}
+   \end{minipage}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Img/K-MEANS/KMEANS018.png}
+    \caption{BoxPlot della variabile NumCatalogPurchases in relazione al numero di cluster}
+    \label{fig:NumCatalogPurchasesKmeansBoxPlot}
+\end{figure}
+
+Dall'analisi della variabile \textit{MntMeatProducts}, inerente all'acquisto di prodotti di carne negli ultimi due anni, si possono evincere alcune importanti informazioni correlate anche alla precedente analisi di \textit{Total\_spent}. In particolare le figure \ref{fig:MntMeatProductsKmeansBoxPlot}, \ref{fig:MntMeatProductsKmeansDensity} e \ref{fig:MntMeatProductsKmeansHistogram} mostrano come gli acquirenti del primo cluster tendano a spendere generalmente di meno rispetto a quelli del secondo. Difatti i primi acquistano sicuramente molto meno rispetto alla media di circa 170 dollari ogni due anni spesi per prodotti di carne.
+
+\begin{lstlisting}[language=R]
+meat <- ggplot(trainingSet, aes(MntMeatProducts)) +  facet_grid(cluster~.)
+meat + geom_histogram(color = "black", fill = "brown") 
+meat + geom_density(fill="brown", position = "Stack")
+ggplot(trainingSet, aes(x=cluster,y=MntMeatProducts,fill=cluster))+geom_boxplot(outlier.colour="black")
+\end{lstlisting}
+
+
+\begin{figure}[!htb]
+   \begin{minipage}{0.48\textwidth}
+     \centering
+         \includegraphics[width=1\textwidth]{Img/K-MEANS/KMEANS019.png}
+    \caption{Istogramma della variabile MntMeatProducts in relazione al numero di cluster}
+    \label{fig:MntMeatProductsKmeansHistogram}
+   \end{minipage}\hfill
+   \begin{minipage}{0.48\textwidth}
+     \centering
+     \includegraphics[width=1\linewidth]{Img/K-MEANS/KMEANS020.png}
+     \caption{Diagramma di Densità della variabile MntMeatProducts in relazione al numero di cluster}\label{fig:MntMeatProductsKmeansDensity}
+   \end{minipage}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Img/K-MEANS/KMEANS021.png}
+    \caption{BoxPlot della variabile MntMeatProducts in relazione al numero di cluster}
+    \label{fig:MntMeatProductsKmeansBoxPlot}
+\end{figure}
+
+
+\newpage
+\subsection{D-Tree}
+Usando il dataset ricavato dalla PCA ovvero \textit{trainingSet\_input} si è cercato di fare una previsione sul valore che assume la variabile \textit{Response}. Per farlo è stata aggiunta una variabile al dataset. 
+
+\begin{lstlisting}[language=R]
+trainingSet_input$Response<-trainingSet$Response
+\end{lstlisting}
+
+Successivamente è stata usata la funzione \textit{rpart} per costruire un albero di decisione indicando come formula la variabile \textit{Response}.
+
+\begin{lstlisting}[language=R]
+response.default.tree <- rpart(Response ~ ., data = trainingSet_input, method = "class")
+\end{lstlisting}
+
+Per visualizzarlo si è eseguita la funzione prp del \textit{package, rpart.plot} indicando per i campi richiesti un parametro come per esempio \textit{type} che assegna a tutti i nodi un etichetta, non solo le foglie. \textit{extra}, che se uguale ad 1 visualizza il numero di osservazioni che cadono nel nodo. 
+
+\begin{lstlisting}[language=R]
+prp(response.default.tree, 
+     type = 1, extra = 1, varlen = -10, 
+     box.col = ifelse(customer.default.tree$frame$var == "<leaf>", 'gray', 'white'))
+\end{lstlisting}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Img/D-TREE/D-TREE001.png}
+    \caption{DecisionTree response.default.tree}
+\end{figure}
+
+
+Successivamente si è eseguita una previsione sulla variabile \textit{Response} tramite la funzione \textit{predict} passando come parametro anche l'albero \textit{response.default.tree}. 
+
+\begin{lstlisting}[language=R]
+response.default.tree.pred <- predict(response.default.tree, trainingSet_input,type = "class")
+\end{lstlisting}
+
+Per confrontare il valore effetivo della variabile \textit{Response} e della previsione si è fatta la matrice di confusione. 
+
+\begin{lstlisting}[language=R]
+confusionMatrix.default<-confusionMatrix(response.default.tree.pred, as.factor(trainingSet_input$Response), positive = "1")
+\end{lstlisting}
+
+
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|ll|lll|}
+\hline
+\multicolumn{2}{|l|}{\multirow{2}{*}{}} & \multicolumn{3}{l|}{Reference}                        \\ \cline{3-5} 
+\multicolumn{2}{|l|}{}                  & \multicolumn{1}{c|}{\_} & \multicolumn{1}{l|}{0}  & 1  \\ \hline
+\multicolumn{2}{|l|}{\multirow{2}{*}{Prediction}} & \multicolumn{1}{l|}{0} & \multicolumn{1}{l|}{1515} & 196 \\ \cline{3-5} 
+\multicolumn{2}{|l|}{}                  & \multicolumn{1}{l|}{1} & \multicolumn{1}{l|}{10} & 71 \\ \hline
+\end{tabular}
+\end{table}
+
+Dalla matrice di confusione sommando i valori presenti nella diagonale e facendo il rapporto con la somma di tutti i valori della matrice si ricava che l'accuratezza è del 88.5\%.
+Si può ricavare anche la precisione che è pari al rapporto tra il numero di istanze   classificate con il valore 1 e che corrisponde al valore che ha \textit{Response} e il numero di istanze classificate con il valore 1 al 87.6\%.
+Di seguito sono riportati altri dati statistici che è possibile ricavare. 
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{ll}
+\multicolumn{2}{l}{\textbf{Positive Class:} 1}          \\
+\textbf{Sensitivity:} 0.26592 & \textbf{Pos Pred Value:} 0.87654 \\
+\textbf{Specificity:} 0.99344 & \textbf{Neg Pred Value:} 0.88545
+\end{tabular}
+\end{table}
+
+Per capire meglio l'albero decisionale si usa la funzione printcp().
+
+\begin{lstlisting}[language=R]
+cv.ct <- rpart( Response ~ ., data = trainingSet_input, method ="class", cp = 0, minsplit = 2, xval = 10)
+printcp(cv.ct)
+\end{lstlisting}
+
+\textbf{Variables actually used in tree construction:} Dim.1 Dim.2 Dim.3 Dim.4 Dim.5\\
+\textbf{Root node error:} 267/1792 = 0.149\\
+\textbf{n=}1792 
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrrrrr}
+  \hline
+ & CP & nsplit & rel error & xerror & xstd \\ 
+  \hline
+1 & 0.0880150 & 0 & 0.00000 & 1.00000 & 0.056456 \\ 
+  2 & 0.0131086 & 2 & 0.823970 & 0.84270 & 0.052535 \\ 
+  3 & 0.0074906 & 6 & 0.771536 & 0.85393 & 0.052833 \\ 
+  4 & 0.0056180 & 9 & 0.749064 & 0.91386 & 0.054375 \\ 
+  5 & 0.0049938 & 32 & 0.554307 & 0.91386 & 0.054375 \\ 
+  6 & 0.0037453 & 38 & 0.524345 & 0.91386 & 0.054375 \\ 
+  7 & 0.0028090 & 98 & 0.299625 & 0.99625 & 0.056369 \\ 
+  8 & 0.0024969 & 114 & 0.250936 & 1.04494 & 0.057483 \\ 
+  9 & 0.0022472 & 123 & 0.228464 & 1.04494 & 0.057483 \\ 
+  10 & 0.0018727 & 128 & 0.217228 & 1.11236 & 0.058955 \\ 
+  11 & 0.0012484 & 202 & 0.052434 & 1.11236 & 0.058955 \\ 
+  12 & 0.000000 & 205 & 0.048689 & 1.11985 & 0.059113 \\ 
+   \hline
+\end{tabular}
+\end{table}
+
+Succesivamente si è cercato il miglior albero di decisione prendendo prima il minimo tra una matrice di informazioni sulle strutture ottimali in base ad un parametro di complessità, cp dalla\textit{cptable} che è pari a 0.8426966.
+Poi si è cercato l'errore standard corrispondente al minimo errore che è 0.05253461.  
+
+\begin{lstlisting}[language=R]
+# min error
+minerror <- min(cv.ct$cptable[ , 4])
+minerror
+
+minerrorstd <- cv.ct$cptable[cv.ct$cptable[,4] == minerror, 5]
+minerrorstd
+\end{lstlisting}
+
+\begin{lstlisting}[language=R]
+# set of trees where xerror is less than minerror + minerrorstd
+simplertrees <- cv.ct$cptable[cv.ct$cptable[,4] < minerror + minerrorstd, ]
+simplertrees
+\end{lstlisting}
+
+
+\begin{lstlisting}[language=R]
+# cp of the simplest of those trees
+bestcp <- simplertrees[1, 1]
+bestcp
+\end{lstlisting}
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrrrrr}
+  \hline
+ & CP & nsplit & rel error & xerror & xstd \\ 
+  \hline
+  2 & 0.013108614 & 2 & 0.8239700 & 0.8576779 & 0.05293184 \\ 
+  3 & 0.007490637  & 6 & 0.7715356 & 0.8726592 & 0.05332376\\ 
+  
+   \hline
+\end{tabular}
+\end{table}
+
+Si ricava l'insieme di alberi in cui xerror e minore della somma tra minerror e minerrorstd e da esso si trova che il parametro di complessità, cp è 0.01310861. 
+
+\begin{lstlisting}[language=R]
+
+bestcp <- simplertrees[1, 1]
+bestcp
+\end{lstlisting}
+
+L'albero più semplice si può visualizzare eseguendo le istruzioni successive.
+
+\begin{lstlisting}[language=R]
+response.best.tree <- prune( cv.ct, cp = bestcp )
+prp(response.best.tree, type = 1, extra = 1, varlen = -15, cex = 0.5,
+     box.col = ifelse(response.best.tree$frame$var == "<leaf>", 'gray', 'white' ))
+\end{lstlisting}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Img/D-TREE/D-TREE002.png}
+    \caption{DecisionTree response.best.tree}
+\end{figure}
+
+
+Come per l'albero precedente prima di visualizzare la matrice di confusione ed altri dati statistici si è fatta una previsione.
+
+\begin{lstlisting}[language=R]
+response.best.tree.pred <- predict(response.best.tree, trainingSet_input, type = "class")
+\end{lstlisting}
+
+Ed in fine per confrontare il valore effetivo della variabile \textit{Response} e della previsione si è fatta la matrice di confusione. 
+
+\begin{lstlisting}[language=R]
+confusionMatrix2<-confusionMatrix(response.best.tree.pred, as.factor(trainingSet_input$Response), positive = "1")
+\end{lstlisting}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|ll|lll|}
+\hline
+\multicolumn{2}{|l|}{\multirow{2}{*}{}} & \multicolumn{3}{l|}{Reference}                        \\ \cline{3-5} 
+\multicolumn{2}{|l|}{}                  & \multicolumn{1}{c|}{\_} & \multicolumn{1}{l|}{0}  & 1  \\ \hline
+\multicolumn{2}{|l|}{\multirow{2}{*}{Prediction}} & \multicolumn{1}{l|}{0} & \multicolumn{1}{l|}{1486} & 181 \\ \cline{3-5} 
+\multicolumn{2}{|l|}{}                  & \multicolumn{1}{l|}{1} & \multicolumn{1}{l|}{39} & 86 \\ \hline
+\end{tabular}
+\end{table}
 
 \section{Esperimenti}
 TODO
 
 \subsection{Analisi dei risultati ottenuti}
 
-\section{Conclusion}
+\newpage
+\section*{Conclusioni}
 
-
-\appendix
-
-\section*{Appendix: }
-
-
-
+Questa sperimentazione ha avuto l'obiettivo di analizzare un insieme di dati mediante tecniche di machine learning differenti, in particolare mediante l'algoritmo \textbf{K-Means}. Dall'analisi dei dati riscontrati si può giungere alla conclusione che una buona suddivisione dei dati riportati può avvenire mediante l'utilizzo di due cluster. In particolare il primo cluster presenta clienti con un reddito generalmente al di sotto della media e sicuramente minore rispetto alla maggior parte dei compratori facenti parte della seconda divisione. Secondo i dati analizzati ciò ha comportato sicuramente una riduzione delle spese totali da parte dei primi. La riduzione del numero di acquisti di prodotti ha generalmente toccato elementi che variano dai vini fino alla carne.
 \end{document}
