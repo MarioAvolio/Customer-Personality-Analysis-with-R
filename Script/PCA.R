@@ -16,7 +16,7 @@ library("caret")
 
 
 #SAVE
-png(file=paste(getwd(),"/Output/imgs/PCA/PCA%03d.png",sep = ""), width = 800, height = 800)
+#png(file=paste(getwd(),"/Output/imgs/PCA/PCA%03d.png",sep = ""), width = 800, height = 800)
 
 
 
@@ -56,6 +56,8 @@ analyzeIndividuals(pca)
 
 #Tracing variable contributions in customers_pca
 pca$var$contrib
+printToLatex(as.data.frame(pca$var$contrib))
+
 ########################################################################
 
 
@@ -127,6 +129,6 @@ testSet_input <- data.frame(get_pca_ind(pcaTest)$coord)
 
 
 #turn off png plotting
-dev.off() 
+#dev.off() 
 
 

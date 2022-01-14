@@ -35,8 +35,6 @@ source(paste(getwd(),"/Script/DescriptionOfData.R",sep = ""))
 
 
 
-#library(xtable)
-#print(xtable(as.data.frame(head(dataSet[,c("Total_spent", "Total_Campains", "Total_Childs")])), type = "latex"), file = "filename2.tex")
 
 ########################################################################
 #                                                                      #

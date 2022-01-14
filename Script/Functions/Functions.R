@@ -65,7 +65,7 @@ getNumberOfColFromName <- function(name, dataset=customers)
 
 
 
-getIndipendentNumbersOfCol <- function(data=customers)
+getIndipendentNumbersOfCol <- function(data=dataSet)
 {
   return(c(- getNumberOfColFromName("Education", data), - getNumberOfColFromName("Marital_Status", data), 
            - getNumberOfColFromName("AcceptedCmp3", data), - getNumberOfColFromName("AcceptedCmp4", data), - getNumberOfColFromName("AcceptedCmp5", data),
@@ -142,4 +142,22 @@ plotRelationship <- function(product){
     ggtitle(paste('Scatterplot of Income and ', product)) 
   
   return(plot)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+# Print
+library(xtable)
+printToLatex <- function(dataSetToPrint)
+{
+  print(xtable(as.data.frame(dataSetToPrint), type = "latex"), file = "filename2.tex")
 }

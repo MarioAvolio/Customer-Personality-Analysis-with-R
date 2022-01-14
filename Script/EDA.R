@@ -45,7 +45,7 @@ dataSet <- mutate(dataSet, Spent_range = spentRange)
 
 # Save 
 #pdf(file=paste(getwd(),"/Output/imgs/EDA/EDA.pdf",sep = ""))
-png(file=paste(getwd(),"/Output/imgs/EDA/EDA%03d.png",sep = ""), width = 800, height = 800)
+#png(file=paste(getwd(),"/Output/imgs/EDA/EDA%03d.png",sep = ""), width = 800, height = 800)
 
 
 
@@ -502,7 +502,7 @@ ggplot(dataSet, aes(x=Total_Campains)) + geom_histogram(aes(fill=Income_range), 
 
 
 #turn off png plotting
-dev.off() 
+#dev.off() 
 
 
 
@@ -536,10 +536,10 @@ dataSet <- select(dataSet, -Income_range)
 
 
 # Encoding the categorical features to numeric
-dataSet <- mutate(dataSet, Education = case_when(Education == "graduate" ~ 1,
-                                                     Education == "non-graduate" ~ 0))
-dataSet <- mutate(dataSet, Marital_Status = case_when(Marital_Status == "Couple" ~ 1,
-                                                          Marital_Status == "Single" ~ 0))
+# dataSet <- mutate(dataSet, Education = case_when(Education == "graduate" ~ 1,
+#                                                      Education == "non-graduate" ~ 0))
+# dataSet <- mutate(dataSet, Marital_Status = case_when(Marital_Status == "Couple" ~ 1,
+#                                                           Marital_Status == "Single" ~ 0))
 
 
 
