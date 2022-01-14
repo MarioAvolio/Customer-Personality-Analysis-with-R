@@ -14,7 +14,7 @@ library("cluster")
 
 
 #SAVE
-#  png(file=paste(getwd(),"/Output/imgs/KMEANS/KMEANS%03d.png",sep = ""), width = 800, height = 800)
+png(file=paste(getwd(),"/Output/imgs/KMEANS/KMEANS%03d.png",sep = ""), width = 800, height = 800)
 
 
 
