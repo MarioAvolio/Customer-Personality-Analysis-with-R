@@ -13,32 +13,35 @@ library("RColorBrewer")
 library(xtable)
 ########################################################################
 
-
-
 # nel nuovo dataset preso da pca aggiungo la colonna response
 trainingSet_input$Response<-trainingSet$Response
+testSet_input$Response<-testSet$Response
 
 # costruisco l'albero
-response.default.tree <- rpart(Response ~ ., 
+classifier <- rpart(Response ~ ., 
                                data = trainingSet_input, 
-                           method = "class")
+                               method = "class")
 ?rpart
 
 
 
 ?prp
 
-prp( response.default.tree, 
+prp( classifier, 
      type = 1, extra = 1, varlen = -10, 
-     box.col = ifelse(response.default.tree$frame$var == "<leaf>", 'gray', 'white'))
+     box.col = ifelse(classifier$frame$var == "<leaf>", 'gray', 'white'))
 
 
-response.default.tree.pred <- predict(response.default.tree, trainingSet_input, type = "class")
-confusionMatrix.default<-confusionMatrix(response.default.tree.pred, as.factor(trainingSet_input$Response), positive = "1")
-confusionMatrix.default
+y_pred <- predict(classifier, testSet_input, type = "class")
 
+y_pred
+cm = table(testSet_input[,6],y_pred)
+cm
 
-
+blabla<- confusionMatrix(y_pred, as.factor(testSet_input$Response), positive = "1")
+blabla
+accuracy<- sum(diag(cm))/sum(cm)
+accuracy
 
 
 cv.ct <- rpart( Response ~ ., 
@@ -50,7 +53,6 @@ printcp(cv.ct)
 
 cv.ct
 
-print(xtable(printcp(cv.ct), type = "latex"), file = "filename2.tex")
 
 # min error
 minerror <- min(cv.ct$cptable[ , 4])
@@ -76,7 +78,6 @@ prp( response.best.tree,
      box.col = ifelse(response.best.tree$frame$var == "<leaf>", 'gray', 'white' ))
 
 
-response.best.tree.pred <- predict(response.best.tree, trainingSet_input, type = "class")
-confusionMatrix2<-confusionMatrix(response.best.tree.pred, as.factor(trainingSet_input$Response), positive = "1")
-confusionMatrix2
-
+response.best.tree.pred <- predict(response.best.tree, testSet_input, type = "class")
+confusionMatrix<-confusionMatrix(response.best.tree.pred, as.factor(testSet_input$Response), positive = "1")
+confusionMatrix
