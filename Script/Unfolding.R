@@ -1,39 +1,58 @@
-source(paste(getwd(),"/Script/DataPreprocessing.R",sep = "")) # execute DataPreprocessing
+# execute DataPreprocessing
+source(paste(getwd(),"/Script/PCA.R",sep = "")) 
+########################################################################
+#                                                                      #
+#                               LIBRARY                                #
+#                                                                      #
+########################################################################
+library("rpart")
+library("caret")
+library("rpart.plot")
+library("tidyverse")
+library("RColorBrewer")
+library(xtable)
+########################################################################
 
 
 
-library(tidyverse) 
-library(caret)
+# nel nuovo dataset preso da pca aggiungo la colonna response
+trainingSet_input$Response<-trainingSet$Response
 
-install.packages("dplyr")    # alternative installation of the %>%
+# building the classifier
+response.default.tree <- rpart(Response ~ ., data = trainingSet_input,  method = "class")
 
-library(dplyr)    # alternatively, this also loads %>%
+prp(response.default.tree, 
+     type = 1, extra = 1, varlen = -10, 
+     box.col = ifelse(response.default.tree$frame$var == "<leaf>", 'gray', 'white'))
 
-library(ggplot2)
+# predicting values
+response.default.tree.pred <- predict(response.default.tree, trainingSet_input, type = "class")
 
-
-hist(trainingSet$Response,col="coral")
-prop.table(table(trainingSet$Response))
-
-
-set.seed(100)
-trctrl <- trainControl(method = "cv", number = 10, savePredictions=TRUE)
-nb_fit <- train(factor(Response) ~., data = trainingSet, method = "naive_bayes", trControl=trctrl, tuneLength = 0)
-nb_fit
+# making confusion matrix 
+confusionMatrix.default<-confusionMatrix(response.default.tree.pred, as.factor(trainingSet_input$Response), positive = "1")
+confusionMatrix.default
 
 
-pred <- nb_fit$pred
-pred$equal <- ifelse(pred$pred == pred$obs, 1,0)
 
 
-eachfold <- pred %>%                                        
-  group_by(Resample) %>%                         
-  summarise_at(vars(equal),                     
-               list(Accuracy = mean))              
-eachfold
+# applying  l-fold cross validation
+folds= createFolds(trainingSet_input$Response, k=10)
+cv= lapply(folds, function(x){
+  training_fold= trainingSet_input[-x,]
+  test_fold= trainingSet_input[x,]
+  # building the classifier
+  response.default.tree <- rpart(Response ~ ., data = training_fold,  method = "class")
+  
+  # predicting values
+  response.default.tree.pred <- predict(response.default.tree, test_fold, type = "class")
+  
+  cm= table(test_fold[,3], response.default.tree.pred)
+  
+  accuracy= (cm[1,1]+cm[2,2]/cm[1,1]+cm[2,2]+cm[2,1]+cm[2,2])
+  return(accuracy)
+  
+})
 
-ggplot(data=eachfold, aes(x=Resample, y=Accuracy, group=1)) +
-  geom_boxplot(color="maroon") +
-  geom_point() +
-  theme_minimal()
+accuracy= mean(as.numeric(cv))
+accuracy
 
