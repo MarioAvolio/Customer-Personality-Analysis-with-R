@@ -17,7 +17,7 @@ library(DataExplorer)
 
 
 # Open file
-png(file=paste(getwd(),"/Output/imgs/DESCRIPTION/DESCRIPTION%03d.png",sep = ""), width = 800, height = 800)
+# png(file=paste(getwd(),"/Output/imgs/DESCRIPTION/DESCRIPTION%03d.png",sep = ""), width = 800, height = 800)
 
 
 
@@ -27,7 +27,7 @@ png(file=paste(getwd(),"/Output/imgs/DESCRIPTION/DESCRIPTION%03d.png",sep = ""),
 #                           Read Dataset                               #
 #                                                                      #
 ######################################################################## 
-customers <- read.csv(paste(getwd(),"/Data/marketing_campaign.csv",sep = ""), header=TRUE, sep="\t",  stringsAsFactors=F) # use TAB as separator!
+dataSet <- read.csv(paste(getwd(),"/Data/marketing_campaign.csv",sep = ""), header=TRUE, sep="\t",  stringsAsFactors=F) # use TAB as separator!
 ########################################################################
 
 
@@ -41,12 +41,12 @@ customers <- read.csv(paste(getwd(),"/Data/marketing_campaign.csv",sep = ""), he
 #                               SUMMARY                                #
 #                                                                      #
 ########################################################################
-dim(customers)
-head(customers, n=6)
-glimpse(customers)
+dim(dataSet)
+head(dataSet, n=6)
+glimpse(dataSet)
 
 
-summary(customers) # most important!
+summary(dataSet) # most important!
 
  #        ID          Year_Birth    Education         Marital_Status         Income          Kidhome          Teenhome      Dt_Customer       
  #  Min.   :    0   Min.   :1893   Length:2240        Length:2240        Min.   :  1730   Min.   :0.0000   Min.   :0.0000   Length:2240       
@@ -104,14 +104,14 @@ summary(customers) # most important!
 #########################################################################
 
 # Boxplot of the Year of birth variable
-ggplot(customers, aes(Year_Birth)) + geom_boxplot() 
+ggplot(dataSet, aes(Year_Birth)) + geom_boxplot() 
 
 #NOTE:
 # - 3 Outliers
 
 
 # Boxplot of Income variable
-ggplot(customers, aes(Income)) + geom_boxplot() 
+ggplot(dataSet, aes(Income)) + geom_boxplot() 
 
 #NOTE:
 # - 24 rows containing non-finite values
@@ -119,7 +119,7 @@ ggplot(customers, aes(Income)) + geom_boxplot()
 
 
 # Boxplot of Income variable
-ggplot(customers, aes(Income)) + geom_boxplot() 
+ggplot(dataSet, aes(Income)) + geom_boxplot() 
 
 #NOTE:
 # - 24 rows containing non-finite values
@@ -128,7 +128,7 @@ ggplot(customers, aes(Income)) + geom_boxplot()
 
 
 # Kidhome
-ggplot(customers, aes(Kidhome)) + geom_boxplot() 
+ggplot(dataSet, aes(Kidhome)) + geom_boxplot() 
 
 #NOTE:
 # - No outliers
@@ -139,7 +139,7 @@ ggplot(customers, aes(Kidhome)) + geom_boxplot()
 
 
 # Kidhome
-ggplot(customers, aes(Teenhome)) + geom_boxplot() 
+ggplot(dataSet, aes(Teenhome)) + geom_boxplot() 
 
 #NOTE:
 # - No outliers
@@ -149,7 +149,7 @@ ggplot(customers, aes(Teenhome)) + geom_boxplot()
 
 
 # Boxplot of Recency variable
-ggplot(customers, aes(Recency)) + geom_boxplot() 
+ggplot(dataSet, aes(Recency)) + geom_boxplot() 
 
 #NOTE:
 # - No outliers
@@ -160,7 +160,7 @@ ggplot(customers, aes(Recency)) + geom_boxplot()
 # -------------------------------------------------------------- MNT VARIABLES BOXPLOT
 
 # Boxplot of the Mnt Wines variable
-ggplot(customers, aes(MntWines)) + geom_boxplot() 
+ggplot(dataSet, aes(MntWines)) + geom_boxplot() 
 
 #NOTE:
 # - We also noted from looking at the summary statistics, the minimum amount is 0 and max is 1493. The third quantile is 504.25.
@@ -168,7 +168,7 @@ ggplot(customers, aes(MntWines)) + geom_boxplot()
 
 
 # Boxplot of the Mnt Fruits variable
-ggplot(customers, aes(MntFruits)) + geom_boxplot() 
+ggplot(dataSet, aes(MntFruits)) + geom_boxplot() 
 
 #NOTE:
 # - We also noted from looking at the summary statistics, the minimum amount is 0 and max is 199 The third quantile is 33.0.
@@ -176,7 +176,7 @@ ggplot(customers, aes(MntFruits)) + geom_boxplot()
 
 
 # Boxplot of the Mnt Meat Products variable
-ggplot(customers, aes(MntMeatProducts)) + geom_boxplot() 
+ggplot(dataSet, aes(MntMeatProducts)) + geom_boxplot() 
 
 #NOTE:
 # - We also noted from looking at the summary statistics, the minimum amount is 0 and max is 1725 The third quantile is 232.0.
@@ -184,7 +184,7 @@ ggplot(customers, aes(MntMeatProducts)) + geom_boxplot()
 
 
 # Boxplot of the Mnt Fish Products variable
-ggplot(customers, aes(MntFishProducts)) + geom_boxplot() 
+ggplot(dataSet, aes(MntFishProducts)) + geom_boxplot() 
 
 #NOTE:
 # - We also noted from looking at the summary statistics, the minimum amount is 0 and max is 259 The third quantile is 50.0.
@@ -193,7 +193,7 @@ ggplot(customers, aes(MntFishProducts)) + geom_boxplot()
 
 
 # Boxplot of the Mnt Sweet Products variable
-ggplot(customers, aes(MntSweetProducts)) + geom_boxplot() 
+ggplot(dataSet, aes(MntSweetProducts)) + geom_boxplot() 
 
 #NOTE:
 # - We also noted from looking at the summary statistics, the minimum amount is 0 and max is 259 The third quantile is 50.0.
@@ -201,7 +201,7 @@ ggplot(customers, aes(MntSweetProducts)) + geom_boxplot()
 
 
 # Boxplot of the Mnt Gold Prods variable
-ggplot(customers, aes(MntGoldProds)) + geom_boxplot() 
+ggplot(dataSet, aes(MntGoldProds)) + geom_boxplot() 
 
 #NOTE:
 # - We also noted from looking at the summary statistics, the minimum amount is 0 and max is 362 The third quantile is 56.0.
@@ -223,21 +223,21 @@ ggplot(customers, aes(MntGoldProds)) + geom_boxplot()
 # -------------------------------------------------------------- PURCHASES VARIABLES BOXPLOT
 
 # NumDealsPurchases
-ggplot(customers, aes(NumDealsPurchases)) + geom_boxplot() 
+ggplot(dataSet, aes(NumDealsPurchases)) + geom_boxplot() 
 
 #NOTE:
 # - Some outliers
 
 
 # NumWebPurchases  
-ggplot(customers, aes(NumWebPurchases)) + geom_boxplot() 
+ggplot(dataSet, aes(NumWebPurchases)) + geom_boxplot() 
 
 #NOTE:
 # - Some outliers
 
 
 # NumCatalogPurchases 
-ggplot(customers, aes(NumCatalogPurchases)) + geom_boxplot()
+ggplot(dataSet, aes(NumCatalogPurchases)) + geom_boxplot()
 
 #NOTE:
 # - Some outliers
@@ -245,7 +245,7 @@ ggplot(customers, aes(NumCatalogPurchases)) + geom_boxplot()
 
 
 # NumStorePurchases 
-ggplot(customers, aes(NumStorePurchases)) + geom_boxplot() 
+ggplot(dataSet, aes(NumStorePurchases)) + geom_boxplot() 
 
 #NOTE:
 # - No outliers
@@ -256,17 +256,17 @@ ggplot(customers, aes(NumStorePurchases)) + geom_boxplot()
 
 
 # NumWebVisitsMonth
-ggplot(customers, aes(NumDealsPurchases)) + geom_boxplot() 
+ggplot(dataSet, aes(NumDealsPurchases)) + geom_boxplot() 
 
 #NOTE:
 # - Some outliers
 
 
 # Z_CostContact and Z_Revenue
-ggplot(customers, aes(Z_CostContact)) + geom_boxplot() 
-multiple.func(customers$Z_CostContact)
-ggplot(customers, aes(Z_Revenue)) + geom_boxplot() 
-multiple.func(customers$Z_Revenue)
+ggplot(dataSet, aes(Z_CostContact)) + geom_boxplot() 
+multiple.func(dataSet$Z_CostContact)
+ggplot(dataSet, aes(Z_Revenue)) + geom_boxplot() 
+multiple.func(dataSet$Z_Revenue)
 
 # NOTE:
 # - The features Z_CostContact and Z_Revenue show no variation.
@@ -283,13 +283,13 @@ multiple.func(customers$Z_Revenue)
 #                             MISSING VALUE                            #
 #                                                                      #
 ########################################################################
-hist(customers$Income,40,col="#adcae6")
-ggplot(customers, aes(y = Income)) + geom_boxplot()
-n_miss(customers) # counting the total number of missing values in the data
-miss_var_summary(customers) # Summarizing missingness in each variable 
+hist(dataSet$Income,40,col="#adcae6")
+ggplot(dataSet, aes(y = Income)) + geom_boxplot()
+n_miss(dataSet) # counting the total number of missing values in the data
+miss_var_summary(dataSet) # Summarizing missingness in each variable 
 
 library(xtable)
-print(xtable(as.data.frame(miss_var_summary(customers)), type = "latex"), file = "filename2.tex")
+print(xtable(as.data.frame(miss_var_summary(dataSet)), type = "latex"), file = "filename2.tex")
 
 # NOTE:
 #   
@@ -305,7 +305,7 @@ print(xtable(as.data.frame(miss_var_summary(customers)), type = "latex"), file =
 #                                                                      #
 ########################################################################
 
-# DataExplorer::create_report(customers, output_dir = paste(getwd(),"/Output/Data/",sep = ""))
+# DataExplorer::create_report(dataSet, output_dir = paste(getwd(),"/Output/Data/",sep = ""))
 ########################################################################
 
 

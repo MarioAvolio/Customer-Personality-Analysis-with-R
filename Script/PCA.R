@@ -16,7 +16,7 @@ library("caret")
 
 
 #SAVE
-png(file=paste(getwd(),"/Output/imgs/PCA/PCA%03d.png",sep = ""), width = 800, height = 800)
+# png(file=paste(getwd(),"/Output/imgs/PCA/PCA%03d.png",sep = ""), width = 800, height = 800)
 
 
 
@@ -27,8 +27,7 @@ png(file=paste(getwd(),"/Output/imgs/PCA/PCA%03d.png",sep = ""), width = 800, he
 #                                                                      #
 ########################################################################
 #Running a PCA.
-pca <- PCA(trainingSet_scaled, graph = FALSE)
-pcaTest <- PCA(testSet_scaled, graph = FALSE)
+pca <- PCA(dataSet_scaled, graph = FALSE)
 ?PCA
 #----------------------------------------------------- Exploring PCA
 # Getting the summary of the pca
@@ -117,9 +116,12 @@ fviz_pca_ind(pca, col.ind = "cos2",
 
 
 # ---------------------------------- Extract the principal components
-trainingSet_input <- data.frame(get_pca_ind(pca)$coord)
+pcaTest <- PCA(testSet_scaled, graph = FALSE)
+pcaTraining <- PCA(trainingSet_scaled, graph = FALSE)
+
+
+trainingSet_input <- data.frame(get_pca_ind(pcaTraining)$coord)
 testSet_input <- data.frame(get_pca_ind(pcaTest)$coord)
-# trainingset.pca <- cbind(class=trainingSet_scaled$class, trainingSet.pca.input)
 ########################################################################
 
 

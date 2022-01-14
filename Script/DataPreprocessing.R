@@ -3,13 +3,13 @@ source(paste(getwd(),"/Script/Functions/Functions.R",sep = ""))
 
 ########################################################################
 #                                                                      #
-#                           Read customers                             #
+#                           Read dataSet                             #
 #                                                                      #
 ######################################################################## 
 
 source(paste(getwd(),"/Script/DescriptionOfData.R",sep = "")) 
 
-# customers <- read.csv(paste(getwd(),"/Data/marketing_campaign.csv",sep = ""), header=TRUE, sep="\t",  stringsAsFactors=F) # use TAB as separator!
+# dataSet <- read.csv(paste(getwd(),"/Data/marketing_campaign.csv",sep = ""), header=TRUE, sep="\t",  stringsAsFactors=F) # use TAB as separator!
 
 ########################################################################
 
@@ -35,38 +35,38 @@ source(paste(getwd(),"/Script/DescriptionOfData.R",sep = ""))
 
 
 
-library(xtable)
-print(xtable(as.data.frame(head(customers[,c("Total_spent", "Total_Campains", "Total_Childs")])), type = "latex"), file = "filename2.tex")
+#library(xtable)
+#print(xtable(as.data.frame(head(dataSet[,c("Total_spent", "Total_Campains", "Total_Childs")])), type = "latex"), file = "filename2.tex")
 
 ########################################################################
 #                                                                      #
-#                           REFACTOR customers                         #
+#                           REFACTOR dataSet                         #
 #                                                                      #
 ########################################################################
 
 
 # ------------------------------------- COLLAPSING
 #Collapsing marital Status into two categories: Single & Couple
-unique(customers$Marital_Status)
-customers <- mutate(customers, Marital_Status = replace(Marital_Status, Marital_Status == "Divorced" | Marital_Status == "Widow" | Marital_Status == "Alone" | Marital_Status == "Absurd" | Marital_Status == "YOLO", "Single"))
-customers <- mutate(customers, Marital_Status = replace(Marital_Status, Marital_Status == "Together" | Marital_Status == "Married", "Couple"))
+unique(dataSet$Marital_Status)
+dataSet <- mutate(dataSet, Marital_Status = replace(Marital_Status, Marital_Status == "Divorced" | Marital_Status == "Widow" | Marital_Status == "Alone" | Marital_Status == "Absurd" | Marital_Status == "YOLO", "Single"))
+dataSet <- mutate(dataSet, Marital_Status = replace(Marital_Status, Marital_Status == "Together" | Marital_Status == "Married", "Couple"))
 
 #Collapsing the Education into two Categories: graduate and non-graduate
-unique(customers$Education)
-customers <- mutate(customers, Education = replace(Education, Education == "Graduation"| Education == "PhD" | Education == "Master", "graduate"))
-customers <- mutate(customers, Education = replace(Education, Education == "Basic"| Education == "2n Cycle", "non-graduate"))
+unique(dataSet$Education)
+dataSet <- mutate(dataSet, Education = replace(Education, Education == "Graduation"| Education == "PhD" | Education == "Master", "graduate"))
+dataSet <- mutate(dataSet, Education = replace(Education, Education == "Basic"| Education == "2n Cycle", "non-graduate"))
 # ------------------------------------- 
 
 
 
 # ------------------------------------- CONVERSION
 #Converting them to factors
-customers <- mutate(customers, Marital_Status = as.factor(Marital_Status), Education = as.factor(Education))
+dataSet <- mutate(dataSet, Marital_Status = as.factor(Marital_Status), Education = as.factor(Education))
 
 # Encoding the categorical features to numeric
-customers <- mutate(customers, Education = case_when(Education == "graduate" ~ 1,
+dataSet <- mutate(dataSet, Education = case_when(Education == "graduate" ~ 1,
                                                      Education == "non-graduate" ~ 0))
-customers <- mutate(customers, Marital_Status = case_when(Marital_Status == "Couple" ~ 1,
+dataSet <- mutate(dataSet, Marital_Status = case_when(Marital_Status == "Couple" ~ 1,
                                                           Marital_Status == "Single" ~ 0))
 # ------------------------------------- 
 
@@ -74,13 +74,13 @@ customers <- mutate(customers, Marital_Status = case_when(Marital_Status == "Cou
 
 # ------------------------------------- TOTAL
 #Creating a new variable:Total_spent
-customers <- mutate(customers, Total_spent = MntWines + MntFruits + MntMeatProducts + MntFishProducts + MntSweetProducts + MntGoldProds)
+dataSet <- mutate(dataSet, Total_spent = MntWines + MntFruits + MntMeatProducts + MntFishProducts + MntSweetProducts + MntGoldProds)
 
 # Details about previous campains also combined. Creating a new variable:Total_Campains
-customers <- mutate(customers, Total_Campains = AcceptedCmp1 + AcceptedCmp2 + AcceptedCmp3 + AcceptedCmp4 + AcceptedCmp5)
+dataSet <- mutate(dataSet, Total_Campains = AcceptedCmp1 + AcceptedCmp2 + AcceptedCmp3 + AcceptedCmp4 + AcceptedCmp5)
 
-# These variables can be combined and we can get the no of children for the customers. Creating a new variable:Total_Childs
-customers <- mutate(customers, Total_Childs = Kidhome + Teenhome)
+# These variables can be combined and we can get the no of children for the dataSet. Creating a new variable:Total_Childs
+dataSet <- mutate(dataSet, Total_Childs = Kidhome + Teenhome)
 # ------------------------------------- 
 
 
@@ -89,11 +89,11 @@ customers <- mutate(customers, Total_Childs = Kidhome + Teenhome)
 # creating a new variable Age from Year of Birth 
 thisYear <- as.numeric(format(as.Date(Sys.Date(), format="%d-%m-%Y"),"%Y"))
 thisYear
-customers <- mutate(customers, Age = thisYear - Year_Birth)
+dataSet <- mutate(dataSet, Age = thisYear - Year_Birth)
 
 
 #Dropping some redundant features
-customers <- select(customers, - ID, - Year_Birth, - Z_CostContact, - Z_Revenue, -Dt_Customer)
+dataSet <- select(dataSet, - ID, - Year_Birth, - Z_CostContact, - Z_Revenue, -Dt_Customer)
 ########################################################################
 
 
@@ -119,9 +119,9 @@ customers <- select(customers, - ID, - Year_Birth, - Z_CostContact, - Z_Revenue,
 #                   SOLVING MISSING DATA INTO INCOME                   #
 #                                                                      #
 ########################################################################
-customers$Income <- ifelse(is.na(customers$Income), # is.na check is a value is not available
-                          ave(customers$Income, FUN = function(x) mean(x, na.rm = TRUE)), # if is not available change with average
-                          customers$Income # else
+dataSet$Income <- ifelse(is.na(dataSet$Income), # is.na check is a value is not available
+                          ave(dataSet$Income, FUN = function(x) mean(x, na.rm = TRUE)), # if is not available change with average
+                          dataSet$Income # else
 ) 
 ########################################################################
 
@@ -149,9 +149,9 @@ customers$Income <- ifelse(is.na(customers$Income), # is.na check is a value is 
 #                                                                      #
 ########################################################################
 set.seed(17538)
-split <- sample.split(customers$Response, SplitRatio = 0.8)
-trainingSet <- subset(customers, split == TRUE)
-testSet <- subset(customers, split == FALSE)
+split <- sample.split(dataSet$Response, SplitRatio = 0.8)
+trainingSet <- subset(dataSet, split == TRUE)
+testSet <- subset(dataSet, split == FALSE)
 ########################################################################
 
 
@@ -165,6 +165,7 @@ testSet <- subset(customers, split == FALSE)
 ########################################################################
 trainingSet_scaled <- as.data.frame(scale(trainingSet[, getIndipendentNumbersOfCol()]))
 testSet_scaled <- as.data.frame(scale(testSet[, getIndipendentNumbersOfCol()]))
+dataSet_scaled <- as.data.frame(scale(dataSet[, getIndipendentNumbersOfCol()]))
 ########################################################################
 
 
