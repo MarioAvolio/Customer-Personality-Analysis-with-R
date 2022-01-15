@@ -14,7 +14,7 @@ library("cluster")
 
 
 #SAVE
-png(file=paste(getwd(),"/Output/imgs/KMEANS/KMEANS%03d.png",sep = ""), width = 800, height = 800)
+# png(file=paste(getwd(),"/Output/imgs/KMEANS/KMEANS%03d.png",sep = ""), width = 800, height = 800)
 
 
 
@@ -173,5 +173,5 @@ ggplot(dataSet, aes(x=cluster,y=MntMeatProducts,fill=cluster))+geom_boxplot(outl
 
 
 #turn off png plotting
-dev.off() 
+# dev.off() 
 
