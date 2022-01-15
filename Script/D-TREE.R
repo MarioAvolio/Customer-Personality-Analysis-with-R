@@ -14,15 +14,15 @@ library(xtable)
 ########################################################################
 
 # nel nuovo dataset preso da pca aggiungo la colonna response
-trainingSet_input$Response<-trainingSet$Response
-testSet_input$Response<-testSet$Response
+trainingSet_input$Response <- trainingSet$Response
+testSet_input$Response <- testSet$Response
 
 # costruisco l'albero
 classifier <- rpart(Response ~ ., 
                                data = trainingSet_input, 
                                method = "class")
 
-prp( classifier, 
+prp(classifier, 
      type = 1, extra = 1, varlen = -10, 
      box.col = ifelse(classifier$frame$var == "<leaf>", 'gray', 'white'))
 
@@ -45,8 +45,8 @@ accuracy
 precision
 recall
 fmeasure
-
 recall
+
 cv.ct <- rpart( Response ~ ., 
                 data = trainingSet_input, 
                 method = "class", 
