@@ -21,11 +21,6 @@ testSet_input$Response<-testSet$Response
 classifier <- rpart(Response ~ ., 
                                data = trainingSet_input, 
                                method = "class")
-?rpart
-
-
-
-?prp
 
 prp( classifier, 
      type = 1, extra = 1, varlen = -10, 
@@ -38,12 +33,20 @@ y_pred
 cm = table(testSet_input[,6],y_pred)
 cm
 
-blabla<- confusionMatrix(y_pred, as.factor(testSet_input$Response), positive = "1")
-blabla
 accuracy<- sum(diag(cm))/sum(cm)
+
+precision<- (cm[2,2] /sum(cm[2,1], cm[2,2]))
+
+recall<- (cm[2,2] /sum(cm[2,2], cm[1,2]))
+
+fmeasure<- (2*precision*recall)/(precision+recall)
+
 accuracy
+precision
+recall
+fmeasure
 
-
+recall
 cv.ct <- rpart( Response ~ ., 
                 data = trainingSet_input, 
                 method = "class", 
