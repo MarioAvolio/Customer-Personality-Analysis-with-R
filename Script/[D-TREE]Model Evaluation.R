@@ -17,7 +17,7 @@ library(xtable)
 
 ##########################COMPUTE PERFORMANCE###########################
 
-# nel nuovo dataset preso da pca aggiungo la colonna response
+
 trainingSet_input$Response<-trainingSet$Response
 testSet_input$Response<-testSet$Response
 
@@ -50,6 +50,7 @@ cm
 
 # applying  l-fold cross validation
 folds= createFolds(trainingSet_input$Response, k=10)
+
 cv= lapply(folds, function(x){
   training_fold= trainingSet_input[-x,]
   test_fold= trainingSet_input[x,]
@@ -61,24 +62,18 @@ cv= lapply(folds, function(x){
  
   cm= table(test_fold[,6], response.default.tree.pred)
   
-  accuracy=sum(diag(cm))/sum(cm)
-  precision= (cm[2,2] /sum(cm[2,1], cm[2,2]))
-  recall= (cm[2,2] /sum(cm[2,2], cm[1,2]))
-  fmeasure= (2*precision*recall)/(precision+recall)
-  cm
-  
-  results= c(accuracy, precision, recall, fmeasure)
-  
-  #accuracy= accuracy<- sum(diag(cm))/sum(cm)
-  #precision= cm[2,2] /sum(cm[2,1], cm[2,2])
- # return(accuracy)
-  return (results)
+
+  return (cm)
   
 })
 
 results=as.array(cv)
-results
 
+#  complex_cf= 
+#  accuracy=sum(diag(complex_cf))/sum(complex_cf)
+#  precision= (complex_cf[2,2] /sum(complex_cf[2,1], complex_cf[2,2]))
+#  recall= (complex_cf[2,2] /sum(complex_cf[2,2], complex_cf[1,2]))
+#  fmeasure= (2*precision*recall)/(precision+recall)
 
 install.packages("ROCR")
 library(ROCR)
