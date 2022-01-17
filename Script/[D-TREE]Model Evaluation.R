@@ -50,8 +50,8 @@ cm
 
 # applying  l-fold cross validation
 folds= createFolds(trainingSet_input$Response, k=10)
-
 cv= lapply(folds, function(x){
+  
   training_fold= trainingSet_input[-x,]
   test_fold= trainingSet_input[x,]
   # building the classifier
@@ -60,21 +60,24 @@ cv= lapply(folds, function(x){
   # predicting values
   response.default.tree.pred <- predict(response.default.tree, newdata =  test_fold, type = "class")
  
-  cm= table(test_fold[,6], response.default.tree.pred)
-  
-
+  cm = table(test_fold[,6], response.default.tree.pred)
   return (cm)
   
 })
 
-results=as.array(cv)
+complex_cf =Reduce('+',  cv)
+class(complex_cf)
+complex_cf
 
-#  complex_cf= 
-#  accuracy=sum(diag(complex_cf))/sum(complex_cf)
-#  precision= (complex_cf[2,2] /sum(complex_cf[2,1], complex_cf[2,2]))
-#  recall= (complex_cf[2,2] /sum(complex_cf[2,2], complex_cf[1,2]))
-#  fmeasure= (2*precision*recall)/(precision+recall)
+accuracy=sum(diag(complex_cf))/sum(complex_cf)
+precision= (complex_cf[2,2] /sum(complex_cf[2,1], complex_cf[2,2]))
+recall= (complex_cf[2,2] /sum(complex_cf[2,2], complex_cf[1,2]))
+fmeasure= (2*precision*recall)/(precision+recall)
 
+accuracy
+precision
+recall
+fmeasure
 install.packages("ROCR")
 library(ROCR)
 dtreefit=rpart(Response ~ ., data = trainingSet_input, 
