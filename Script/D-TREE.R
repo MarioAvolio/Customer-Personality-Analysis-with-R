@@ -10,7 +10,7 @@ library("caret")
 library("rpart.plot")
 library("tidyverse")
 library("RColorBrewer")
-library(xtable)
+
 ########################################################################
 
 # nel nuovo dataset preso da pca aggiungo la colonna response

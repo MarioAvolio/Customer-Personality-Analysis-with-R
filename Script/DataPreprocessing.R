@@ -3,7 +3,7 @@ source(paste(getwd(),"/Script/Functions/Functions.R",sep = ""))
 
 ########################################################################
 #                                                                      #
-#                           Read dataSet                             #
+#                           Read dataSet                               #
 #                                                                      #
 ######################################################################## 
 
@@ -14,31 +14,9 @@ source(paste(getwd(),"/Script/DescriptionOfData.R",sep = ""))
 ########################################################################
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ########################################################################
 #                                                                      #
-#                           REFACTOR dataSet                         #
+#                           REFACTOR dataSet                           #
 #                                                                      #
 ########################################################################
 
@@ -54,7 +32,6 @@ unique(dataSet$Education)
 dataSet <- mutate(dataSet, Education = replace(Education, Education == "Graduation"| Education == "PhD" | Education == "Master", "graduate"))
 dataSet <- mutate(dataSet, Education = replace(Education, Education == "Basic"| Education == "2n Cycle", "non-graduate"))
 # ------------------------------------- 
-
 
 
 # ------------------------------------- CONVERSION
@@ -95,23 +72,6 @@ dataSet <- select(dataSet, - ID, - Year_Birth, - Z_CostContact, - Z_Revenue, -Dt
 ########################################################################
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ########################################################################
 #                                                                      #
 #                   SOLVING MISSING DATA INTO INCOME                   #
@@ -122,23 +82,6 @@ dataSet$Income <- ifelse(is.na(dataSet$Income), # is.na check is a value is not 
                           dataSet$Income # else
 ) 
 ########################################################################
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 ########################################################################
@@ -153,9 +96,6 @@ testSet <- subset(dataSet, split == FALSE)
 ########################################################################
 
 
-
-
-
 ########################################################################
 #                                                                      #
 #                           FEATURE SCALING                            #
@@ -165,7 +105,4 @@ trainingSet_scaled <- as.data.frame(scale(trainingSet[, getIndipendentNumbersOfC
 testSet_scaled <- as.data.frame(scale(testSet[, getIndipendentNumbersOfCol()]))
 dataSet_scaled <- as.data.frame(scale(dataSet[, getIndipendentNumbersOfCol()]))
 ########################################################################
-
-
-
 

@@ -1,4 +1,4 @@
-# execute DataPreprocessing
+# getting pca dataset
 source(paste(getwd(),"/Script/PCA.R",sep = "")) 
 ########################################################################
 #                                                                      #
@@ -6,11 +6,8 @@ source(paste(getwd(),"/Script/PCA.R",sep = ""))
 #                                                                      #
 ########################################################################
 library("rpart")
-library("caret")
-library("rpart.plot")
-library("tidyverse")
-library("RColorBrewer")
-library(xtable)
+library("ROCR")
+
 ########################################################################
 
 
@@ -21,7 +18,7 @@ library(xtable)
 trainingSet_input$Response<-trainingSet$Response
 testSet_input$Response<-testSet$Response
 
-# costruisco il classificatore 
+
 classifier <- rpart(Response ~ ., data = trainingSet_input, 
                     method = "class")
 
@@ -47,8 +44,10 @@ cm
 #'Positive' Class : 1      
 
 
+#########################10-FOLD CROSS VALIDATION########################
 
-# applying  l-fold cross validation
+
+# applying  k-fold cross validation
 folds= createFolds(trainingSet_input$Response, k=10)
 cv = lapply(folds, function(x){
   
@@ -66,7 +65,6 @@ cv = lapply(folds, function(x){
 })
 
 complex_cf =Reduce('+',  cv)
-class(complex_cf)
 complex_cf
 
 accuracy = sum(diag(complex_cf))/sum(complex_cf)
@@ -79,23 +77,17 @@ precision
 recall
 fmeasure
 
-
-
-# ROC Curve
-install.packages("ROCR")
-library(ROCR)
-?prediction
-
+##########################ROC CURVE###########################
 
 dtreefit=  rpart(Response ~ ., data = trainingSet_input, method = "class")
-pred=predict(dtreefit,testSet_input[, !names(testSet_input) %in% c("Response")], probability=TRUE)
+predTree = predict(dtreefit,testSet_input[, !names(testSet_input) %in% c("Response")], probability=TRUE)
 
 
-pred.to.roc = pred[, 2]
-pred.to.roc
-pred.rocr = prediction(pred.to.roc, testSet_input$Response)
-perf.rocr = performance(pred.rocr, measure = "auc", x.measure = "cutoff")
-perf.tpr.rocr = performance(pred.rocr, "tpr","fpr")
-plot(perf.tpr.rocr, colorize=T,main=paste("AUC:",(perf.rocr@y.values)))
+predTReeToRoc = predTree[, 2]
+predTReeToRoc
+predRocr = prediction(predTReeToRoc, testSet_input$Response)
+perfRocr = performance(predRocr, measure = "auc", x.measure = "cutoff")
+perfTprRocr = performance(predRocr, "tpr","fpr")
+plot(perfTprRocr, colorize=T,main=paste("AUC:",(perfRocr@y.values)))
 abline(a=0, b=1)
 

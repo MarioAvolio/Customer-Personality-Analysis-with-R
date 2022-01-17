@@ -4,7 +4,14 @@
 #                                                                      #
 ########################################################################
 source(paste(getwd(),"/Script/DataPreprocessing.R",sep = "")) 
+
+########################################################################
+#                                                                      #
+#                               LIBRARY                                #
+#                                                                      #
+########################################################################
 library(plotly)
+
 
 # Encoding the numeric to factosr
 dataSet_copy <- data.frame(dataSet)
@@ -40,16 +47,6 @@ dataSet_copy <- mutate(dataSet_copy, Spent_range = spentRange)
 
 
 ########################################################################
-
-
-
-
-
-
-# Save 
-#pdf(file=paste(getwd(),"/Output/imgs/EDA/EDA.pdf",sep = ""))
-# png(file=paste(getwd(),"/Output/imgs/EDA/EDA%03d.png",sep = ""), width = 800, height = 800)
-
 
 
 ########################################################################
@@ -133,12 +130,6 @@ ggplot(dataSet_copy, aes(x="", fill=spentRange))+
 ########################################################################
 
 
-
-
-
-
-
-
 ########################################################################
 #                                                                      #
 #                               PRODUCTS                               #
@@ -207,17 +198,6 @@ ggplotly(plot)
 ########################################################################
 
 
-
-
-
-
-
-
-
-
-
-
-
 ########################################################################
 #                                                                      #
 #                 Relationship Income and Consumption                  #
@@ -231,15 +211,6 @@ print(plotRelationship('MntFishProducts'))
 print(plotRelationship('MntSweetProducts'))
 print(plotRelationship('MntGoldProds'))
 ########################################################################
-
-
-
-
-
-
-
-
-
 
 
 ########################################################################
@@ -318,16 +289,6 @@ dataSet_copy %>%
   labs(fill='Total_Childs', x='Type of Product', y='Amount of Product') +
   ggtitle('Barplot average consumption per product')
 ########################################################################
-
-
-
-
-
-
-
-
-
-
 
 
 ########################################################################

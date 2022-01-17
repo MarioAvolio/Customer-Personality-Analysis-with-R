@@ -14,14 +14,6 @@ library(DataExplorer)
 ########################################################################
 
 
-
-
-# Open file
-# png(file=paste(getwd(),"/Output/imgs/DESCRIPTION/DESCRIPTION%03d.png",sep = ""), width = 800, height = 800)
-
-
-
-
 ########################################################################
 #                                                                      #
 #                           Read Dataset                               #
@@ -29,11 +21,6 @@ library(DataExplorer)
 ######################################################################## 
 dataSet <- read.csv(paste(getwd(),"/Data/marketing_campaign.csv",sep = ""), header=TRUE, sep="\t",  stringsAsFactors=F) # use TAB as separator!
 ########################################################################
-
-
-
-
-
 
 
 ########################################################################
@@ -92,9 +79,6 @@ summary(dataSet) # most important!
 # - Dt_Customer that indicates a cutomer joined the database is not parsed as Date object.
 
 #########################################################################
-
-
-
 
 
 #########################################################################
@@ -213,13 +197,6 @@ ggplot(dataSet, aes(MntGoldProds)) + geom_boxplot()
 
 
 
-
-
-
-
-
-
-
 # -------------------------------------------------------------- PURCHASES VARIABLES BOXPLOT
 
 # NumDealsPurchases
@@ -274,10 +251,6 @@ multiple.func(dataSet$Z_Revenue)
 ########################################################################
 
 
-
-
-
-
 ########################################################################
 #                                                                      #
 #                             MISSING VALUE                            #
@@ -295,17 +268,6 @@ print(xtable(as.data.frame(miss_var_summary(dataSet)), type = "latex"), file = "
 #   
 # - There are 24 missing values in the income variable.
 # - Also, we can see that the maximum value of the income variable is larger than the 3rd quantile.
-########################################################################
-
-
-
-########################################################################
-#                                                                      #
-#                                 MREPORT                              #
-#                                                                      #
-########################################################################
-
-# DataExplorer::create_report(dataSet, output_dir = paste(getwd(),"/Output/Data/",sep = ""))
 ########################################################################
 
 
