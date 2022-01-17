@@ -154,7 +154,7 @@ To get a local copy up and running follow these simple example steps.
 ```
 install.packages('caTools')
 ```
-- niniar
+- naniar
 ```
 install.packages("naniar")
 ```
@@ -197,6 +197,49 @@ install.packages("tidyverse")
 ```
 install.packages("RColorBrewer")
 ```
+
+- ROCR
+```
+install.packages("ROCR")
+```
+
+- tidyr
+```
+install.packages("tidyr")
+```
+
+- dplyr
+```
+install.packages("dplyr")
+```
+
+- caret
+```
+install.packages("caret")
+```
+
+- plotly
+```
+install.packages("plotly")
+```
+
+- FactoMinerR
+```
+install.packages("FactoMinerR")
+```
+
+
+- factoextra
+```
+install.packages("factoextra")
+```
+
+
+- cluster
+```
+install.packages("cluster")
+```
+
 
 
 ### Installation
