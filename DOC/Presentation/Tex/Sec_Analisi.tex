@@ -1,0 +1,202 @@
+%---------------------------------------------------------------------------%
+\lecture{Research Presentation}{lec_present_method}
+%---------------------------------------------------------------------------%
+\section{Analisi}
+%---------------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{Prime Analisi: Income}
+\begin{table}[H]
+\centering
+\begin{tabular}{rlrr}
+  \hline
+ & variable & n\_miss & pct\_miss \\ 
+  \hline
+1 & Income &  24 & 1.07 \\ 
+  2 & ID &   0 & 0.00 \\ 
+  3 & Year\_Birth &   0 & 0.00 \\ 
+  4 & Education &   0 & 0.00 \\ 
+  5 & Marital\_Status &   0 & 0.00 \\ 
+  6 & Kidhome &   0 & 0.00 \\ 
+  7 & Teenhome &   0 & 0.00 \\ 
+  8 & ... & ... & ... \\
+   \hline
+\end{tabular}
+
+    \caption{Output funzione \textit{miss\_var\_summary(dataSet)}}
+   
+   \label{fig:miss_var_summary(dataSet)}
+\end{table}
+\end{frame}
+%---------------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{Prime Analisi: Z\_CostContact e Z\_Revenue}
+\begin{figure}[H]
+  \centering
+  \begin{minipage}[b]{0.35\textwidth}
+    \includegraphics[width=\textwidth]{Img/DESCRIPTION018.png}
+    \caption{BoxPlot Z\_CostContact}
+    \label{fig:ZRevenue}
+  \end{minipage}
+  \hspace{5em}
+  \begin{minipage}[b]{0.35\textwidth}
+    \includegraphics[width=\textwidth]{Img/DESCRIPTION019.png}
+    \caption{BoxPlot Z\_Revenue}
+      \label{fig:ZCostContact}
+  \end{minipage}
+\end{figure}
+\end{frame}
+%---------------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{DataPreprocessing}
+\begin{enumerate}
+    \item Refactor del dataset
+    \item Risoluzione dei valori mancanti nella variabile \textit{income}
+    \item Splitting del dataset in \textit{trainingSet} e \textit{testSet}
+    \item Feature Scaling
+\end{enumerate}
+\end{frame}
+%---------------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{Refactor del Dataset}
+\begin{enumerate}
+    \item Incorporamento dei dati ridondanti
+    \item Conversione degli elementi in \textit{factor}
+    \item Creazione di nuove variabili riassuntive
+        \begin{itemize}
+        \item Age
+        \item Total\_Spent
+        \item Total\_Campains
+        \item Total\_Childs
+    \end{itemize}
+    \item Rimozione delle variabili superflue
+    \begin{itemize}
+        \item Z\_Revenue
+        \item Z\_CostContact
+        \item ID
+        \item Dt\_customers
+    \end{itemize}
+\end{enumerate}
+\end{frame}
+%---------------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{PCA}
+\begin{minipage}{0.45\textwidth}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Img/PCA001.png}
+    \caption{Varianza spiegata da ogni Dimensione}
+\end{figure}
+\end{minipage}%
+\hspace{3em}
+\begin{minipage}{0.45\textwidth}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Img/PCA002.png}
+    \caption{Contributo delle variabili nella Dim1}
+\end{figure}
+\end{minipage}%
+\end{frame}
+
+%---------------------------------------------------------------------------%
+% \begin{frame}[fragile]
+% \frametitle{Creazione di nuove variabili riassuntive}
+% \begin{table}[H]
+% \centering
+% \begin{tabular}{rrrr}
+%   \hline
+%  & Total\_spent & Total\_Campains & Total\_Childs \\ 
+%   \hline
+% 1 & 1617 &   0 &   0 \\ 
+%   2 &  27 &   0 &   2 \\ 
+%   3 & 776 &   0 &   0 \\ 
+%   4 &  53 &   0 &   1 \\ 
+%   5 & 422 &   0 &   1 \\ 
+%   6 & 716 &   0 &   1 \\ 
+%   \hline
+% \end{tabular}
+% \caption{Primi valori delle variabili Total\_spent \& Total\_Campains \& Total\_Childs}
+% \label{fig:Totalspent&TotalCampains&TotalChilds}
+% \end{table}
+
+% \end{frame}
+
+
+%---------------------------------------------------------------------------%
+% \begin{frame}[fragile]
+% \frametitle{Refactor: Eliminazione di dati ridondanti}
+% \begin{minipage}{0.45\textwidth}
+% \begin{table}[H]
+% \centering
+% \begin{tabular}{rl}
+%   \hline
+%  & unique(dataSet\$Marital\_Status) \\ 
+%   \hline
+% 1 & Single \\ 
+%   2 & Together \\ 
+%   3 & Married \\ 
+%   4 & Divorced \\ 
+%   5 & Widow \\ 
+%   6 & Alone \\ 
+%   7 & Absurd \\ 
+%   8 & YOLO \\ 
+%   \hline
+% \end{tabular}
+% \caption{Output $unique(dataSet\$Marital\_Status)$}
+% \label{fig:unique(dataSetMaritalStatus)}
+% \end{table}
+% \end{minipage}%
+% \hspace{2em}
+% \begin{minipage}{0.45\textwidth}
+% \begin{table}[H]
+% \centering
+% \begin{tabular}{rl}
+%   \hline
+%  & unique(dataSet\$Education) \\ 
+%   \hline
+% 1 & Graduation \\ 
+%   2 & PhD \\ 
+%   3 & Master \\ 
+%   4 & Basic \\ 
+%   5 & 2n Cycle \\ 
+%   \hline
+% \end{tabular}
+% \caption{Output $unique(dataSet\$Education)$}
+% \label{fig:unique(dataSetEducation)}
+% \end{table}
+% \end{minipage}%
+% \end{frame}
+% %---------------------------------------------------------------------------%
+% \begin{frame}[fragile]
+% \frametitle{Refactor: Eliminazione di dati ridondanti}
+% \begin{minipage}{0.45\textwidth}
+% \begin{table}[H]
+% \centering
+% \begin{tabular}{rl}
+%   \hline
+%  & unique(dataSet\$Education) \\ 
+%   \hline
+% 1 & graduate \\ 
+%   2 & non-graduate \\ 
+%   \hline
+% \end{tabular}
+% \caption{Output $unique(dataSet\$Education)$ dopo la procedura di \textit{collapsing} dei dati}
+% \label{fig:unique(dataSetEducation)2}
+% \end{table}
+% \end{minipage}%
+% \hspace{2em}
+% \begin{minipage}{0.45\textwidth}
+% \begin{table}[H]
+% \centering
+% \begin{tabular}{rl}
+%   \hline
+%  & unique(dataSet\$Marital\_Status) \\ 
+%   \hline
+% 1 & Single \\ 
+%   2 & Couple \\ 
+%   \hline
+% \end{tabular}
+% \caption{Output $unique(dataSet\$Marital\_Status)$ dopo la procedura di \textit{collapsing} dei dati}
+% \label{fig:unique(dataSetMaritalStatus)2}
+% \end{table}
+% \end{minipage}%
+% \end{frame}

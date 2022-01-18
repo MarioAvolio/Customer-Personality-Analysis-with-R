@@ -56,7 +56,6 @@ analyzeIndividuals(pca)
 
 #Tracing variable contributions in customers_pca
 pca$var$contrib
-printToLatex(as.data.frame(pca$var$contrib))
 
 ########################################################################
 
