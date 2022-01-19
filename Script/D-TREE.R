@@ -45,7 +45,7 @@ accuracy
 precision
 recall
 fmeasure
-recall
+
 
 cv.ct <- rpart( Response ~ ., 
                 data = trainingSet_input, 
@@ -77,10 +77,10 @@ response.best.tree <- prune( cv.ct,
                              cp = bestcp )
 
 prp( response.best.tree, 
-     type = 1, extra = 1, varlen = -15, cex = 0.5,
+     type = 1, extra = 1, varlen = -15,
      box.col = ifelse(response.best.tree$frame$var == "<leaf>", 'gray', 'white' ))
 
 
 response.best.tree.pred <- predict(response.best.tree, testSet_input, type = "class")
-confusionMatrix<-confusionMatrix(response.best.tree.pred, as.factor(testSet_input$Response), positive = "1")
+confusionMatrix<-confusionMatrix(response.best.tree.pred, as.factor(testSet_input$Response), positive = "1", mode = "prec_recall")
 confusionMatrix
