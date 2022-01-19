@@ -79,7 +79,102 @@
 \end{frame}
 %---------------------------------------------------------------------------%
 \begin{frame}[fragile]
-\frametitle{PCA}
+\frametitle{EDA}
+\begin{figure}[!htb]
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{Img/eda/EDA001.png}
+  \caption{Grafico a torta di \textit{Age}}\label{fig:PiePlotAge}
+\endminipage\hfill
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{Img/eda/EDA002.png}
+  \caption{Grafico a torta di \textit{Marital\_Status}}\label{fig:PiePlotMt}
+\endminipage\hfill
+\minipage{0.32\textwidth}%
+  \includegraphics[width=\linewidth]{Img/eda/EDA003.png}
+  \caption{Grafico a torta di \textit{Income}}\label{fig:PiePlotIncome}
+\endminipage
+\end{figure}
+\end{frame}
+%---------------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{EDA: Age, Education  e Marital\_Status}
+\begin{figure}[!htb]
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{Img/eda/EDA005.png}
+  \caption{Istogramma di \textit{Age}}\label{fig:HistPlotAge}
+\endminipage\hfill
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{Img/eda/EDA007.png}
+  \caption{Grafico a barre di \textit{Education}}\label{fig:BarPlotEducation}
+\endminipage\hfill
+\minipage{0.32\textwidth}%
+  \includegraphics[width=\linewidth]{Img/eda/EDA051.png}
+  \caption{Grafico a barre di \textit{Marital\_Status}}\label{fig:BarPlotMt}
+\endminipage
+\end{figure}
+\end{frame}
+%---------------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{EDA: Istogrammi delle variabili Amount}
+
+    \begin{figure}
+    \centering
+        \begin{minipage}{.3\textwidth}
+            \begin{subfigure}{\textwidth}
+            \centering
+            \includegraphics[width=0.7\textwidth]{Img/eda/EDA018.png}
+            \end{subfigure}\\
+            \begin{subfigure}{\textwidth}
+            \centering
+            \includegraphics[width=0.7\textwidth]{Img/eda/EDA019.png}
+            \end{subfigure}%    
+        \end{minipage}
+        \hfill
+        \begin{minipage}{.3\textwidth}
+            \begin{subfigure}{\textwidth}
+            \centering
+            \includegraphics[width=0.7\textwidth]{Img/eda/EDA020.png}
+            \end{subfigure}\\
+            \begin{subfigure}{\textwidth}
+            \centering
+            \includegraphics[width=0.7\textwidth]{Img/eda/EDA021.png}
+            \end{subfigure}%   
+        \end{minipage}
+        \hfill
+        \begin{minipage}{.3\textwidth}
+            \begin{subfigure}{\textwidth}
+            \centering
+            \includegraphics[width=0.7\textwidth]{Img/eda/EDA022.png}
+            \end{subfigure}\\
+            \begin{subfigure}{\textwidth}
+            \centering
+            \includegraphics[width=0.7\textwidth]{Img/eda/EDA023.png}
+            \end{subfigure}
+        \end{minipage}%
+    \end{figure}
+\end{frame}
+%---------------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{EDA: Age, Education  e Marital\_Status}
+\begin{figure}[!htb]
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{Img/eda/EDA009.png}
+  \caption{Grafico a barre di \textit{Total\_Childs}}\label{fig:BarPlotTc}
+\endminipage\hfill
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{Img/eda/EDA017.png}
+  \caption{Grafico a barre del totale speso per ogni tipo di prodotto}\label{fig:BarPlotTs}
+\endminipage\hfill
+\minipage{0.32\textwidth}%
+  \includegraphics[width=\linewidth]{Img/eda/EDA045.png}
+  \caption{Grafico a barre del totale di istanze che hanno accettato la campagna i-esima}\label{fig:BarPlotMt}
+\endminipage
+\end{figure}
+
+\end{frame}
+%---------------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{PCA: Varianza spiegata da ogni dimensione}
 \begin{minipage}{0.45\textwidth}
 \begin{figure}[H]
     \centering
@@ -87,13 +182,48 @@
     \caption{Varianza spiegata da ogni Dimensione}
 \end{figure}
 \end{minipage}%
-\hspace{3em}
+\hspace{2em}
+\begin{minipage}{0.45\textwidth}
+\begin{table}[H]
+\centering
+\begin{tabular}{rrrr}
+  \hline
+ & eig. & v.p. & c.v.p. \\ 
+  \hline
+Dim.1 & 7.00 & 41.15 & 41.15 \\ 
+  Dim.2 & 1.75 & 10.31 & 51.46 \\ 
+  Dim.3 & 1.14 & 6.69 & 58.15 \\ 
+  Dim.4 & 1.08 & 6.34 & 64.49 \\ 
+  Dim.5 & 1.00 & 5.86 & 70.34 \\ 
+  ... & ... & ... & ... \\
+   \hline
+\end{tabular}
+\caption{Output funzione \textit{get\_eigenvalue(pca)}}
+\label{fig:get_eigenvalue(pca)}
+\end{table}
+\end{minipage}%
+\end{frame}
+
+%---------------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{PCA: Varianza spiegata per la Dim1}
 \begin{minipage}{0.45\textwidth}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{Img/PCA002.png}
-    \caption{Contributo delle variabili nella Dim1}
+    \includegraphics[width=0.7\textwidth]{Img/PCA002.png}
+    \caption{Varianza spiegata dalle variabili per la prima dimensione}
+    \label{fig:fviz_contrib(pca, choice = "var", axes = 1, top = 5)}
 \end{figure}
+\end{minipage}%
+\hspace{3em}
+\begin{minipage}{0.45\textwidth}
+\begin{enumerate}
+    \item Total\_Spent
+    \item MntMeatProducts
+    \item NumCatalogPurchases
+    \item MntWines 
+    \item Income
+\end{enumerate}
 \end{minipage}%
 \end{frame}
 

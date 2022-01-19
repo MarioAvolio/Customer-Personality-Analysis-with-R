@@ -591,17 +591,17 @@ spentRange <- cut(dataSet$Total_spent,
 dataSet <- mutate(dataSet, Spent_range = spentRange)
 \end{lstlisting}
 
-Il primo grafico a torta \ref{fig:PiePlotYearBirth} è relativo alla variabile Age, il colore viola rappresenta il valore \textit{Adult} mentre il colore giallo \textit{Senior}. Dal grafico si ricava che la maggior parte degli individui è \textit{Adult}.
+Il primo grafico a torta \ref{fig:PiePlotAge} è relativo alla variabile Age, il colore viola rappresenta il valore \textit{Adult} mentre il colore giallo \textit{Senior}. Dal grafico si ricava che la maggior parte degli individui è \textit{Adult}.
 Il secondo, il grafico \ref{fig:PiePlotIncome} rappresenta la variabile \textit{income}, il dataset è equi-distribuito in questo caso.
 La distribuizione dei valori che assume la variabile \textit{Total spent} è raffigurata nella Figura \ref{fig:PiePlotIncome}. Da essa si ricava che low e high sono simili mentre il valore più frequente è \textit{low medium}.\\
 
 \begin{figure}[H]
      \begin{center}
 %
-        \subfigure[PiePlot Year\_Birth]{%
+        \subfigure[PiePlot Age]{%
 
             \includegraphics[width=0.45\textwidth]{Img/EDA/EDA001.png}
-            \label{fig:PiePlotYearBirth}
+            \label{fig:PiePlotAge}
     }%
         \subfigure[PiePlot Marital\_Status]{%
             \includegraphics[width=0.45\textwidth]{Img/EDA/EDA002.png}
@@ -1322,7 +1322,7 @@ ggplot(dataSet, aes(x=cluster,y=Total_spent,fill=cluster))+geom_boxplot(outlier.
     \label{fig:TotalSpentKmeansBoxPlot}
 \end{figure}
 
-Le figure \ref{fig:NumCatalogPurchasesKmeansBoxPlot}, \ref{fig:NumCatalogPurchasesKmeansDensity} e \ref{fig:NumCatalogPurchasesKmeansHistogram} mostrano che i clienti del secondo cluster effettuino compere sul catalogo generalmente in quantità minore rispetto a quelli del primo. Difatti ques'ultimi acquistano mediamente 5 prodotti dal catalogo.
+Le figure \ref{fig:NumCatalogPurchasesKmeansBoxPlot}, \ref{fig:NumCatalogPurchasesKmeansDensity} e \ref{fig:NumCatalogPurchasesKmeansHistogram} mostrano che i clienti del secondo cluster effettuano compere sul catalogo generalmente in quantità minore rispetto a quelli del primo. Difatti acquistano mediamente 5 prodotti dal catalogo.
 \begin{lstlisting}[language=R]
 numCatalogPurchases <- ggplot(dataSet, aes(NumCatalogPurchases)) +  facet_grid(cluster~.)
 numCatalogPurchases + geom_histogram(color = "black", fill = "blue") 
@@ -1351,7 +1351,7 @@ ggplot(dataSet, aes(x=cluster,y=NumCatalogPurchases,fill=cluster))+geom_boxplot(
     \label{fig:NumCatalogPurchasesKmeansBoxPlot}
 \end{figure}
 
-Dall'analisi della variabile \textit{MntMeatProducts}, inerente all'acquisto di prodotti di carne negli ultimi due anni, si possono evincere alcune importanti informazioni correlate anche alla precedente analisi di \textit{Total\_spent}. In particolare le figure \ref{fig:MntMeatProductsKmeansBoxPlot}, \ref{fig:MntMeatProductsKmeansDensity} e \ref{fig:MntMeatProductsKmeansHistogram} mostrano come gli acquirenti del secondo raggruppamento tendano a spendere generalmente di meno rispetto a quelli del primo. Difatti i secondi acquistano sicuramente molto meno rispetto alla media. In particolare si noti la differenza di circa 170 dollari spesi per prodotti di carne (in un arco temporale di due anni).
+Dall'analisi della variabile \textit{MntMeatProducts}, inerente all'acquisto di prodotti di carne negli ultimi due anni, si possono evincere alcune importanti informazioni correlate anche alla precedente analisi di \textit{Total\_spent}. In particolare le figure \ref{fig:MntMeatProductsKmeansBoxPlot}, \ref{fig:MntMeatProductsKmeansDensity} e \ref{fig:MntMeatProductsKmeansHistogram} mostrano come gli acquirenti del secondo raggruppamento tendano a spendere generalmente di meno rispetto a quelli del primo. Difatti i secondi acquistano sicuramente molto meno rispetto alla media. In particolare si noti la differenza tra i due, di circa 170 dollari (secondo statistiche analitiche), spesi per prodotti di carne (in un arco temporale di due anni).
 
 \begin{lstlisting}[language=R]
 meat <- ggplot(dataSet, aes(MntMeatProducts)) +  facet_grid(cluster~.)
@@ -1520,7 +1520,7 @@ prp(response.best.tree, type = 1, extra = 1, varlen = -15, cex = 0.5,
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{Img/D-TREE/D-TREE002.png}
+    \includegraphics[width=0.6\textwidth]{Img/D-TREE/D-TREE002.png}
     \caption{DecisionTree response.best.tree}
 \end{figure}
 
@@ -1668,6 +1668,6 @@ abline(a=0, b=1)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Conclusioni}
 
-Questa sperimentazione ha avuto l'obiettivo di analizzare un insieme di dati mediante tecniche di machine learning differenti, in particolare mediante un algoritmo di tipo supervisionato, \textit{\textbf{Decision Tree}} ed un algoritmo non supervisionato cioè  \textit{\textbf{K-Means}}. Risulta che sul dataset scelto l'algoritmo che si comporta meglio sia \textit{K-Means} che dall'analisi dei dati riscontrati si può giungere alla conclusione che una buona suddivisione dei dati riportati può avvenire mediante l'utilizzo di due cluster. In particolare il secondo cluster presenta clienti con un reddito generalmente al di sotto della media e sicuramente minore rispetto alla maggior parte dei compratori facenti parte della prima divisione. Secondo i dati analizzati ciò ha comportato indubbiamente una riduzione delle spese totali da parte degli elementi all'interno del primo gruppo. La riduzione del numero di acquisti di prodotti ha generalmente toccato elementi che variano dai vini fino alla carne. 
+Questa sperimentazione ha avuto l'obiettivo di analizzare un insieme di dati mediante tecniche di machine learning differenti, in particolare mediante un algoritmo di tipo supervisionato, \textit{\textbf{Decision Tree}} ed un algoritmo non supervisionato cioè  \textit{\textbf{K-Means}}. Risulta che sul dataset scelto l'algoritmo che si comporta meglio sia \textit{K-Means}. Dall'analisi dei dati riscontrati si può giungere alla conclusione che una buona suddivisione dei dati riportati può avvenire mediante l'utilizzo di due cluster. In particolare il secondo cluster presenta clienti con un reddito generalmente al di sotto della media e sicuramente minore rispetto alla maggior parte dei compratori facenti parte della prima divisione. Secondo i dati analizzati ciò ha comportato indubbiamente una riduzione delle spese totali da parte degli elementi all'interno del secondo gruppo. La riduzione del numero di acquisti di prodotti ha generalmente toccato elementi che variano dai vini fino alla carne. 
 
 \end{document}

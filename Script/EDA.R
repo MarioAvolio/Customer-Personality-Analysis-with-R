@@ -90,6 +90,11 @@ ggplot(df_temp,mapping=aes(x='', y=n, fill=Marital_Status)) +
   ggtitle('Pie chart of marital status') +
   theme_void() +
   theme(plot.title=element_text(face='bold', size=30), legend.text=element_text(size=20), legend.title=element_text(size=20, face='bold'))
+
+ggplot(dataSet_copy, mapping=aes(x=Marital_Status, fill=Marital_Status)) + 
+  geom_bar() + 
+  ggtitle('Bar plot of Marital_Status level') +
+  theme(legend.position="none")
 #--------------------------- 
 
 

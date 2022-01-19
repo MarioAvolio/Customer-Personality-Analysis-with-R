@@ -24,8 +24,6 @@ classifier <- rpart(Response ~ ., data = trainingSet_input,
 
 y_pred <- predict(classifier, testSet_input, type = "class")
 
-y_pred
-
 cm<- confusionMatrix(y_pred, as.factor(testSet_input$Response), positive = "1", mode = "prec_recall")
 cm
 
