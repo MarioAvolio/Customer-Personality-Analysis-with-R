@@ -84,3 +84,4 @@ prp( response.best.tree,
 response.best.tree.pred <- predict(response.best.tree, testSet_input, type = "class")
 confusionMatrix<-confusionMatrix(response.best.tree.pred, as.factor(testSet_input$Response), positive = "1", mode = "prec_recall")
 confusionMatrix
+
