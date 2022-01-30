@@ -38,7 +38,7 @@
   <p align="center">
     with R Program Language
     <br />
-    <a href="https://github.com/MarioAvolio/Customer-Personality-Analysis-with-R/blob/main/DOC/Report/Relazione___Customer_Personality_Analysis_.pdf"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/MarioAvolio/Customer-Personality-Analysis-with-R/blob/main/DOC/Report/Relazione___Customer_Personality_Analysis_.pdf"><strong>Explore the docs (ITA only) »</strong></a>
     <br />
     <br />
     <a href="https://github.com/MarioAvolio/Customer-Personality-Analysis-with-R/issues">Report Bug</a>
